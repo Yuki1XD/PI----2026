@@ -5,6 +5,7 @@ const app = express();
 
 // Servir arquivos estáticos (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, "Telas")));
+app.use(express.static(path.join(__dirname, "css")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "Telas", "Cadastro.html"));
