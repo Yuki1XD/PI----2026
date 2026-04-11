@@ -3,11 +3,18 @@ const path = require("path");
 
 const app = express();
 
-// Servir arquivos estáticos (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, "Telas")));
 app.use(express.static(path.join(__dirname, "css")));
 
 app.get("/", (req, res) => {
+  res.redirect("/login");
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "Telas", "Login.html"));
+});
+
+app.get("/cadastro", (req, res) => {
   res.sendFile(path.join(__dirname, "Telas", "Cadastro.html"));
 });
 

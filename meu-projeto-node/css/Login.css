@@ -8,7 +8,7 @@
 }
 
 body {
-     background: linear-gradient(135deg, #f6bf86, #e58e4f);    margin: 0;
+    background: linear-gradient(135deg, #f6bf86, #e58e4f);    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,3 +97,21 @@ body {
     color: #fff;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
+
+.sem_conta {
+    font-size: 14px;
+    text-align: center;
+    margin: 20px 0 15px;
+    color: #5aaeee;
+}
+.sem_conta a {
+    text-decoration: none;
+    color: #5aaeee;
+    font-weight: 600;
+}
+.sem_conta a:hover {
+    text-decoration: underline;
+    color :#fff;
+
+}
+
