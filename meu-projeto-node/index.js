@@ -18,6 +18,10 @@ app.get("/cadastro", (req, res) => {
   res.sendFile(path.join(__dirname, "Telas", "Cadastro.html"));
 });
 
+app.get("/tela_incial_aluno", (req, res) => {
+  res.sendFile(path.join(__dirname, "Telas", "tela_incial_aluno.html"));
+});
+
 app.listen(3000, () => {
   console.log("http://localhost:3000");
 });

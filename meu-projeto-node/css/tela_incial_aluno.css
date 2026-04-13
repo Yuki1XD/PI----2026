@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+body {
+    height: 100vh;
+}
+
+.barra_lateral {
+    width: 80px;
+    height: 100vh;
+    background-color: #005594;
+    padding: 40px 0 40px 1%;
+    box-shadow: 3px 0 0 #f6bf86;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transition: .2s;
+}
+
+.barra_lateral:hover {
+    width: 300px;
+}
+
+.expandir {
+    width: 100%;
+    padding-left: 10px;
+}
+
+.expandir > i {
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+ul {
+    height: 100%;
+    list-style-type: none;
+}
+
+ul li.items {
+    transition: .2s;
+}
+
+ul li.items:hover {
+    background-color: #ecd9b4;
+}
+
+
+ul li.items a {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 20px 4%;
+    display: flex;
+    margin-bottom: 50px;
+    line-height: 40px;
+    align-items: center; /
+}
+
+
+.txt-link {
+    opacity: 0;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.barra_lateral:hover .txt-link {
+    opacity: 1;
+}
+
+
+ul li.items a .txt-link {
+    margin-left: 20px;
+}
+
+ul li.items a .icon > i {
+    font-size: 30px;
+}
+
+.icon {
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+
