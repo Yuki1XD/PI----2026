@@ -10,7 +10,7 @@ app.use("/imgs", express.static(path.join(__dirname, "imgs")));
 
 
 app.get("/", (req, res) => {
-  res.redirect("/login");
+  res.redirect("/tela_incial");
 });
 
 app.get("/login", (req, res) => {
@@ -21,8 +21,12 @@ app.get("/cadastro", (req, res) => {
   res.sendFile(path.join(__dirname, "Telas", "Cadastro.html"));
 });
 
-app.get("/tela_incial_aluno", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "tela_incial_aluno.html"));
+app.get("/perfil", (req, res) => {
+  res.sendFile(path.join(__dirname, "Telas", "Cadastro2.html"));
+});
+
+app.get("/tela_incial", (req, res) => {
+  res.sendFile(path.join(__dirname, "Telas", "tela_incial.html"));
 });
 
 app.get("/criar_projeto", (req, res) => {
