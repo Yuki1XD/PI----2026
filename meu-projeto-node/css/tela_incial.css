@@ -240,3 +240,38 @@ ul li.items a:hover {
     font-weight: bold;
     font-size: 14px;
 }
+
+/* Parte da Comunidade */
+.Parte_comunidade {
+    text-align: center;
+    padding: 50px 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    width: 80%;
+    margin: 50px auto;
+}
+
+.Parte_comunidade h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.Parte_comunidade p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.btn-participar {
+    text-decoration: none;
+    background-color: #f95e05;
+    color: #ffffff;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-participar:hover {
+    background-color: #ff5900;
+    transform: scale(1.05);
+}

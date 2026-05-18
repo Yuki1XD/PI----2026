@@ -29,6 +29,10 @@ app.get("/tela_incial", (req, res) => {
   res.sendFile(path.join(__dirname, "Telas", "tela_incial.html"));
 });
 
+app.get("/aluno", (req, res) => {
+  res.sendFile(path.join(__dirname, "Telas", "tela_inicial_aluno.html"));
+});
+
 app.get("/criar_projeto", (req, res) => {
   res.sendFile(path.join(__dirname, "Telas", "Criar_Projeto.html"));
 });
