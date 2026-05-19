@@ -5,7 +5,8 @@ const app = express();
 
 
 app.use(express.static(path.join(__dirname, "Telas")));
-app.use(express.static(path.join(__dirname, "css")));
+app.use('/css', express.static(path.join(__dirname, "css")));
+app.use('/js', express.static(path.join(__dirname, "js")));
 app.use("/imgs", express.static(path.join(__dirname, "imgs"))); 
 
 
