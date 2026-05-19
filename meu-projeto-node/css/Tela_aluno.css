@@ -172,3 +172,50 @@ body {
     outline-color: #ff4b33;
     border-color: #ff4b33;
 }
+
+/* Project list styles */
+.projectsList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.projectCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    background-color: #ffffff;
+    border: 1px solid #e6e6e6;
+    padding: 12px;
+    border-radius: 12px;
+    min-width: 500px;
+}
+
+.projectImg {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.projectInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.projectTitle {
+    color: #ff4b33;
+    margin: 0 0 4px 0;
+}
+
+.projectCreators, .projectDate {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 0;
+}
+
+.projectSummary {
+    margin-top: 6px;
+    color: #333333;
+}
