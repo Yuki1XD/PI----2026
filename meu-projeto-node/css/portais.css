@@ -1,0 +1,166 @@
+body {
+    margin: 0;
+}
+
+#menuSide {
+    display: none;
+    height: 100%;
+    width: 200px;
+    border-right: 1px grey solid;
+    position: fixed;
+}
+
+#menuSide.openMenuSide{
+    display: flex;
+    flex-direction: column;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    border-bottom: grey solid 1px;
+    height: auto;
+}
+
+#header.movimentHeader {
+    margin-left: 200px;
+}
+
+.nomePainel {
+    margin-left: 20px;
+}
+
+.menuBurguer {
+    cursor: pointer;
+    height: 40px;
+    width: 45px;
+    margin-left: 20px;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px;
+    visibility: inherit;
+}
+
+.menuButton {
+    display: flex;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.linha {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    height: 5px;
+    width: 30px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.viewPerfil{
+    display: flex;
+    width: 200px;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgPerfil {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.namePerfil {
+    display: flex;
+    flex-direction: column;
+}
+
+.namePerfil, h3, p {
+    margin: 0;
+}
+
+.namePerfil h3 {
+    color: #ff4b33;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonTab {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    width: 150px;
+    height: 50px;
+}
+
+.buttonTab i {
+    margin-right: 8px;
+}
+
+.buttonTab:hover {
+    background-color: #ffdbbb;
+}
+
+.buttonTab:focus {
+    color: white;
+    background-color: #ff4b33;
+}
+
+.contentTab {
+    display: none;
+    margin-left: 200px;
+    height: auto;
+}
+
+.contentTab.show {
+    display: flex;
+}
+
+.contentAdd {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#formAddProject {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px grey solid;
+    border-radius: 15px;
+    min-width: 500px;
+    width: auto;
+    padding: 30px;
+    margin-left: 50px;
+}
+
+.newProjectInput {
+    border: 1px grey solid;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 25px;
+}
+
+.newProjectInput:hover {
+    border-color: #ffdbbb;
+}
+
+.newProjectInput:focus {
+    outline-color: #ff4b33;
+    border-color: #ff4b33;
+}
