@@ -275,3 +275,71 @@ ul li.items a:hover {
     background-color: #ff5900;
     transform: scale(1.05);
 }
+
+/*Parte das Últimas Postagens*/
+.ultimas-postagens {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.postagens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.ultimas-postagens h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.postagem-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+    transition: transform 0.2s;
+}
+
+.postagem-card:hover {
+    transform: translateY(-5px);
+}
+
+.postagem-inf {
+    display: flex;
+    justify-content: space-between;
+    color: #999;
+    font-size: 12px;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+}
+
+
+
+.postagem-cont p{
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.postagem-cont h3{
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    color: #222;
+}
+
+.postagem-cont {
+    padding: 20px;
+}
+
+.postagem-topo {
+    height: 160px;
+    width: 100%;
+}
+
+.bg-laranja { background-color: #f95e05; }
+.bg-azul { background-color: #1a56db; }
