@@ -1,72 +1,159 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-    <link rel="stylesheet" href="tela_incial_aluno.css">
     <meta charset="UTF-8">
-    <link rel='stylesheet'
-    href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-straight/css/uicons-regular-straight.css'>
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Inicialização</title>
-</head>
+    <title>Portal do Aluno</title>
 
+    <link rel="stylesheet" href="../Style/portais.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="../JavaScript/portais.js" defer></script>
+
+</head>
 <body>
 
-    <nav class="barra_lateral">
 
-        <div class="logo">
-            <img src="/imgs/Logo2.jpeg">
+    <!-- Menu lateral -->
+
+    <div  id="menuSide">
+
+
+        <!-- Informações pessoais do inicio do menu lateral -->
+
+        <div class="viewPerfil">
+
+            <div>
+                <img src="../Imagens/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="imgPerfil">
+            </div>
+
+            <div class="namePerfil">
+
+                <h3>Nome do Aluno</h3>
+                <p>Aluno</p>
+
+            </div>
+
         </div>
 
-        <ul>
-            <li class="items">
-                <a href="/tela_incial_aluno">
-                    <span class="icon">
-                        <i class="fi fi-rr-home"></i>
-                    </span>
-                    <span class="txt-link">Home</span>
-                </a>
-            </li>
 
-            <li class="items">
-                <a href="/criar_projeto">
-                    <span class="icon">
-                        <i class="fi fi-rs-add-folder"></i>
-                    </span>
-                    <span class="txt-link">Criar Projeto</span>
-                </a>
-            </li>
+        <!-- Botões do menu lateral -->
+        
+        <div class="tabs">
 
-            <li class="items">
-                <a href="#">
-                    <span class="icon">
-                        <i class="fi fi-rs-folder-edit"></i>
-                    </span>
-                    <span class="txt-link">Meus Projetos</span>
-                </a>
-            </li>
+            <button class="buttonTab" content-id="start"><i class="fas fa-home"></i> Inicio</button>
 
-            <li class="items">
-                <a href="#">
-                    <span class="icon">
-                        <i class="fi fi-rr-user"></i>
-                    </span>
-                    <span class="txt-link">Conta</span>
-                </a>
-            </li>
+            <button class="buttonTab" content-id="addProject"><i class="fas fa-check"></i> Adicionar Projeto</button>
 
-            <li class="items">
-                <a href="#">
-                    <span class="icon">
-                        <i class="fi fi-rr-settings"></i>
-                    </span>
-                    <span class="txt-link">Configurações</span>
-                </a>
-            </li>
-        </ul>
+            <button class="buttonTab" content-id="myProjects"><i class="fa-solid fa-folder"></i> Meus Projetos</button>
 
-    </nav>
+            <button class="buttonTab" content-id="configurations"><i class="fas fa-home"></i> Configurações</button>
+
+            <button class="buttonTab" content-id="exit"><i class="fas fa-home"></i>Sair</button>
+
+
+        </div> 
+
+    </div>
+
+
+    <!-- Cabeçalho da pagina -->
+
+    <header>
+
+        <div id="header">
+
+            <div class="menuBurguer">
+
+                <button class="menuButton" id="menuButton">
+                    <span>
+                        <div class="linha"></div>
+                        <div class="linha"></div>
+                        <div class="linha"></div>
+                    </span>
+                </button>
+
+            </div>
+            
+            <h1 class="nomePainel">Painel Aluno</h1>
+
+        </div>
+
+    </header>
+
+
+    <!-- Conteudos presentes em cada aba da pagina -->
+
+    <div class="contentContainer">
+
+
+        <!-- Conteudo inicial do portal aluno - Erik Melado -->
+
+        <div class="contentTab show" id="start">
+
+            <h1>Inicio</h1>
+            
+        </div>
+
+
+        <!-- Conteudo de "Adicionar projeto" do portal aluno - Gabriel Felipe Belo de Moura  -->
+
+        <div class="contentTab show" id="addProject">
+
+            <div class="contentAdd">
+
+                <h1>Adicionar Novo Projeto</h1>
+
+                <form id="formAddProject">
+
+                    <label>Titulo do Projeto</label>
+                    <input type="text" class="newProjectInput" id="newProjectTittle" placeholder="Nome do seu Projeto">
+
+                    <label>Foto do Projeto</label>
+                    <input type="file" class="newProjectInput" id="newProjectImg">
+
+                    <label>Nome dos Criadores</label>
+                    <input type="text" class="newProjectInput" id="newProjecCreators" placeholder="Ex: João Silva, Maria Santos">
+
+                    <label>Data de Postagem</label>
+                    <input type="date" class="newProjectInput" id="newProjectDate">
+
+                    <label>Resumo/Apresentação do Projeto</label>
+                    <input type="text" class="newProjectInput" id="newProjectApresentation" placeholder="Descreva seu Projeto">
+
+                    <label>Arquivos do Projeto</label>
+                    <input type="file" class="newProjectInput" id="newProjectArchives">
+
+                </form>
+
+            </div>
+            
+        </div>
+
+
+        <!-- Conteudo de "Meus Projetos" do painel aluno - João Vitor -->
+
+        <div class="contentTab show" id="myProjects">
+
+            <h1>Meus Projetos</h1>
+            
+        </div>
+
+
+        <!-- Conteudo de "Configurações" do painel aluno - Gabriel Felipe Belo de Moura -->
+
+        <div class="contentTab show" id="configurations">
+
+            <h1>Configurações</h1>
+            
+        </div>
+
+        <div class="contentTab show" id="exit">
+
+            <h1>Sair</h1>
+            
+        </div>
+
+    <div>
+
 </body>
-
 </html>
