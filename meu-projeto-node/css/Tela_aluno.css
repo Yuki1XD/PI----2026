@@ -137,6 +137,7 @@ body {
     display: flex;
 }
 
+
 .contentAdd {
     display: flex;
     flex-direction: column;
@@ -219,3 +220,4 @@ body {
     margin-top: 6px;
     color: #333333;
 }
+

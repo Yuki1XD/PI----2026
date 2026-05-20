@@ -8,7 +8,7 @@
 }
 
 body{
-    min-height:100vh;
+    min-height: 1000px;
     display: flex;
     flex-direction: column;
 }
@@ -285,8 +285,9 @@ ul li.items a:hover {
 
 .postagens-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, 300px);
     gap: 20px;
+    justify-content: center;
 }
 
 .ultimas-postagens h2 {
@@ -296,6 +297,7 @@ ul li.items a:hover {
 }
 
 .postagem-card {
+    width: 100%;
     background: #fff;
     border-radius: 12px;
     overflow: hidden; 
@@ -316,8 +318,6 @@ ul li.items a:hover {
     padding: 15px 20px;
     background-color: #f9f9f9;
 }
-
-
 
 .postagem-cont p{
     font-size: 14px;
@@ -343,3 +343,67 @@ ul li.items a:hover {
 
 .bg-laranja { background-color: #f95e05; }
 .bg-azul { background-color: #1a56db; }
+
+/* Parte das Alterações */
+.update-item {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.update-item:last-child { border-bottom: none; }
+
+.icon-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+/* Cores dos ícones */
+.orange { background: #fff4ed; color: #f95e05; }
+.blue { background: #eef2ff; color: #1a56db; }
+
+.update-text h4 { font-size: 15px; color: #333; margin: 0; }
+.update-text p { font-size: 13px; color: #888; margin-top: 2px; }
+
+.update-time {
+    margin-left: auto; 
+    font-size: 11px;
+    color: #bbb;
+    white-space: nowrap;
+}
+
+/*Estatísticas*/
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    border-radius: 12px;
+    padding: 20px 10px;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s;
+}
+
+.stat-card:hover { transform: translateY(-5px); }
+
+.stat-card i { font-size: 24px; margin-bottom: 10px; }
+.stat-card h3 { font-size: 26px; margin: 5px 0; font-weight: 800; }
+.stat-card p { font-size: 12px; opacity: 0.9; margin: 0; }
+
+/* Cores de fundo dos cards */
+.bg-orange { background-color: #f95e05; }
+.bg-blue   { background-color: #1a56db; }
+.bg-green  { background-color: #10b981; }
+.bg-purple { background-color: #7c3aed; }
