@@ -21,3 +21,36 @@ const tabClicked = (buttonTab) => {
 
     console.log(contentId)
 }
+
+const newProjectImg = document.getElementById('newProjectImg')
+const spanAddArchive = document.querySelector('.spanAddArchive')
+spanAddArchive.innerHTML = '<i></i>Escolha um Arquivo par fazer upload'
+
+newProjectImg.addEventListener('change', function(e) {
+
+    const inputImg = e.target
+    const img = inputImg.files[0]
+
+    if (img) {
+        const reader = new FileReader()
+
+        reader.addEventListener('load', function(e) {
+            const thisReader = e.target
+
+            const createImg = document.createElement('img')
+            createImg.src = thisReader.result
+            createImg.classList.add('newAddImg')
+
+            spanAddArchive.innerHTML = ''
+
+            spanAddArchive.appendChild(createImg)
+
+        })
+
+        reader.readAsDataURL(img)
+    }
+    else {
+        spanAddArchive.innerHTML = '<i></i>Escolha um Arquivo par fazer upload'
+    }
+
+})
