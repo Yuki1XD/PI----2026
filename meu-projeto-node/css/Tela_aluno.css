@@ -138,6 +138,15 @@ body {
     background-color: #ff4b33;
 }
 
+#exitTabButton {
+    color: red;
+}
+
+#exitTabButton:focus {
+    color: white;
+    background-color: red;
+}
+
 #contentContainerId {
     padding: 20px;
 }
@@ -157,13 +166,10 @@ body {
     flex-direction: column;
 }
 
-<<<<<<< HEAD
-=======
 .tittleContentTab {
     margin-top: 20px;
     margin-bottom: 20px;
 } 
->>>>>>> 727d4bdb9951d14f4028389fdfc313de493434a0
 
 .contentAdd {
     display: flex;
@@ -301,8 +307,6 @@ body {
     color: #333333;
 }
 
-<<<<<<< HEAD
-=======
 /* CSS de Erik */
 
 .menu-item.active {
@@ -509,4 +513,69 @@ body {
         height: auto;
     }
 }
->>>>>>> 727d4bdb9951d14f4028389fdfc313de493434a0
+
+/* Estilo da aba de Configurações do Aluno */
+
+#contentConfiguration {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px grey solid;
+    border-radius: 15px;
+    max-width: 500px;
+}
+
+.configInformation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.accountInformation {
+    display: flex;
+    align-items: center;
+    border: 1px grey solid;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    height: 30px;
+    padding-left: 10px;
+}
+
+.configInput {
+    border: 1px grey solid;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    height: 25px;
+}
+
+.configInput:hover {
+    border-color: #ffdbbb;
+}
+
+.configInput:focus {
+    outline-color: #ff4b33;
+    border-color: #ff4b33;
+}
+
+#buttonConfigSave {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff4b33;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    width: 150px;
+    height: 50px;
+    transition: 0.3s;
+}
+
+#buttonConfigSave:hover {
+    background-color: #ffdbbb;
+    transform: scale(1.2);
+}
