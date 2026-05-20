@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Aluno</title>
 
-    <link rel="stylesheet" href="/css/Tela_aluno.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="/js/portais.js" defer></script>
+    <link rel="stylesheet" href="../Style/portais.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <script src="../JavaScript/portais.js" defer></script>
 
 </head>
 <body>
@@ -23,7 +23,7 @@
         <div class="viewPerfil">
 
             <div>
-                <img src="/imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="imgPerfil">
+                <img src="../Imagens/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="imgPerfil">
             </div>
 
             <div class="namePerfil">
@@ -40,15 +40,15 @@
         
         <div class="tabs">
 
-            <button class="buttonTab" content-id="start"><i class="fas fa-home"></i> Inicio</button>
+            <button class="buttonTab" content-id="start"><i class="fi fi-rr-home"></i> Inicio</button>
 
-            <button class="buttonTab" content-id="addProject"><i class="fas fa-check"></i> Adicionar Projeto</button>
+            <button class="buttonTab" content-id="addProject"><i class="fi fi-rr-add"></i> Adicionar Projeto</button>
 
-            <button class="buttonTab" content-id="myProjects"><i class="fa-solid fa-folder"></i> Meus Projetos</button>
+            <button class="buttonTab" content-id="myProjects"><i class="fi fi-rr-folder-open"></i> Meus Projetos</button>
 
-            <button class="buttonTab" content-id="configurations"><i class="fas fa-home"></i> Configurações</button>
+            <button class="buttonTab" content-id="configurations"><i class="fi fi-rr-settings"></i> Configurações</button>
 
-            <button class="buttonTab" content-id="exit"><i class="fas fa-home"></i>Sair</button>
+            <button class="buttonTab" content-id="exit"><i class="fi fi-rr-address-card"></i>Sair</button>
 
 
         </div> 
@@ -83,33 +83,99 @@
 
     <!-- Conteudos presentes em cada aba da pagina -->
 
-    <div class="contentContainer">
+    <div id="contentContainerId">
 
 
         <!-- Conteudo inicial do portal aluno - Erik Melado -->
 
         <div class="contentTab show" id="start">
 
-            <h1>Início</h1>
+            <h1 class="tittleContentTab">Inicio</h1>
+
+            <section class="welcome-banner">
+                <h2>Bem-vindo de volta!</h2>
+                <p>Aqui você pode gerenciar seus projetos acadêmicos</p>
+            </section>
+
+            <section class="cards-grid">
+                <div class="card">
+                    <div class="card-icon icon-orange">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <div class="card-details">
+                        <h3>0 Projetos</h3>
+                        <p>Projetos publicados</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon icon-blue">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div class="card-details">
+                        <h3>0 Pendentes</h3>
+                        <p>Aguardando aprovação</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon icon-light-orange">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="card-details">
+                        <h3>0 Colaborações</h3>
+                        <p>Trabalhos em grupo</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-activity">
+                <h2>Atividade Recente</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-text">
+                            <span class="dot dot-orange"></span>
+                            <p>Projeto <strong>"Sistema de Biblioteca"</strong> aprovado</p>
+                        </div>
+                        <span class="activity-time">Há 2 dias</span>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-text">
+                            <span class="dot dot-blue"></span>
+                            <p>Novo comentário em <strong>"App de Receitas"</strong></p>
+                        </div>
+                        <span class="activity-time">Há 3 dias</span>
+                    </div>
+                </div>
+            </section>
+
             
         </div>
 
 
         <!-- Conteudo de "Adicionar projeto" do portal aluno - Gabriel Felipe Belo de Moura  -->
 
-        <div class="contentTab show" id="addProject">
+        <div class="contentTab" id="addProject">
 
             <div class="contentAdd">
 
-                <h1>Adicionar Novo Projeto</h1>
+                <h1 class="tittleContentTab">Adicionar Novo Projeto</h1>
 
                 <form id="formAddProject">
 
-                    <label>Título do Projeto</label>
+                    <label>Titulo do Projeto</label>
                     <input type="text" class="newProjectInput" id="newProjectTittle" placeholder="Nome do seu Projeto">
 
+
                     <label>Foto do Projeto</label>
-                    <input type="file" class="newProjectInput" id="newProjectImg">
+            
+                    <label for="newProjectImg" class="labelAddArchive">
+
+                        <input type="file" class="newProjectInputFile" id="newProjectImg">
+                        <span class="spanAddArchive"><i></i>Clique para fazer upload de uma imagem</span>
+
+                    </label>
 
                     <label>Nome dos Criadores</label>
                     <input type="text" class="newProjectInput" id="newProjecCreators" placeholder="Ex: João Silva, Maria Santos">
@@ -121,7 +187,15 @@
                     <input type="text" class="newProjectInput" id="newProjectApresentation" placeholder="Descreva seu Projeto">
 
                     <label>Arquivos do Projeto</label>
-                    <input type="file" class="newProjectInput" id="newProjectArchives">
+
+                    <label for="newProjectArchives" class="labelAddArchive">
+
+                        <input type="file" class="newProjectInputFile" id="newProjectArchives">
+                        <span><i></i>Clique para fazer upload de um arquivo</span>
+
+                    </label>
+
+                    <button id="buttonAddProject">Publicar Projeto</button>
 
                 </form>
 
@@ -132,56 +206,52 @@
 
         <!-- Conteudo de "Meus Projetos" do painel aluno - João Vitor -->
 
-        <div class="contentTab show" id="myProjects">
+        <div class="contentTab" id="myProjects">
 
-            <div class="contentAdd">
+            <h1 class="tittleContentTab">Meus Projetos</h1>
 
-                <h1>Meus Projetos</h1>
+            <div class="projectsList">
 
-                <div class="projectsList">
+                <article class="projectCard">
+                    <img src="/imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="projectImg">
+                    <div class="projectInfo">
+                        <h2 class="projectTitle">Projeto Exemplo 1</h2>
+                        <p class="projectCreators">João Silva, Maria Santos</p>
+                        <p class="projectDate">05/2026</p>
+                        <p class="projectSummary">Breve resumo do projeto para exibir na listagem.</p>
+                    </div>
+                </article>
 
-                    <article class="projectCard">
-                        <img src="/imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="projectImg">
-                        <div class="projectInfo">
-                            <h2 class="projectTitle">Projeto Exemplo 1</h2>
-                            <p class="projectCreators">João Silva, Maria Santos</p>
-                            <p class="projectDate">05/2026</p>
-                            <p class="projectSummary">Breve resumo do projeto para exibir na listagem.</p>
-                        </div>
-                    </article>
+                 <article class="projectCard">
+                    <img src="/imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="projectImg">
+                    <div class="projectInfo">
+                        <h2 class="projectTitle">Projeto Exemplo 2</h2>
+                        <p class="projectCreators">Carlos Pereira</p>
+                        <p class="projectDate">04/2026</p>
+                        <p class="projectSummary">Outro resumo curtinho para demonstrar coisas demonstrado.</p>
+                    </div>
+                </article>
 
-                    <article class="projectCard">
-                        <img src="/imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="projectImg">
-                        <div class="projectInfo">
-                            <h2 class="projectTitle">Projeto Exemplo 2</h2>
-                            <p class="projectCreators">Carlos Pereira</p>
-                            <p class="projectDate">04/2026</p>
-                            <p class="projectSummary">Outro resumo curtinho para demonstrar coisas demonstrado.</p>
-                        </div>
-                    </article>
-
-                </div>
-                
             </div>
-
+            
         </div>
 
 
         <!-- Conteudo de "Configurações" do painel aluno - Gabriel Felipe Belo de Moura -->
 
-        <div class="contentTab show" id="configurations">
+        <div class="contentTab" id="configurations">
 
-            <h1>Configurações</h1>
+            <h1 class="tittleContentTab">Configurações</h1>
             
         </div>
 
-        <div class="contentTab show" id="exit">
+        <div class="contentTab" id="exit">
 
-            <h1><a href="/tela_incial">Sair</a></h1>
+            <h1 class="tittleContentTab">Sair</h1>
             
         </div>
 
-    <div>
+    </div>
 
 </body>
 </html>
