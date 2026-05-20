@@ -1,38 +1,31 @@
-<html lang="pt-br">
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <link rel="stylesheet" href="/css/Login.css">
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tela de Login</title>
+    <link rel="stylesheet" href="css/login.css">
 </head>
-
 <body>
-    <main>
-        <form class="container">
-            <h1> Login </h1>
-            <div class="input-container">
-                <input placeholder="Usuário" type="email">
-                <i class="fi fi-rr-user"></i>
-            </div>
-            <div class="input-container">
-                <input placeholder="Senha" type="password">
-                <i class="fi fi-rr-password-lock"></i>
-            </div>
-            <div class="lembra_senha_esqueci_senha">
-                <label>
-                    <input type="checkbox">
-                    Lembrar senha
-                </label>
-                <a href="#">Esqueci a senha</a>
-            </div>
-            <button type="submit" class="Login_button">Login</button>
-            <div class="sem_conta">
-                <p>não tem conta? <a href="/perfil">Cadastre-se</a></p>
-            </div>
-        </form>
-    </main>
-</body>
 
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <form>
+            <input type="email" placeholder="seu.email@senac.com" required>
+            <input type="password" placeholder="Digite sua senha" required>
+
+            <a href="tela_incial_aluno.html">
+            <button type="submit">Entrar</button>
+         </a>
+             
+        </form>
+
+        <div class="register">
+            <p>Não tem uma conta?</p>
+            <a href="criar-conta.html">Criar Conta</a>
+        </div>
+    </div>
+
+</body>
 </html>
