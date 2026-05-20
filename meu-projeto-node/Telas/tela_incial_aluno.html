@@ -48,7 +48,7 @@
 
             <button class="buttonTab" content-id="configurations"><i class="fi fi-rr-settings"></i> Configurações</button>
 
-            <button class="buttonTab" content-id="exit"><i class="fi fi-rr-address-card"></i>Sair</button>
+            <button class="buttonTab" content-id="exit" id="exitTabButton"><i class="fi fi-rr-address-card"></i>Sair</button>
 
 
         </div> 
@@ -247,41 +247,41 @@
 
                 <h2>Informações Pessoais</h2>
 
-                <div>
+                <div class="configInformation">
 
                     <label>Nome</label>
 
-                    <div>
+                    <div class="accountInformation">
                         <p>João da Silva</p>
                     </div>
 
                 </div>
 
-                <div>
+                <div class="configInformation">
 
                     <label>Email</label>
 
-                    <div>
+                    <div class="accountInformation">
                         <p>joao.silva@senac.com</p>
                     </div>
 
                 </div>
 
-                <div>
+                <div class="configInformation">
 
                     <label>Matrícula</label>
 
-                    <div>
+                    <div class="accountInformation">
                         <p>101401234</p>
                     </div>
 
                 </div>
 
-                <div>
+                <div class="configInformation">
 
                     <label>Turma</label>
 
-                    <div>
+                    <div class="accountInformation">
                         <p>TI-2024-A</p>
                     </div>
 
@@ -289,12 +289,22 @@
 
                 <h2>Alterar Senha</h2>
 
-                <label>Senha Atual</label>
-                <input type="password" id="currentPassword" class="configInput">
+                <div class="configInformation">
 
-                <label>Nova Senha</label>
-                <input type="password" id="newPassword" class="configInput">
+                    <label>Senha Atual</label>
+                    <input type="password" id="currentPassword" class="configInput">
 
+                </div>
+
+                <div class="configInformation">
+
+                    <label>Nova Senha</label>
+                    <input type="password" id="newPassword" class="configInput">
+
+                </div>
+
+                <button id="buttonConfigSave">Salvar Alterações</button>
+            
             </div>
 
             
