@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS projeto_integrado;
 USE projeto_integrado;
 
 -- Tabela de Usuários (Alunos/Professores)
-CREATE TABLE usuarios (
+CREATE TABLE if NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -11,8 +11,18 @@ CREATE TABLE usuarios (
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabela de Projetos
+CREATE TABLE if NOT EXISTS projetos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    descricao TEXT,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_id INT,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
 -- Tabela de Atualizações 
-CREATE TABLE atualizações (
+CREATE TABLE if NOT EXISTS atualizações (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
     descricao TEXT,
@@ -20,3 +30,4 @@ CREATE TABLE atualizações (
     usuario_id INT,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+

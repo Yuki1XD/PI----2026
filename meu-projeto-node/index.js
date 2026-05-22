@@ -1,14 +1,17 @@
 const express = require("express");
 const path = require("path");
+const authApi = require('./apis/auth');
+const projetosApi = require('./apis/projetos');
 
 const app = express();
 
-
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "Telas")));
 app.use('/css', express.static(path.join(__dirname, "css")));
 app.use('/js', express.static(path.join(__dirname, "js")));
 app.use("/imgs", express.static(path.join(__dirname, "imgs"))); 
-
+app.use('/api/auth', authApi);
+app.use('/api/projetos', projetosApi);
 
 app.get("/", (req, res) => {
   res.redirect("/tela_incial");
