@@ -62,7 +62,7 @@ ul li.items a:hover {
     padding: 10px 25px;
     border-radius: 8px;
     font-weight: bold;
-    display: inline-block; 
+    display: inline-block;
     transition: background 0.3s, transform 0.2s;
 }
 
@@ -135,15 +135,25 @@ ul li.items a:hover {
     text-align: center;
 }
 
+.hero-content h1 {
+    font-size: 36px;
+    margin-top: 20px;
+}
+.hero-content p {
+    font-size: 18px;
+    margin-top: 10px;
+    padding: 0 20px 5px;
+}
+
 @keyframes slider {
     0%, 30% {
-        background-image: url('imgs/Logo.png');
+        background-image: url('/imgs/Logo.png');
     }
     33%, 63% {
-        background-image: url('imgs/Logo2.jpeg');
+        background-image: url('/imgs/Logo2.jpeg');
     }
     66%, 100% {
-        background-image: url('imgs/foto3.jpg');
+        background-image: url('/imgs/foto3.jpg');
     }
 }
 
@@ -163,6 +173,7 @@ ul li.items a:hover {
 }
 .categorias-header h2 {
     font-size: 24px;
+    padding: 20px;
     color: #333;
 }
 
@@ -173,7 +184,7 @@ ul li.items a:hover {
 
 .categorias-grid {
     display: grid;
-   
+    padding: 20px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
     gap: 20px;
     width: 100%; 
@@ -252,6 +263,7 @@ ul li.items a:hover {
 }
 
 .Parte_comunidade h2 {
+    padding: 20px;
     font-size: 24px;
     color: #333;
 }
@@ -278,12 +290,14 @@ ul li.items a:hover {
 
 /*Parte das Últimas Postagens*/
 .ultimas-postagens {
+    padding: 20px;
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
 .postagens-grid {
+    padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, 300px);
     gap: 20px;
@@ -346,6 +360,9 @@ ul li.items a:hover {
 
 /* Parte das Alterações */
 .update-item {
+    padding: 20px;
+    display: flex;
+    align-items: center;
     background: #ffffff;
     border-radius: 15px;
     padding: 20px;
@@ -358,7 +375,6 @@ ul li.items a:hover {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 15px;
@@ -369,8 +385,22 @@ ul li.items a:hover {
 .orange { background: #fff4ed; color: #f95e05; }
 .blue { background: #eef2ff; color: #1a56db; }
 
-.update-text h4 { font-size: 15px; color: #333; margin: 0; }
-.update-text p { font-size: 13px; color: #888; margin-top: 2px; }
+.update-text h4 {
+    font-size: 15px; 
+    color: #333; 
+    margin: 0 0 8px 0; 
+    padding: 0;
+}
+.recent-updates-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.update-text p { 
+    font-size: 13px; 
+    color: #888; 
+    margin: 2px; }
 
 .update-time {
     margin-left: auto; 
@@ -380,12 +410,16 @@ ul li.items a:hover {
 }
 
 /*Estatísticas*/
-
+.stats-title {
+    font-size: 24px;
+    padding: 20px;
+    color: #333;
+}
 .stats-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 15px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, 300px);
+    gap: 20px;
+    justify-content: center;
 }
 
 .stat-card {
