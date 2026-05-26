@@ -190,10 +190,12 @@
 
                     <label for="newProjectArchives" class="labelAddArchive">
 
-                        <input type="file" class="newProjectInputFile" id="newProjectArchives">
-                        <span><i></i>Clique para fazer upload de um arquivo</span>
+                        <input type="file" class="newProjectInputFile" id="newProjectArchives" multiple>
+                        <span class="spanAddArchive"><i class="fi fi-rr-document"></i>Clique para fazer upload de um arquivo</span>
 
                     </label>
+
+                    <div id="fileListContainer" class="file-list-container"></div>
 
                     <button id="buttonAddProject">Publicar Projeto</button>
 
