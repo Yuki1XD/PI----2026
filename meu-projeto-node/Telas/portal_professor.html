@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Professor</title>
 
-    <link rel="stylesheet" href="../Style/portais.css">
+    <link rel="stylesheet" href="../Style/portal_professor.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <script src="../JavaScript/portais.js" defer></script>
 
@@ -93,24 +93,392 @@
 
         <!-- Aba de Analisar Projetos do Professor - Gabriel Felipe -->
 
-        <div class="contentTab show" id="analyzeProjects">
+        <div class="contentTab" id="analyzeProjects">
 
+
+            <!-- Titulo e descrição -->
+            <div class="tittleContentTab">
+
+                <h1>Analisar Projetos</h1>
+
+                <p>Clique em "Ver Detalhes" para analisar cada projeto. A aprovação final será feita pelo administrador</p>
+
+            </div>
+
+            <!-- Filtragem de Projetos para serem analisados -->
+            <div class="filterContainer">
+
+                <div class="searchBarStyle">
+
+                    <div>
+                        <i class="fi fi-rr-search"></i>
+                    </div>
+
+                    <input type="text" placeholder="Pesquisar projetos..." class="searchInput">
+
+
+                </div>
+
+                <select name="alfabeticOrder" class="selectFilter">
+                    <option value="az_order">Ordenar A-Z</option>
+                    <option value="za_order">Ordernar Z-A</option>
+                </select>
+
+                <select name="dateOrder" class="selectFilter">
+                    <option value="more_new">Mais Recentes</option>
+                    <option value="more_old">Mais Antigos</option>
+                </select>
+
+                <select name="classOrder" class="selectFilter">
+                    <option value="class_20241-A">TI-2024-C</option>
+                    <option value="class_20241-B">TI-2024-B</option>
+                </select>
+
+                <select name="analyzedOrder" class="selectFilter">
+                    <option value="recife">Arguardando Analise</option>
+                    <option value="olinda">Analise Enviada</option>
+                </select>
+
+
+            </div>
+
+            <!-- Projetos a serem analisados -->
+            <div class="ProjectAnalizyingContainer">
+
+                <div class="noResultsForSearch">
+
+                    <h2>Nenhum resultado encontrado.</h2>
+
+                </div>
+
+                <div class="ProjectAnalizying">
+
+                    <img src="../Imagens/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg">
+
+                    <div class="textContentOfProject">
+
+                        <h2>MooDeng</h2>
+                        <p>Descrição do projeto</p>
+
+                        <div class="pincipalInformationsOfProject">
+
+                            <p>Participantes: Fernanda Torre...</p>
+                            <p>Turma: TI-2024-B</p>
+                            <p>Data: 18/04/2026</p>
+                            <div class="youDontAnalisy"><p>Aguardando Analise</p></div>
+
+                        </div>
+
+                        
+
+                        <button data-modal="MooDeng" class="openModal">Ver Detalhes</button>
+
+                        <dialog id="MooDeng" class="modalWindow">
+
+                            <div class="tiitleOfModal">
+                                <h1>MooDeng</h1>
+                                <button data-modal="MooDeng" class="closeModal"><i class="fi-rr-x"></i></button>
+                            </div>
+
+                            <div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-users"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Criadores</p>
+                                        <p>Fernanda Torre, Elizabeth III, Maria Sophia</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-calendar"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Data de Postagem</p>
+                                        <p>18/04/2026</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-document"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Categoria</p>
+                                        <p>Animal fofo e engraçado</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-users"></i>
+
+                                    <div >
+
+                                        <p class="listOfContentTittle">Turma</p>
+                                        <p>TI-2024-B</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-users"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Professor Orientador</p>
+                                        <p>Machado de Assis</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-tags"></i>
+
+                                    <div class="listTagsForModal">
+
+                                        <p class="listOfContentTittle">Tags</p>
+
+                                        <div class="displayTagModal">
+
+                                            <div class="nameTagForModal"><p>Animal</p></div>
+                                            <div class="nameTagForModal"><p>Fofura</p></div>
+                                            <div class="nameTagForModal"><p>Engraçado</p></div>
+
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modalDescriptionStatus">
+
+                                <div class="displayTagModalStatus">
+
+                                    <p>Status</p>
+                                    <div class="statusOfAnalizy">
+                                        <p>Analise Enviada</p>
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <p>Descrição:</p>
+                                    <p>O texto da descrição estara aqui</p>
+
+                                </div>
+
+                            </div>
+
+                            <div>
+
+                                <h2>Adicionar Analise</h2>
+
+                                <textarea rows="4" wrap="hard" cols="40" class="addAnalizyForProject" maxlength="50" placeholder="Adicione uma analise"></textarea>
+
+                            </div>
+
+                            <button class="sendAnalizy">Enviar Analise</button>
+                            
+
+                        </dialog>
+
+
+                    </div>
+
+                </div>
+
+                <div class="ProjectAnalizying">
+
+                    <img src="../Imagens/7XWcd2Kg44o1IzyY1L7czyyS.webp">
+
+                    <div class="textContentOfProject">
+
+                        <h2>Hollow Knight</h2>
+                        <p>Descrição do projeto</p>
+
+                        <div class="pincipalInformationsOfProject">
+
+                            <p>Participantes: Batata Frita...</p>
+                            <p>Turma: TI-2024-C</p>
+                            <p>Data: 28/01/2026</p>
+                            <div class="youDontAnalisy"><p>Aguardando Analise</p></div>
+
+                        </div>
+
+                        <button data-modal="HollowKnight" class="openModal">Ver Detalhes</button>
+
+                        <dialog id="HollowKnight" class="modalWindow">
+
+                            <div class="tiitleOfModal">
+                                <h1>Hollow Knight</h1>
+                                <button data-modal="HollowKnight" class="closeModal"><i class="fi-rr-x"></i></button>
+                            </div>
+
+                            <div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-users"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Criadores</p>
+                                        <p>Dante Alegieri, Willian Shakspeare</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-calendar"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Data de Postagem</p>
+                                        <p>05/04/2026</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-document"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Categoria</p>
+                                        <p>Jogo muito bom</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-users"></i>
+
+                                    <div >
+
+                                        <p class="listOfContentTittle">Turma</p>
+                                        <p>TI-2024-C</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-users"></i>
+
+                                    <div>
+
+                                        <p class="listOfContentTittle">Professor Orientador</p>
+                                        <p>Socrates</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="listOfContent">
+
+                                    <i class="fi fi-rr-tags"></i>
+
+                                    <div class="listTagsForModal">
+
+                                        <p class="listOfContentTittle">Tags</p>
+
+                                        <div class="displayTagModal">
+
+                                            <div class="nameTagForModal"><p>Jogo</p></div>
+                                            <div class="nameTagForModal"><p>Muito Bom</p></div>
+
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modalDescriptionStatus">
+
+                                <div>
+
+                                    <p>Status</p>
+                                    <div>
+                                        <p>Aguardando Analise</p>
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <p>Descrição</p>
+                                    <p>O texto da descrição estara aqui</p>
+
+                                </div>
+
+                            </div>
+
+                            <div>
+
+                                <h2>Adicionar Analise</h2>
+
+                                <textarea rows="4" wrap="hard" cols="40" class="addAnalizyForProject" maxlength="50" placeholder="Adicione uma analise"></textarea>
+
+                            </div>
+
+                            <button>Enviar Analise</button>
+                            
+
+                        </dialog>
+
+                    </div>
+
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <!-- Aba de Projetos Analisados do Professor - Maria Sophia -->
+        <!-- Aba de Projetos Analisados do Professor - João Vitor -->
 
-        <div class="contentTab show" id="analyzedProjects">
+        <div class="contentTab" id="analyzedProjects">
 
             
 
         </div>
 
 
-        <!-- Aba de Configurações do Professor - Gabriel Felipe -->
+        <!-- Aba de Configurações do Professor - João Barbosa -->
 
-        <div class="contentTab show" id="configurationsAdmin">
+        <div class="contentTab" id="configurationsAdmin">
 
 
 
