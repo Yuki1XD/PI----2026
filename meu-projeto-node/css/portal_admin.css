@@ -494,7 +494,7 @@ body {
     align-items: flex-start;
 }
 
-/* Estilo da pagina de analisar projetos - Gabriel Felipe */
+/* Estilo da pagina de Aprovar ou Rejeitar projetos - Gabriel Felipe */
 
 .filterContainer {
     display: flex;
@@ -539,7 +539,7 @@ body {
     min-width: auto;
 }
 
-/* Parte do visual dos projetos em analisar projetos - Gabriel Felipe */
+/* Parte do visual dos projetos em aprovar ou rejeitar projetos - Gabriel Felipe */
 
 .noResultsForSearch {
     display: none;
@@ -794,7 +794,7 @@ body {
 }
 
 
-/* Estilo da pagina de Configurações do Administrador */
+/* Estilo da pagina de Configurações do Administrador - CSS de Gabriel Felipe */
 
 .contentApprove {
     display: flex;
