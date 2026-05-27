@@ -90,65 +90,104 @@
 
         <div class="contentTab show" id="start">
 
-            <h1 class="tittleContentTab">Inicio</h1>
-
-            <section class="welcome-banner">
-                <h2>Bem-vindo de volta!</h2>
-                <p>Aqui você pode gerenciar seus projetos acadêmicos</p>
-            </section>
-
-            <section class="cards-grid">
-                <div class="card">
-                    <div class="card-icon icon-orange">
-                        <i class="fa-solid fa-folder-open"></i>
-                    </div>
-                    <div class="card-details">
-                        <h3>0 Projetos</h3>
-                        <p>Projetos publicados</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon icon-blue">
-                        <i class="fa-solid fa-calendar-days"></i>
-                    </div>
-                    <div class="card-details">
-                        <h3>0 Pendentes</h3>
-                        <p>Aguardando aprovação</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon icon-light-orange">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <div class="card-details">
-                        <h3>0 Colaborações</h3>
-                        <p>Trabalhos em grupo</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="recent-activity">
-                <h2>Atividade Recente</h2>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-text">
-                            <span class="dot dot-orange"></span>
-                            <p>Projeto <strong>"Sistema de Biblioteca"</strong> aprovado</p>
+            <div class="container">
+                <aside class="sidebar">
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <i class="fa-solid fa-user"></i>
                         </div>
-                        <span class="activity-time">Há 2 dias</span>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-text">
-                            <span class="dot dot-blue"></span>
-                            <p>Novo comentário em <strong>"App de Receitas"</strong></p>
+                        <div class="user-info">
+                            <h3>João da Silva</h3>
+                            <p>Aluno</p>
                         </div>
-                        <span class="activity-time">Há 3 dias</span>
                     </div>
-                </div>
-            </section>
+        
+                    <nav class="menu">
+                        <a href="#" class="menu-item active">
+                            <i class="fa-solid fa-house"></i> Início
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fa-solid fa-circle-plus"></i> Adicionar Projeto
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fa-solid fa-folder"></i> Meus Projetos
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fa-solid fa-gear"></i> Configurações
+                        </a>
+                        <a href="#" class="menu-item logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Sair
+                        </a>
+                    </nav>
+                </aside>
+        
+                <main class="main-content">
+                    <header class="header">
+                        <button class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+                        <h1>Painel Senac</h1>
+                    </header>
+        
+                    <section class="welcome-banner">
+                        <h2>Bem-vindo de volta!</h2>
+                        <p>Aqui você pode gerenciar seus projetos acadêmicos</p>
+                    </section>
+        
+                    <section class="cards-grid">
+                        <div class="card">
+                            <div class="card-icon icon-orange">
+                                <i class="fa-solid fa-folder-open"></i>
+                            </div>
+                            <div class="card-details">
+                                <h3>0 Projetos</h3>
+                                <p>Projetos publicados</p>
+                            </div>
+                        </div>
+        
+                        <div class="card">
+                            <div class="card-icon icon-blue">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+                            <div class="card-details">
+                                <h3>0 Pendentes</h3>
+                                <p>Aguardando aprovação</p>
+                            </div>
+                        </div>
+        
+                        <div class="card">
+                            <div class="card-icon icon-light-orange">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div class="card-details">
+                                <h3>0 Colaborações</h3>
+                                <p>Trabalhos em grupo</p>
+                            </div>
+                        </div>
+                    </section>
+        
+                    <section class="recent-activity">
+                        <h2>Atividade Recente</h2>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-text">
+                                    <span class="dot dot-orange"></span>
+                                    <p>Projeto <strong>"Sistema de Biblioteca"</strong> aprovado</p>
+                                </div>
+                                <span class="activity-time">Há 2 dias</span>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-text">
+                                    <span class="dot dot-blue"></span>
+                                    <p>Novo comentário em <strong>"App de Receitas"</strong></p>
+                                </div>
+                                <span class="activity-time">Há 3 dias</span>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        
+            <button class="help-btn"><i class="fa-solid fa-question"></i></button>
 
             
         </div>
