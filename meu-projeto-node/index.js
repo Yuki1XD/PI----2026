@@ -35,8 +35,8 @@ app.get("/portal_professor", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "Telas", "portal_professor.html"));
 });
 
-app.get("/portal_adimin", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "Telas", "portal_adimin.html"));
+app.get("/portal_admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "Telas", "portal_admin.html"));
 });
 
 app.listen(3000, () => {
