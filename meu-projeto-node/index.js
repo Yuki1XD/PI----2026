@@ -27,10 +27,6 @@ app.get("/perfil", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "Telas", "Cadastro2.html"));
 });
 
-app.get("/tela_incial", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "Telas", "tela_incial.html"));
-});
-
 app.get("/portal_aluno", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "Telas", "portal_aluno.html"));
 });
