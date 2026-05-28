@@ -6,41 +6,42 @@ const projetosApi = require('./apis/projetos');
 const app = express();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "Telas")));
-app.use('/css', express.static(path.join(__dirname, "css")));
-app.use('/js', express.static(path.join(__dirname, "js")));
-app.use("/imgs", express.static(path.join(__dirname, "imgs"))); 
+app.use(express.static(path.join(__dirname, "public"))); 
 app.use('/api/auth', authApi);
 app.use('/api/projetos', projetosApi);
 
+
 app.get("/", (req, res) => {
-  res.redirect("/tela_incial");
+  res.sendFile(path.join(__dirname, "public", "Telas", "index.html"));
 });
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Login.html"));
+  res.sendFile(path.join(__dirname, "public", "Telas", "Login.html"));
 });
 
 app.get("/cadastro", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Cadastro.html"));
+  res.sendFile(path.join(__dirname, "public", "Telas", "Cadastro.html"));
 });
 
 app.get("/perfil", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Cadastro2.html"));
+  res.sendFile(path.join(__dirname, "public", "Telas", "Cadastro2.html"));
 });
 
 app.get("/tela_incial", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "tela_incial.html"));
+  res.sendFile(path.join(__dirname, "public", "Telas", "tela_incial.html"));
 });
 
-app.get("/aluno", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "tela_incial_aluno.html"));
+app.get("/portal_aluno", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "Telas", "portal_aluno.html"));
 });
 
-app.get("/criar_projeto", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Criar_Projeto.html"));
+app.get("/portal_professor", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "Telas", "portal_professor.html"));
 });
 
+app.get("/portal_adimin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "Telas", "portal_adimin.html"));
+});
 
 app.listen(3000, () => {
   console.log("Servidor rodando em: http://localhost:3000");
