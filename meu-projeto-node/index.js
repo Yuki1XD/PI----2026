@@ -3,6 +3,8 @@ const path = require("path");
 const authApi = require('./apis/auth');
 const projetosApi = require('./apis/projetos');
 const mysql = require('mysql2')
+const fileUpload = require('express-fileupload')
+const { v4: uuidv4 } = require('uuid')
 
 const app = express();
 
@@ -21,9 +23,9 @@ conexao.connect(function(err) {
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended:false}))
+app.use(fileUpload())
 app.use('/api/auth', authApi);
 app.use('/api/projetos', projetosApi);
-
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "Telas", "index.html"));
@@ -77,14 +79,81 @@ app.get("/portal_aluno", (req, res) => {
 
 app.post("/portal_aluno", (req, res) => {
 
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).json({ mensagem: "Nenhum arquivo foi enviado." });
+  }
+
   let name_project = req.body.newProjectTittle
-  let img_project = req.body.newProjectImg
-  let name_creators = req.body.newProjecCreators 
+  let img_project = req.files.newProjectImg
+  let name_creators = req.body.newProjecCreators
+  let date_post = req.body.newProjectDate
+  let description_project = req.body.newProjectApresentation
+  let archives_project = req.files.newProjectArchives
+
+  if (!img_project || !archives_project) {
+    return res.status(400).json({ mensagem: "A imagem e os arquivos do projeto são obrigatórios." });
+  }
+
+  let extension_img = path.extname(img_project.name)
+  let img_name = uuidv4() + extension_img
+
+  img_project.mv(path.join(__dirname, "public", "uploads", img_name), (err) => {
+    if (err) return res.status(500).send(err);
+  });
+
+  
+
+  let saved_archives_names = []
+
+  let archives_list = Array. isArray(archives_project) ? archives_project : [archives_project]
+
+  for (let file of archives_list) {
+
+    let extension_archive = path.extname(file.name)
+    let archive_name = uuidv4() + extension_archive
+
+    saved_archives_names.push(archive_name)
+
+    file.mv(path.join(__dirname, "public", "uploads", archive_name), (err) => {
+      if (err) return res.status(500).send(err);
+    });
+
+  }
+
+  let archives_string_for_db = saved_archives_names.join(',')
+
+  const new_project = `INSERT INTO projeto (name_project, img_project, creators_project, date_project, description_project, archives_project, status_project)
+  values (?, ?, ?, ?, ?, ?, 'enviado')`
+
+  conexao.query(new_project, [name_project, img_name, name_creators, date_post, description_project, archives_string_for_db], (err, results) => {
+    if (err) {
+      console.log('Erro no banco de dados: ', err)
+    }
+
+    return res.status(200).json({ mensagem: 'Projeto Cadastrado com sucesso' })
+  })
   
 });
 
 app.get("/portal_professor", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "Telas", "portal_professor.html"));
+});
+
+app.get("/apis/projetos/pendentes", (req, res) => {
+
+  const project_for_analyzis = `SELECT * FROM projeto WHERE status_project = 'enviado'`
+
+  conexao.query(project_for_analyzis, function(err, results) {
+
+    if (err) {
+      console.log('Erro no banco de dados: ', err)
+      return res.status(500).json({ erro: 'Erro interno ao buscar projetos' })
+    }
+
+    res.json(results)
+
+  })
+
 });
 
 app.get("/portal_admin", (req, res) => {
