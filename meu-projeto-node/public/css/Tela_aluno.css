@@ -676,3 +676,274 @@ body {
     transform: scale(1.2);
 }
 
+
+/* --- Estilização da Aba de Projetos (Padronizada) --- */
+.filterContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    width: auto;
+}
+
+.searchBarStyle {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 10px 15px;
+    flex-grow: 1;
+    min-width: 250px;
+}
+
+.searchBarStyle i {
+    color: #888;
+    margin-right: 10px;
+}
+
+.searchInput {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.selectFilter {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.ProjectAnalizyingContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: auto;
+}
+
+.ProjectAnalizying {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    padding: 15px;
+    transition: 0.3s;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.ProjectAnalizying:hover {
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ProjectAnalizying img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.textContentOfProject {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.textContentOfProject h2 {
+    font-size: 1.2rem;
+    color: #ff6600;
+    margin-bottom: 10px;
+}
+
+.pincipalInformationsOfProject {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.statusProjectBadge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 10px;
+    max-width: fit-content;
+}
+
+.status-approved { background-color: #e8f5e9; color: #2e7d32; }
+.status-pending { background-color: #fff3e0; color: #e65100; }
+
+.openModal {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    align-self: flex-start;
+    transition: 0.3s;
+}
+
+.openModal:hover {
+    background-color: #e65c00;
+}
+
+/* Modal Centralizado */
+.modalWindow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 700px;
+    border: none;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    margin: 0;
+}
+
+.modalWindow::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+/* --- Estilos Adicionais do Modal do Aluno --- */
+.modalContentBody {
+    margin-top: 20px;
+}
+
+.listOfContent {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.listOfContent i {
+    font-size: 1.2rem;
+    color: #ff6600;
+    width: 25px;
+    text-align: center;
+}
+
+.listOfContentTittle {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.modalDescriptionArea {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.modalDescriptionArea p:first-child {
+    margin-bottom: 10px;
+}
+
+.tiitleOfModal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.tiitleOfModal h1 {
+    font-size: 1.5rem;
+    color: #111;
+}
+
+.closeModal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    transition: 0.2s;
+}
+
+.closeModal:hover {
+    color: #ff0000;
+}
+
+/* --- Estilos para Edição de Projeto --- */
+.buttonsActionArea {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.editProjectButton {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.editProjectButton:hover {
+    background-color: #2980b9;
+}
+
+.formEditProject {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.formEditProject label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.formEditProject input, .formEditProject textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.formEditProject textarea {
+    height: 100px;
+    resize: none;
+}
+
+.submitEditRequest {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submitEditRequest:hover {
+    background-color: #219150;
+}

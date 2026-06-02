@@ -159,11 +159,15 @@ body {
 .contentTab {
     display: none;
     height: auto;
+    width: auto;
+    overflow-x: hidden;
 }
 
 .contentTab.show {
     display: flex;
     flex-direction: column;
+    width: auto;
+    overflow-x: hidden;
 }
 
 .tittleContentTab {
@@ -503,7 +507,10 @@ body {
     padding: 20px;
     border-radius: 10px;
     flex-wrap: wrap;
-    gap: auto;
+    gap: 10px;
+    width: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .searchBarStyle {
@@ -554,19 +561,27 @@ body {
 .ProjectAnalizyingContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+    width: auto;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .ProjectAnalizying {
     display: flex;
-    align-items: center;
-    border: 1px grey solid;
-    border-radius: 15px;
-    padding: 15px;
+    align-items: flex-start;
+    gap: 15px;
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    padding: 12px;
     width: 100%;
-    flex-wrap: wrap;
     margin-top: 10px;
     margin-bottom: 10px;
+    min-width: 0;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .ProjectAnalizying:hover {
@@ -580,12 +595,14 @@ body {
     background-color: #ff4b33;
     color: white;
     border: none;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    width: 100px;
-    height: 50px;
+    border-radius: 8px;
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.9rem;
     transition: 0.3s;
     outline: none;
+    cursor: pointer;
+    margin-top: 8px;
 }
 
 .openModal:hover {
@@ -597,65 +614,94 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: green;
+    background-color: #27ae60;
     color: white;
-    width: 100px;
-    height: 50px;
-    border: grey 1px solid;
-    border-radius: 10px;
-    padding: 10px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
     transition: 0.3s;
-
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .approveProjectsButton:hover {
-    background-color: greenyellow;
-    transform: scale(1.2);
+    background-color: #229954;
+    transform: scale(1.05);
 }
 
 .rejectProjectsButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: red;
+    background-color: #e74c3c;
     color: white;
-    width: 100px;
-    height: 50px;
-    border: grey 1px solid;
-    border-radius: 10px;
-    padding: 10px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
     transition: 0.3s;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .rejectProjectsButton:hover {
-    background-color: #ffdbbb;
-    transform: scale(1.2);
+    background-color: #c0392b;
+    transform: scale(1.05);
 }
 
 .alterVisibilityButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
-    width: 100px;
-    height: 50px;
-    border: grey 1px solid;
-    border-radius: 10px;
-    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
     transition: 0.3s;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.alterVisibilityButton:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
 }
 
 .buttonsModalArea {
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    margin-top: 16px;
 }
 
 .ProjectAnalizying img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
-    border-radius: 10px;
-    margin-right: 10px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.textContentOfProject {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+    word-break: break-word;
+    box-sizing: border-box;
+}
+
+.textContentOfProject h2 {
+    font-size: 1.1rem;
+    color: #ff4b33;
+    margin: 0 0 4px 0;
+    word-break: break-word;
+}
+
+.textContentOfProject > p {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 0 0 8px 0;
+    word-break: break-word;
 }
 
 .pincipalInformationsOfProject {
@@ -664,6 +710,15 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
     align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.pincipalInformationsOfProject p {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 0;
+    word-break: break-word;
 }
 
 .teacherAnalized {
@@ -676,6 +731,19 @@ body {
     background-color: red;
     padding: 5px;
     border-radius: 5px;
+    color: white;
+    font-weight: 600;
+}
+
+.teachAnalizyOfProject {
+    border: none;
+    background-color: wheat;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .teachAnalizyOfProject {
@@ -701,6 +769,20 @@ body {
     width: 100%;
     max-width: 750px;
     border-radius: 15px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    border: none;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+}
+
+.modalWindow::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
 }
 
 .modalWindow textarea {
@@ -852,4 +934,166 @@ body {
     border: none;
     border-radius: 10px;
     height: 2rem;
+}
+
+/* --- Estilos da Aba Gerenciar Usuários (Importados) --- */
+.usuarios-container {
+    padding: 20px 0;
+}
+
+.usuarios-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.filtros-usuarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.pesquisa-usuarios {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 12px 15px;
+    flex: 1;
+    min-width: 250px;
+}
+
+.pesquisa-usuarios i {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.pesquisa-usuarios input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    width: 100%;
+    background: transparent;
+}
+
+.filtros-usuarios select, .btn-filtros {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+.btn-filtros {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f8f9fa;
+    transition: 0.2s;
+}
+
+.btn-filtros:hover {
+    background-color: #e2e6ea;
+}
+
+.tabela-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    overflow-x: auto;
+}
+
+.tabela-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabela-usuarios th, .tabela-usuarios td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.tabela-usuarios th {
+    background-color: #fcfcfc;
+    font-weight: 600;
+    color: #555;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-ativo {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.btn-acao {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #666;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+.btn-acao:hover {
+    color: #ff6600;
+}
+
+/* Configurações Estilo Adicional */
+.config-container {
+    padding: 20px 0;
+}
+
+.config-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.config-box {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.config-box label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.config-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.config-box button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }

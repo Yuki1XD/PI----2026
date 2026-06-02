@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Professor</title>
 
-    <link rel="stylesheet" href="../Style/portal_professor.css">
+    <link rel="stylesheet" href="../css/portal_professor.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <script src="../JavaScript/portais.js" defer></script>
+    <script src="/js/portais.js" defer></script>
 
 </head>
 <body>
@@ -86,101 +86,66 @@
 
         <div class="contentTab show" id="start">
 
-            <div class="container">
-                <aside class="sidebar">
-                    <div class="user-profile">
-                        <div class="avatar bg-blue">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <div class="user-info">
-                            <h3 class="text-blue">Prof. Carlos Alberto</h3>
-                            <p>Professor</p>
-                        </div>
+            <header class="header">
+                <h1>Painel Senac</h1>
+            </header>
+
+            <section class="welcome-banner bg-blue">
+                <h2>Painel do Professor</h2>
+                <p>Gerencie projetos e acompanhe suas turmas</p>
+            </section>
+
+            <section class="cards-grid">
+                <div class="card">
+                    <div class="card-icon text-orange">
+                        <i class="fa-solid fa-circle-check"></i>
                     </div>
-        
-                    <nav class="menu">
-                        <a href="#" class="menu-item active bg-blue">
-                            <i class="fa-solid fa-house"></i> Início
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fa-solid fa-check-double"></i> Analisar Projetos
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fa-solid fa-folder-tree"></i> Projetos Analisados
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fa-solid fa-gear"></i> Configurações
-                        </a>
-                        <a href="#" class="menu-item logout">
-                            <i class="fa-solid fa-right-from-bracket"></i> Sair
-                        </a>
-                    </nav>
-                </aside>
-        
-                <main class="main-content">
-                    <header class="header">
-                        <button class="close-btn"><i class="fa-solid fa-xmark"></i></button>
-                        <h1>Painel Senac</h1>
-                    </header>
-        
-                    <section class="welcome-banner bg-blue">
-                        <h2>Painel do Professor</h2>
-                        <p>Gerencie projetos e acompanhe suas turmas</p>
-                    </section>
-        
-                    <section class="cards-grid">
-                        <div class="card">
-                            <div class="card-icon text-orange">
-                                <i class="fa-solid fa-circle-check"></i>
-                            </div>
-                            <div class="card-details">
-                                <h3>8 Pendentes</h3>
-                                <p>Projetos para revisar</p>
-                            </div>
+                    <div class="card-details">
+                        <h3>8 Pendentes</h3>
+                        <p>Projetos para revisar</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon text-blue">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <div class="card-details">
+                        <h3>42 Analisados</h3>
+                        <p>Este semestre</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-activity">
+                <h2>Atividades Recentes</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-text">
+                            <span class="dot dot-orange"></span>
+                            <p>Você enviou análise para <strong>"E-commerce de Livros"</strong></p>
                         </div>
-        
-                        <div class="card">
-                            <div class="card-icon text-blue">
-                                <i class="fa-solid fa-folder-open"></i>
-                            </div>
-                            <div class="card-details">
-                                <h3>42 Analisados</h3>
-                                <p>Este semestre</p>
-                            </div>
+                        <span class="activity-time">Há 1 hora</span>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-text">
+                            <span class="dot dot-green"></span>
+                            <p>Projeto <strong>"Sistema de Biblioteca"</strong> foi aprovado</p>
                         </div>
-                    </section>
-        
-                    <section class="recent-activity">
-                        <h2>Atividades Recentes</h2>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <div class="activity-text">
-                                    <span class="dot dot-orange"></span>
-                                    <p>Você enviou análise para <strong>"E-commerce de Livros"</strong></p>
-                                </div>
-                                <span class="activity-time">Há 1 hora</span>
-                            </div>
-                            
-                            <div class="activity-item">
-                                <div class="activity-text">
-                                    <span class="dot dot-green"></span>
-                                    <p>Projeto <strong>"Sistema de Biblioteca"</strong> foi aprovado</p>
-                                </div>
-                                <span class="activity-time">Há 3 horas</span>
-                            </div>
-        
-                            <div class="activity-item">
-                                <div class="activity-text">
-                                    <span class="dot dot-blue"></span>
-                                    <p>Novo projeto submetido: <strong>"App de Fitness"</strong></p>
-                                </div>
-                                <span class="activity-time">Há 5 horas</span>
-                            </div>
+                        <span class="activity-time">Há 3 horas</span>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-text">
+                            <span class="dot dot-blue"></span>
+                            <p>Novo projeto submetido: <strong>"App de Fitness"</strong></p>
                         </div>
-                    </section>
-                </main>
-            </div>
-        
+                        <span class="activity-time">Há 5 horas</span>
+                    </div>
+                </div>
+            </section>
+
             <button class="help-btn"><i class="fa-solid fa-question"></i></button>
 
         </div>
@@ -573,9 +538,22 @@
 
         <!-- Aba de Configurações do Professor - João Barbosa -->
 
-        <div class="contentTab" id="configurationsAdmin">
+        <div class="contentTab" id="configurations">
 
-
+            <main class="config-container">
+                <h2>Configurações Pessoais</h2>
+                <div class="config-box">
+                    <form>
+                        <label>Nome</label>
+                        <input type="text" value="Prof. Carlos Alberto">
+                        <label>E-mail</label>
+                        <input type="email" value="carlos.alberto@senac.com">
+                        <label>Função</label>
+                        <input type="text" value="Professor de Programação">
+                        <button type="submit">Salvar Alterações</button>
+                    </form>
+                </div>
+            </main>
 
         </div>
 
