@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="../css/portal_professor.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <script src="/js/portais.js" defer></script>
+    <script src="../js/portais.js" defer></script>
 
 </head>
 <body>
@@ -213,7 +213,66 @@
 
                 
 
-                    
+                <div class="containerCard">
+
+                    <button class="cardProject">
+
+                        <div class="cardProjectImg">
+                            <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg">
+                        </div>
+
+                        <div class="cardProjectIformation">
+                            <div class="projectInformationLeft">
+                                <h3>${projeto.name_project}</h3>
+                                <p>${projeto.date_project}</p>
+                                <p>${projeto.creators_project}</p>
+                            </div>
+                            <div class="projectInformationRight">
+                                <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            </div>
+                        </div>
+
+                    </button>
+
+                    <button class="cardProject">
+
+                        <div class="cardProjectImg">
+                            <img src="../imgs/batata_frita_quadrada.jpg">
+                        </div>
+
+                        <div class="cardProjectIformation">
+                            <div class="projectInformationLeft">
+                                <h3>${projeto.name_project}</h3>
+                                <p>${projeto.date_project}</p>
+                                <p>${projeto.creators_project}</p>
+                            </div>
+                            <div class="projectInformationRight">
+                                <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            </div>
+                        </div>
+
+                    </button>
+
+                    <button class="cardProject">
+
+                        <div class="cardProjectImg">
+                            <img src="../imgs/Logo.png">
+                        </div>
+
+                        <div class="cardProjectIformation">
+                            <div class="projectInformationLeft">
+                                <h3>${projeto.name_project}</h3>
+                                <p>${projeto.date_project}</p>
+                                <p>${projeto.creators_project}</p>
+                            </div>
+                            <div class="projectInformationRight">
+                                <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            </div>
+                        </div>
+
+                    </button>
+
+                </div>
 
                 
 
@@ -230,7 +289,120 @@
 
         <div class="contentTab" id="analyzedProjects">
 
-            
+            <!-- Titulo e descrição -->
+            <div class="tittleContentTab">
+
+                <h1>Projetos Analisados</h1>
+
+                <p>Clique em "Ver Detalhes" para ver os projetos analisados. A aprovação final será feita pelo administrador</p>
+
+            </div>
+
+            <!-- Filtragem de Projetos para serem analisados -->
+            <div class="filterContainer">
+
+                <div class="searchBarStyle">
+
+                    <div>
+                        <i class="fi fi-rr-search"></i>
+                    </div>
+
+                    <input type="text" placeholder="Pesquisar projetos..." class="searchInput">
+
+
+                </div>
+
+                <select name="alfabeticOrder" class="selectFilter">
+                    <option value="az_order">Ordenar A-Z</option>
+                    <option value="za_order">Ordernar Z-A</option>
+                </select>
+
+                <select name="dateOrder" class="selectFilter">
+                    <option value="more_new">Mais Recentes</option>
+                    <option value="more_old">Mais Antigos</option>
+                </select>
+
+                <select name="classOrder" class="selectFilter">
+                    <option value="class_20241-A">TI-2024-C</option>
+                    <option value="class_20241-B">TI-2024-B</option>
+                </select>
+
+                <select name="analyzedOrder" class="selectFilter">
+                    <option value="recife">Arguardando Analise</option>
+                    <option value="olinda">Analise Enviada</option>
+                </select>
+
+
+            </div>
+
+            <div class="noResultsForSearch">
+
+                <h2>Nenhum resultado encontrado.</h2>
+
+            </div>
+
+                
+
+            <div class="containerCard">
+
+                <button class="cardProject">
+
+                    <Div class="cardProjectImg">
+                        <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg">
+                    </Div>
+
+                    <div class="cardProjectIformation">
+                        <div class="projectInformationLeft">
+                            <h3>${projeto.name_project}</h3>
+                            <p>${projeto.date_project}</p>
+                            <p>${projeto.creators_project}</p>
+                        </div>
+                        <div class="projectInformationRight">
+                            <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                        </div>
+                    </div>
+
+                </button>
+
+                <button class="cardProject">
+
+                    <Div class="cardProjectImg">
+                        <img src="../imgs/batata_frita_quadrada.jpg">
+                    </Div>
+
+                    <div class="cardProjectIformation">
+                        <div class="projectInformationLeft">
+                            <h3>${projeto.name_project}</h3>
+                            <p>${projeto.date_project}</p>
+                            <p>${projeto.creators_project}</p>
+                        </div>
+                        <div class="projectInformationRight">
+                            <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                        </div>
+                    </div>
+
+                </button>
+
+                <button class="cardProject">
+
+                    <div class="cardProjectImg">
+                        <img src="../imgs/Logo.png">
+                    </div>
+
+                    <div class="cardProjectIformation">
+                        <div class="projectInformationLeft">
+                            <h3>${projeto.name_project}</h3>
+                            <p>${projeto.date_project}</p>
+                            <p>${projeto.creators_project}</p>
+                        </div>
+                        <div class="projectInformationRight">
+                            <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                        </div>
+                    </div>
+
+                </button>
+
+            </div>
 
         </div>
 
