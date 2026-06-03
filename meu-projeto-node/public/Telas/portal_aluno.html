@@ -91,35 +91,7 @@
         <div class="contentTab show" id="start">
 
             <div class="container">
-                <aside class="sidebar">
-                    <div class="user-profile">
-                        <div class="avatar">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <div class="user-info">
-                            <h3>João da Silva</h3>
-                            <p>Aluno</p>
-                        </div>
-                    </div>
-        
-                    <nav class="menu">
-                        <a href="#" class="menu-item active">
-                            <i class="fa-solid fa-house"></i> Início
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fa-solid fa-circle-plus"></i> Adicionar Projeto
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fa-solid fa-folder"></i> Meus Projetos
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fa-solid fa-gear"></i> Configurações
-                        </a>
-                        <a href="#" class="menu-item logout">
-                            <i class="fa-solid fa-right-from-bracket"></i> Sair
-                        </a>
-                    </nav>
-                </aside>
+                
         
                 <main class="main-content">
                     <header class="header">
@@ -135,7 +107,7 @@
                     <section class="cards-grid">
                         <div class="card">
                             <div class="card-icon icon-orange">
-                                <i class="fa-solid fa-folder-open"></i>
+                                <i class="fi-rr-folder-open"></i>
                             </div>
                             <div class="card-details">
                                 <h3>0 Projetos</h3>
@@ -145,7 +117,7 @@
         
                         <div class="card">
                             <div class="card-icon icon-blue">
-                                <i class="fa-solid fa-calendar-days"></i>
+                                <i class="fi-rr-calendar"></i>
                             </div>
                             <div class="card-details">
                                 <h3>0 Pendentes</h3>
@@ -155,7 +127,7 @@
         
                         <div class="card">
                             <div class="card-icon icon-light-orange">
-                                <i class="fa-solid fa-users"></i>
+                                <i class="fi-rr-users"></i>
                             </div>
                             <div class="card-details">
                                 <h3>0 Colaborações</h3>
@@ -201,35 +173,35 @@
 
                 <h1 class="tittleContentTab">Adicionar Novo Projeto</h1>
 
-                <form id="formAddProject">
+                <form id="formAddProject" method="post" enctype="multipart/form-data">
 
                     <label>Titulo do Projeto</label>
-                    <input type="text" class="newProjectInput" id="newProjectTittle" placeholder="Nome do seu Projeto">
+                    <input type="text" class="newProjectInput" id="newProjectTittle" name="newProjectTittle" placeholder="Nome do seu Projeto">
 
 
                     <label>Foto do Projeto</label>
             
                     <label for="newProjectImg" class="labelAddArchive">
 
-                        <input type="file" class="newProjectInputFile" id="newProjectImg">
+                        <input type="file" class="newProjectInputFile" id="newProjectImg" name="newProjectImg">
                         <span class="spanAddArchive"><i></i>Clique para fazer upload de uma imagem</span>
 
                     </label>
 
                     <label>Nome dos Criadores</label>
-                    <input type="text" class="newProjectInput" id="newProjecCreators" placeholder="Ex: João Silva, Maria Santos">
+                    <input type="text" class="newProjectInput" id="newProjecCreators" name="newProjecCreators" placeholder="Ex: João Silva, Maria Santos">
 
                     <label>Data de Postagem</label>
-                    <input type="date" class="newProjectInput" id="newProjectDate">
+                    <input type="date" class="newProjectInput" id="newProjectDate" name="newProjectDate">
 
                     <label>Resumo/Apresentação do Projeto</label>
-                    <input type="text" class="newProjectInput" id="newProjectApresentation" placeholder="Descreva seu Projeto">
+                    <textarea type="text" class="newProjectInput" id="newProjectApresentation" name="newProjectApresentation" placeholder="Descreva seu Projeto"></textarea>
 
                     <label>Arquivos do Projeto</label>
 
                     <label for="newProjectArchives" class="labelAddArchive">
 
-                        <input type="file" class="newProjectInputFile" id="newProjectArchives" multiple>
+                        <input type="file" class="newProjectInputFile" id="newProjectArchives" name="newProjectArchives" multiple>
                         <span class="spanAddArchive"><i class="fi fi-rr-document"></i>Clique para fazer upload de um arquivo</span>
 
                     </label>
@@ -413,71 +385,77 @@
 
         <div class="contentTab" id="configurations">
 
-            <h1 class="tittleContentTab">Configurações da Conta</h1>
+            <div class="contentConfiguration">
 
-            <div id="contentConfiguration">
+                <h1 class="tittleContentTab">Configurações da Conta</h1>
 
-                <h2>Informações Pessoais</h2>
+                <div id="contentConfiguration">
 
-                <div class="configInformation">
+                    <h2>Informações Pessoais</h2>
 
-                    <label>Nome</label>
+                    <div class="configInformation">
 
-                    <div class="accountInformation">
-                        <p>João da Silva</p>
+                        <label>Nome</label>
+
+                        <div class="accountInformation">
+                            <p>João da Silva</p>
+                        </div>
+
                     </div>
 
-                </div>
+                    <div class="configInformation">
 
-                <div class="configInformation">
+                        <label>Email</label>
 
-                    <label>Email</label>
+                        <div class="accountInformation">
+                            <p>joao.silva@senac.com</p>
+                        </div>
 
-                    <div class="accountInformation">
-                        <p>joao.silva@senac.com</p>
                     </div>
 
-                </div>
+                    <div class="configInformation">
 
-                <div class="configInformation">
+                        <label>Matrícula</label>
 
-                    <label>Matrícula</label>
+                        <div class="accountInformation">
+                            <p>101401234</p>
+                        </div>
 
-                    <div class="accountInformation">
-                        <p>101401234</p>
                     </div>
 
-                </div>
+                    <div class="configInformation">
 
-                <div class="configInformation">
+                        <label>Turma</label>
 
-                    <label>Turma</label>
+                        <div class="accountInformation">
+                            <p>TI-2024-A</p>
+                        </div>
 
-                    <div class="accountInformation">
-                        <p>TI-2024-A</p>
                     </div>
 
+                    <h2>Alterar Senha</h2>
+
+                    <div class="configInformation">
+
+                        <label>Senha Atual</label>
+                        <input type="password" id="currentPassword" class="configInput">
+
+                    </div>
+
+                    <div class="configInformation">
+
+                        <label>Nova Senha</label>
+                        <input type="password" id="newPassword" class="configInput">
+
+                    </div>
+
+                    <button id="buttonConfigSave">Salvar Alterações</button>
+                
                 </div>
 
-                <h2>Alterar Senha</h2>
-
-                <div class="configInformation">
-
-                    <label>Senha Atual</label>
-                    <input type="password" id="currentPassword" class="configInput">
-
-                </div>
-
-                <div class="configInformation">
-
-                    <label>Nova Senha</label>
-                    <input type="password" id="newPassword" class="configInput">
-
-                </div>
-
-                <button id="buttonConfigSave">Salvar Alterações</button>
-            
             </div>
+
+            
 
             
         </div>
