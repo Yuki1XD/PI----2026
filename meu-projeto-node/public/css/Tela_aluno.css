@@ -190,7 +190,7 @@ body {
     justify-content: center;
     border: 1px grey solid;
     border-radius: 15px;
-    max-width: 500px;
+    max-width: 1000px;
     width: 100%;
     padding: 30px;
     height: auto;
@@ -401,6 +401,13 @@ body {
 .projectSummary {
     margin-top: 6px;
     color: #333333;
+}
+
+.contentConfiguration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* CSS de Erik */
@@ -618,7 +625,8 @@ body {
     padding: 20px;
     border: 1px grey solid;
     border-radius: 15px;
-    max-width: 500px;
+    max-width: 1000px;
+    width: 100%;
 }
 
 .configInformation {
