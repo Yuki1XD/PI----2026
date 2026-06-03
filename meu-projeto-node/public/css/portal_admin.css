@@ -1097,234 +1097,60 @@ body {
     border-radius: 8px;
     cursor: pointer;
 }
-/*estatística*/
-.container {
-    width: 100%;
-    max-width: 450px; 
-    padding: 20px;
+
+.containerCard {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
 }
 
-/* Topo: Título e Botão PDF */
-.top-bar {
+.cardProject {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    padding: 15px;
+    border: 1px grey solid;
+    border-radius: 15px;
+    gap: 15px;
     align-items: center;
 }
 
-.top-bar h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
+.cardProject:hover {
+    box-shadow: 0px 0px 5px 10px rgb(0, 0, 0, 0.13);
 }
 
-.btn-pdf {
-    background-color: var(--primary-orange);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.2s;
-}
-
-.btn-pdf:hover {
-    background-color: #e06d00;
-}
-
-/* Caixa de Filtros */
-.filters-section {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 16px;
-    background-color: white;
-}
-
-.period-container label {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
-
-.period-buttons {
-    display: flex;
-    gap: 6px;
-    margin-top: 10px;
-    overflow-x: auto; /* Permite rolar para o lado se a tela for pequena */
-    padding-bottom: 4px;
-}
-
-.btn-period {
-    background: white;
-    border: 1px solid var(--border-color);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    cursor: pointer;
-    color: var(--text-dark);
-    transition: all 0.2s;
-}
-
-.btn-period.active {
-    background-color: var(--primary-orange);
-    color: white;
-    border-color: var(--primary-orange);
-}
-
-.dropdowns {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-}
-
-.dropdowns select {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    background-color: #fff;
-    cursor: pointer;
-}
-
-/* Abas de Navegação (Tabs) */
-.tabs {
-    display: flex;
-    gap: 4px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 2px;
-}
-
-.tab-item {
-    background: none;
-    border: none;
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    position: relative;
-}
-
-.tab-item.active {
-    color: var(--primary-orange);
-    font-weight: 600;
-}
-
-/* Linha laranja embaixo da aba ativa */
-.tab-item.active::after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 0;
+.cardProject img {
+    justify-content: center;
+    border-radius: 15px;
     width: 100%;
-    height: 3px;
-    background-color: var(--primary-orange);
-    border-radius: 3px;
-}
-
-/* Grid de Cards de Indicadores */
-.cards-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.card {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 16px;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.card-icon {
-    font-size: 1.2rem;
-    margin-bottom: 2px;
-}
-
-.card h3 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--text-dark);
-}
-
-.card p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-/* Seções de Listas e Gráficos de Progresso */
-.metrics-section {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.metric-box {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 18px;
-    background-color: white;
-}
-
-.metric-box h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: var(--text-dark);
-}
-
-.progress-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.progress-item {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.progress-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.count-val {
-    font-weight: 700;
-}
-
-/* Estrutura da barra cinza de fundo */
-.progress-bar {
-    width: 100%;
-    background-color: #f1f3f5;
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-/* O preenchimento colorido interno */
-.progress-fill {
     height: 100%;
-    border-radius: 4px;
-    transition: width 0.5s ease-in-out; /* Efeito suave ao carregar */
+    max-width: 250px;
+    max-height: 250px;
+    object-fit: cover;
 }
 
-/* Cores alternadas conforme a foto */
-.progress-fill.orange {
-    background-color: var(--primary-orange);
+.cardProjectIformation {
+    display: flex;
+    gap: 15px;
 }
 
-.progress-fill.blue {
-    background-color: var(--secondary-blue);
+.projectInformationLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.projectInformationRight p {
+    max-width: 200px;
+    max-height: 150px;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
