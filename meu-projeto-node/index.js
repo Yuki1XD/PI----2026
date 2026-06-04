@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const authApi = require('./apis/auth');
+const authApi = require('./apis/usuarios/auth');
 const projetosApi = require('./apis/projects/projetos');
 const mysql = require('mysql2')
 const fileUpload = require('express-fileupload')
@@ -11,7 +11,7 @@ const app = express();
 const conexao = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'teste',
   database: 'observatorio'
 })
 
