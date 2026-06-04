@@ -13,46 +13,67 @@ body{
     flex-direction: column;
 }
 
-/* Barra Principal */
-.barra_lateral{
+/* Cabeçalho */
+.site-header{
     width:100%;
-    height:80px;
-    background-color: #1b54b0;
-    box-shadow:0 3px 0 #f6bf86;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 30px;
+    background:#fff;
+    box-shadow:0 1px 10px rgba(0,0,0,0.08);
     position:fixed;
     top:0;
     left:0;
     z-index: 1000;
 }
 
+.header-top,
+.header-nav{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 26px;
+}
+
+.header-top{
+    height:70px;
+    border-bottom:2px solid #f6a01a;
+}
+
+.header-nav{
+    height:52px;
+    background:#f4f4f4;
+}
+
 .logo img{
-    height:60px;  
+    height:48px;  
     width:auto;
 }
 
-ul{
+.header-region{
+    color:#243c66;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+}
+
+.header-nav ul{
     display:flex;
     list-style:none;
-    gap:20px;
+    gap:18px;
     align-items:center;
 }
 
 /* Links normais do menu */
-ul li.items a {
-    color:#fff;
+.header-nav li.items a {
+    color:#1a56db;
     text-decoration:none;
-    padding:10px 15px;
+    padding:8px 10px;
     transition:.2s;
     border-radius:8px;
+    font-size:16px;
 }
 
-ul li.items a:hover {
-    background-color:#fcc09b;
-    color: #1b54b0;
+.header-nav li.items a:hover {
+    color:#0f3f95;
 }
 
 /* Botão de Login */
@@ -63,6 +84,7 @@ ul li.items a:hover {
     border-radius: 8px;
     font-weight: bold;
     display: inline-block;
+    text-decoration:none;
     transition: background 0.3s, transform 0.2s;
 }
 
@@ -105,7 +127,7 @@ ul li.items a:hover {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    margin-top: 80px;
+    margin-top: 122px;
 }
 
 .hero-slideshow {
@@ -117,7 +139,13 @@ ul li.items a:hover {
     z-index: 1;
     background-size: cover;
     background-position: center;
-    animation: slider 15s infinite;
+}
+
+.hero-slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .hero::before {
@@ -143,18 +171,6 @@ ul li.items a:hover {
     font-size: 18px;
     margin-top: 10px;
     padding: 0 20px 5px;
-}
-
-@keyframes slider {
-    0%, 30% {
-        background-image: url('/imgs/Logo.png');
-    }
-    33%, 63% {
-        background-image: url('/imgs/Logo2.jpeg');
-    }
-    66%, 100% {
-        background-image: url('/imgs/foto3.jpg');
-    }
 }
 
 
@@ -289,25 +305,29 @@ ul li.items a:hover {
 }
 
 /*Parte das Últimas Postagens*/
+.Utimas_postagens,
 .ultimas-postagens {
-    padding: 20px;
+    width: 100%;
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 50px auto;
     padding: 0 20px;
 }
 
 .postagens-grid {
-    padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    justify-content: center;
+    width: 100%;
+    padding: 20px 0 0;
+    justify-items: stretch;
 }
 
+.Utimas_postagens h2,
 .ultimas-postagens h2 {
     font-size: 24px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     color: #333;
+    padding: 20px 0 0;
 }
 
 .postagem-card {
@@ -355,12 +375,33 @@ ul li.items a:hover {
     width: 100%;
 }
 
+.postagem-topo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .bg-laranja { background-color: #f95e05; }
 .bg-azul { background-color: #1a56db; }
 
 /* Parte das Alterações */
+.recent-updates-container,
+.stats-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.update-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
 .update-item {
-    padding: 20px;
     display: flex;
     align-items: center;
     background: #ffffff;
@@ -395,6 +436,7 @@ ul li.items a:hover {
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
+    padding: 20px 0 0;
 }
 
 .update-text p { 
@@ -412,14 +454,15 @@ ul li.items a:hover {
 /*Estatísticas*/
 .stats-title {
     font-size: 24px;
-    padding: 20px;
+    padding: 20px 0 0;
     color: #333;
 }
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    justify-content: center;
+    width: 100%;
+    padding-top: 20px;
 }
 
 .stat-card {

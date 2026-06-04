@@ -5,27 +5,34 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Inicialização</title>
+    <title>Página Inicial</title>
 </head>
 <body>
 
-    <nav class="barra_lateral">
-        <div class="logo">
-            <img src="/imgs/Logo2.jpeg" alt="Logo">
+    <header class="site-header">
+        <div class="header-top">
+            <div class="logo">
+                <img src="/imgs/Logo.png" alt="Senac">
+            </div>
+
+            <div class="header-region">Pernambuco</div>
         </div>
 
-        <ul>
-            <li class="items"><a href="/tela_incial">Home</a></li>
-            <li class="items"><a href="#">Projetos</a></li>
-            <li class="items"><a href="#">Categorias</a></li>
-            <li class="items"><a href="#">Sobre</a></li>
-            <li>
-                <a href="/login" class="btn-login">Login</a>
-            </li>
-        </ul>
-    </nav>
+        <nav class="header-nav" aria-label="Navegação principal">
+            <ul>
+                <li class="items"><a href="/tela_incial">Inicial</a></li>
+                <li class="items"><a href="#">Projetos</a></li>
+                <li class="items"><a href="#">Categorias</a></li>
+                <li class="items"><a href="#">Sobre</a></li>
+            </ul>
+
+            <a href="/login" class="btn-login">Login</a>
+        </nav>
+    </header>
     <section class="hero">
-        <div class="hero-slideshow"></div>
+        <div class="hero-slideshow">
+            <img src="/imgs/group-multinational-busy-people-working-office-2048x1367.webp" alt="Equipe trabalhando em escritório">
+        </div>
         <div class="hero-content">
             <i class="fi fi-rr-graduation-cap"></i>
             <h1>Bem-vindo ao Repositório de Projetos Acadêmicos</h1>
@@ -100,7 +107,9 @@
         <div class="postagens-grid">
 
             <div class="postagem-card">
-                <div class="postagem-topo bg-laranja"></div>
+                <div class="postagem-topo">
+                    <img src="/imgs/Biblioteca-Digital-do-Senac-é-opção-segura-para-estudar-remotamente.jpg" alt="Sistema de Biblioteca Digital">
+                </div>
                 <div class="postagem-cont">
                     <h3>Sistema de Biblioteca Digital</h3>
                     <p>Plataforma completa para gerenciamento de acervo e empréstimos.</p>
@@ -112,7 +121,9 @@
             </div>
 
             <div class="postagem-card">
-                <div class="postagem-topo bg-azul"></div>
+                <div class="postagem-topo">
+                    <img src="/imgs/6.webp" alt="App de Receitas Caseiras">
+                </div>
                 <div class="postagem-cont">
                     <h3>App de Receitas Caseiras</h3>
                     <p>Aplicativo mobile para compartilhar e descobrir receitas.</p>
@@ -124,7 +135,9 @@
             </div>
 
             <div class="postagem-card">
-                <div class="postagem-topo bg-laranja"></div>
+                <div class="postagem-topo">
+                    <img src="/imgs/Screenshot%202026-02-05%20at%203.23.42PM.png" alt="Dashboard Analytics">
+                </div>
                 <div class="postagem-cont">
                     <h3>Dashboard Analytics</h3>
                     <p>Painel interativo de análise de dados em tempo real.</p>
