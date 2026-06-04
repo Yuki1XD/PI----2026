@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const authApi = require('./apis/auth');
-const projetosApi = require('./apis/projetos');
+const projetosApi = require('./apis/projects/projetos');
 const mysql = require('mysql2')
 const fileUpload = require('express-fileupload')
 const { v4: uuidv4 } = require('uuid')
