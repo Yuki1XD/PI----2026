@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Aluno</title>
 
-    <link rel="stylesheet" href="/css/Tela_aluno.css">
+    <link rel="stylesheet" href="../css/Tela_aluno.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <script src="/js/portais.js" defer></script>
+    <script src="../js/portais.js" defer></script>
 
 </head>
 <body>
@@ -190,10 +190,7 @@
 
                     <label>Nome dos Criadores</label>
                     <input type="text" class="newProjectInput" id="newProjecCreators" name="newProjecCreators" placeholder="Ex: João Silva, Maria Santos">
-
-                    <label>Data de Postagem</label>
-                    <input type="date" class="newProjectInput" id="newProjectDate" name="newProjectDate">
-
+                    
                     <label>Resumo/Apresentação do Projeto</label>
                     <textarea type="text" class="newProjectInput" id="newProjectApresentation" name="newProjectApresentation" placeholder="Descreva seu Projeto"></textarea>
 
@@ -248,132 +245,23 @@
             <!-- Lista de Projetos (Padrão Administrador) -->
             <div class="ProjectAnalizyingContainer">
                 
-                <div class="ProjectAnalizying">
-                    <img src="/imgs/SteveJobs.webp">
-                    <div class="textContentOfProject">
-                        <h2>Sistema de Gestão Escolar</h2>
-                        <div class="pincipalInformationsOfProject">
-                            <p><strong>Turma:</strong> TI-2024-C</p>
-                            <p><strong>Data:</strong> 20/05/2026</p>
-                            <span class="statusProjectBadge status-approved">Aprovado</span>
+                
+                <div class="containerCard">
+
+                    <button class="postagem-card">
+                        <div class="postagem-topo">
+                            <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" alt="Sistema de Biblioteca Digital">
                         </div>
-                        <button data-modal="modalGestaoEscolar" class="openModal">Visualizar Detalhes</button>
-
-                        <dialog id="modalGestaoEscolar" class="modalWindow">
-                            <div class="tiitleOfModal">
-                                <h1>Sistema de Gestão Escolar</h1>
-                                <button data-modal="modalGestaoEscolar" class="closeModal"><i class="fi fi-rr-x"></i></button>
-                            </div>
-                            
-                            <div class="modalContentBody">
-                                <div class="listOfContent">
-                                    <i class="fi fi-rr-users"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Criadores</p>
-                                        <p>João Silva, Maria Santos</p>
-                                    </div>
-                                </div>
-                                <div class="listOfContent">
-                                    <i class="fi fi-rr-calendar"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Data de Postagem</p>
-                                        <p>20/05/2026</p>
-                                    </div>
-                                </div>
-                                <div class="listOfContent">
-                                    <i class="fi fi-rr-document"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Status</p>
-                                        <div class="statusProjectBadge status-approved">Aprovado</div>
-                                    </div>
-                                </div>
-                                <div class="modalDescriptionArea">
-                                    <p><strong>Descrição:</strong></p>
-                                    <p>Um sistema completo para gerenciamento de notas, presença e conteúdo acadêmico para instituições de ensino técnico.</p>
-                                </div>
-
-                                <!-- Área de Solicitação de Edição -->
-                                <div class="editSectionArea" style="margin-top: 25px; padding-top: 20px; border-top: 2px dashed #eee;">
-                                    <h3 style="font-size: 1.1rem; color: #333; margin-bottom: 15px;"><i class="fi fi-rr-edit"></i> Solicitar Alteração</h3>
-                                    <form class="formEditProject">
-                                        <label>Novo Título</label>
-                                        <input type="text" value="Sistema de Gestão Escolar" class="editInput">
-                                        
-                                        <label>Nova Descrição</label>
-                                        <textarea class="editTextarea">Um sistema completo para gerenciamento de notas, presença e conteúdo acadêmico para instituições de ensino técnico.</textarea>
-                                        
-                                        <button type="button" class="submitEditRequest" onclick="alert('Sua solicitação de edição foi enviada para análise do Administrador!')">
-                                            <i class="fi fi-rr-paper-plane"></i> Enviar para o Admin
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </dialog>
-                    </div>
-                </div>
-
-                <div class="ProjectAnalizying">
-                    <img src="/imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg">
-                    <div class="textContentOfProject">
-                        <h2>Interface de Restaurante</h2>
-                        <div class="pincipalInformationsOfProject">
-                            <p><strong>Turma:</strong> TI-2024-C</p>
-                            <p><strong>Data:</strong> 25/05/2026</p>
-                            <span class="statusProjectBadge status-pending">Aguardando Avaliação</span>
+                        <div class="postagem-cont">
+                            <h3>Sistema de Biblioteca Digital</h3>
+                            <p>Plataforma completa para gerenciamento de acervo e empréstimos.</p>
                         </div>
-                        <button data-modal="modalRestaurante" class="openModal">Visualizar Detalhes</button>
+                        <div class="postagem-inf">
+                            <span>João Silva</span>
+                            <span>22/04/2026</span>
+                        </div>
+                    </button>
 
-                        <dialog id="modalRestaurante" class="modalWindow">
-                            <div class="tiitleOfModal">
-                                <h1>Interface de Restaurante</h1>
-                                <button data-modal="modalRestaurante" class="closeModal"><i class="fi fi-rr-x"></i></button>
-                            </div>
-                            
-                            <div class="modalContentBody">
-                                <div class="listOfContent">
-                                    <i class="fi fi-rr-users"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Criadores</p>
-                                        <p>João Vitor, Carlos Alberto</p>
-                                    </div>
-                                </div>
-                                <div class="listOfContent">
-                                    <i class="fi fi-rr-calendar"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Data de Postagem</p>
-                                        <p>25/05/2026</p>
-                                    </div>
-                                </div>
-                                <div class="listOfContent">
-                                    <i class="fi fi-rr-document"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Status</p>
-                                        <div class="statusProjectBadge status-pending">Aguardando Avaliação</div>
-                                    </div>
-                                </div>
-                                <div class="modalDescriptionArea">
-                                    <p><strong>Descrição:</strong></p>
-                                    <p>Desenvolvimento de uma interface moderna e intuitiva para autoatendimento em restaurantes, focada em UX.</p>
-                                </div>
-
-                                <!-- Área de Solicitação de Edição -->
-                                <div class="editSectionArea" style="margin-top: 25px; padding-top: 20px; border-top: 2px dashed #eee;">
-                                    <h3 style="font-size: 1.1rem; color: #333; margin-bottom: 15px;"><i class="fi fi-rr-edit"></i> Solicitar Alteração</h3>
-                                    <form class="formEditProject">
-                                        <label>Novo Título</label>
-                                        <input type="text" value="Interface de Restaurante" class="editInput">
-                                        
-                                        <label>Nova Descrição</label>
-                                        <textarea class="editTextarea">Desenvolvimento de uma interface moderna e intuitiva para autoatendimento em restaurantes, focada em UX.</textarea>
-                                        
-                                        <button type="button" class="submitEditRequest" onclick="alert('Sua solicitação de edição foi enviada para análise do Administrador!')">
-                                            <i class="fi fi-rr-paper-plane"></i> Enviar para o Admin
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </dialog>
-                    </div>
                 </div>
 
             </div>
