@@ -5,7 +5,7 @@ const fileUpload = require('express-fileupload');
 
 // Importação das rotas organizadas
 const viewsRouter = require('./apis/views');
-const authApi = require('./apis/auth/auth');
+const authApi = require('./apis/usuarios/auth');
 const projetosApi = require('./apis/projects/projetos');
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Atribuição das rotas
 app.use('/', viewsRouter); // Cuida de entregar os HTMLs
-app.use('/apis/usuarios/auth', authApi); // Cuida do login/cadastro
+app.use('/apis/auth', authApi); // Cuida do login/cadastro
 app.use('/apis/projects', projetosApi); // Cuida dos projetos e uploads
 
 const PORT = process.env.PORT || 3000;
