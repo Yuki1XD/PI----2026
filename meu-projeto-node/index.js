@@ -21,6 +21,8 @@ app.use('/', viewsRouter); // Cuida de entregar os HTMLs
 app.use('/apis/auth', authApi); // Cuida do login/cadastro
 app.use('/apis/projects', projetosApi); // Cuida dos projetos e uploads
 
-app.listen(3000, () => {
-  console.log("Servidor rodando em: http://localhost:3000");
-});
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+    });
