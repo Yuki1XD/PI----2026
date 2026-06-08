@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Professor</title>
 
-    <link rel="stylesheet" href="/css/portal_professor.css">
+    <link rel="stylesheet" href="../css/portal_professor.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <script src="/js/portais.js" defer></script>
+    <script src="../js/portais.js" defer></script>
 
 </head>
 <body>
@@ -34,6 +34,7 @@
 
         </div>
 
+        <hr>
 
         <!-- Botões do menu lateral -->
         
@@ -203,7 +204,7 @@
             </div>
 
             <!-- Projetos a serem analisados -->
-            <div class="ProjectAnalizyingContainer" id="listProjectsTeacher">
+            <div class="alaizyProjects" id="listProjectsTeacher">
 
                 <div class="noResultsForSearch">
 
@@ -215,62 +216,19 @@
 
                 <div class="containerCard">
 
-                    <button class="cardProject">
-
-                        <div class="cardProjectImg">
-                            <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg">
+                    <div class="postagem-card">
+                        <div class="postagem-topo">
+                            <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" alt="Sistema de Biblioteca Digital">
                         </div>
-
-                        <div class="cardProjectIformation">
-                            <div class="projectInformationLeft">
-                                <h3>${projeto.name_project}</h3>
-                                <p>${projeto.date_project}</p>
-                                <p>${projeto.creators_project}</p>
-                            </div>
-                            <div class="projectInformationRight">
-                                <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                            </div>
+                        <div class="postagem-cont">
+                            <h3>Sistema de Biblioteca Digital</h3>
+                            <p>Plataforma completa para gerenciamento de acervo e empréstimos.</p>
                         </div>
-
-                    </button>
-
-                    <button class="cardProject">
-
-                        <div class="cardProjectImg">
-                            <img src="../imgs/batata_frita_quadrada.jpg">
+                        <div class="postagem-inf">
+                            <span>João Silva</span>
+                            <span>22/04/2026</span>
                         </div>
-
-                        <div class="cardProjectIformation">
-                            <div class="projectInformationLeft">
-                                <h3>${projeto.name_project}</h3>
-                                <p>${projeto.date_project}</p>
-                                <p>${projeto.creators_project}</p>
-                            </div>
-                            <div class="projectInformationRight">
-                                <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                            </div>
-                        </div>
-
-                    </button>
-
-                    <button class="cardProject">
-
-                        <div class="cardProjectImg">
-                            <img src="../imgs/Logo.png">
-                        </div>
-
-                        <div class="cardProjectIformation">
-                            <div class="projectInformationLeft">
-                                <h3>${projeto.name_project}</h3>
-                                <p>${projeto.date_project}</p>
-                                <p>${projeto.creators_project}</p>
-                            </div>
-                            <div class="projectInformationRight">
-                                <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                            </div>
-                        </div>
-
-                    </button>
+                    </div>
 
                 </div>
 
@@ -343,66 +301,7 @@
 
                 
 
-            <div class="containerCard">
-
-                <button class="cardProject">
-
-                    <Div class="cardProjectImg">
-                        <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg">
-                    </Div>
-
-                    <div class="cardProjectIformation">
-                        <div class="projectInformationLeft">
-                            <h3>${projeto.name_project}</h3>
-                            <p>${projeto.date_project}</p>
-                            <p>${projeto.creators_project}</p>
-                        </div>
-                        <div class="projectInformationRight">
-                            <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                        </div>
-                    </div>
-
-                </button>
-
-                <button class="cardProject">
-
-                    <Div class="cardProjectImg">
-                        <img src="../imgs/batata_frita_quadrada.jpg">
-                    </Div>
-
-                    <div class="cardProjectIformation">
-                        <div class="projectInformationLeft">
-                            <h3>${projeto.name_project}</h3>
-                            <p>${projeto.date_project}</p>
-                            <p>${projeto.creators_project}</p>
-                        </div>
-                        <div class="projectInformationRight">
-                            <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                        </div>
-                    </div>
-
-                </button>
-
-                <button class="cardProject">
-
-                    <div class="cardProjectImg">
-                        <img src="../imgs/Logo.png">
-                    </div>
-
-                    <div class="cardProjectIformation">
-                        <div class="projectInformationLeft">
-                            <h3>${projeto.name_project}</h3>
-                            <p>${projeto.date_project}</p>
-                            <p>${projeto.creators_project}</p>
-                        </div>
-                        <div class="projectInformationRight">
-                            <p>${projeto.description_project}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                        </div>
-                    </div>
-
-                </button>
-
-            </div>
+            
 
         </div>
 
