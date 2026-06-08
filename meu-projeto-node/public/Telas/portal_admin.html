@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="../css/portal_admin.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <script src="../js/portais.js" defer></script>
+    <script src="../js/portal_admin.js" defer></script>
 
 </head>
 <body>
@@ -206,182 +206,11 @@
             </div>
 
             <!-- Projetos a serem analisados -->
-            <div class="ProjectAnalizyingContainer">
+            <div class="alaizyProjects" id="listProjectsTeacher">
 
                 <div class="noResultsForSearch">
 
                     <h2>Nenhum resultado encontrado.</h2>
-
-                </div>
-
-                <div class="ProjectAnalizying">
-
-                    <img src="/imgs/SteveJobs.webp">
-
-                    <div class="textContentOfProject">
-
-                        <h2>Steve Jobs</h2>
-                        <p>Descrição do projeto</p>
-
-                        <div class="pincipalInformationsOfProject">
-
-                            <p>Participantes: Guido van Rossum...</p>
-                            <p>Turma: TI-2024-A</p>
-                            <p>Data: 01/11/2025</p>
-                            <div class="teacherAnalized"><p>Analise Enviada</p></div>
-
-                        </div>
-
-                        <div class="teachAnalizyOfProject">
-                            <p><strong>Analise do Professor:</strong></p>
-                            <p>Aqui fica a analise do professor.</p>
-                        </div>
-
-                        
-
-                        <button data-modal="SteveJobs" class="openModal">Ver Detalhes</button>
-
-                        <dialog id="SteveJobs" class="modalWindow">
-
-                            <div class="tiitleOfModal">
-                                <h1>Steve Jobs</h1>
-                                <button data-modal="SteveJobs" class="closeModal"><i class="fi-rr-x"></i></button>
-                            </div>
-
-                            <div>
-
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-users"></i>
-
-                                    <div>
-
-                                        <p class="listOfContentTittle">Criadores</p>
-                                        <p>Guido van Rossum e Margaret Hamilton</p>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-calendar"></i>
-
-                                    <div>
-
-                                        <p class="listOfContentTittle">Data de Postagem</p>
-                                        <p>01/11/2025</p>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-document"></i>
-
-                                    <div>
-
-                                        <p class="listOfContentTittle">Categoria</p>
-                                        <p>Criação, Tecnologia e Smartphone</p>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-users"></i>
-
-                                    <div >
-
-                                        <p class="listOfContentTittle">Turma</p>
-                                        <p>TI-2024-A</p>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-users"></i>
-
-                                    <div>
-
-                                        <p class="listOfContentTittle">Professor Orientador</p>
-                                        <p>Alan Turing</p>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-tags"></i>
-
-                                    <div class="listTagsForModal">
-
-                                        <p class="listOfContentTittle">Tags</p>
-
-                                        <div class="displayTagModal">
-
-                                            <div class="nameTagForModal"><p>Tecnologia</p></div>
-                                            <div class="nameTagForModal"><p>Criação</p></div>
-                                            <div class="nameTagForModal"><p>Smartphone</p></div>
-
-                                        </div>
-                                        
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="modalDescriptionStatus">
-
-                                <div class="displayTagModalStatus">
-
-                                    <p>Status</p>
-                                    <div class="statusOfAnalizy">
-                                        <p>Analise Enviada</p>
-                                    </div>
-
-                                </div>
-
-
-                                <div>
-
-                                    <p>Descrição:</p>
-                                    <p>O texto da descrição estara aqui</p>
-
-                                </div>
-
-                            </div>
-
-                            <div></div>
-
-                            <div>
-
-                                <h2>Nota de Aprovação ou Rejeição</h2>
-
-                                <textarea rows="4" wrap="hard" cols="40" class="addAnalizyForProject" maxlength="50" placeholder="Escreva uma observação"></textarea>
-
-                            </div>
-
-                            <div class="buttonsModalArea">
-
-                                <button class="approveProjectsButton">Aprovar e Publicar</button>
-                                <button class="rejectProjectsButton">Rejeitar</button>
-                                <button class="alterVisibilityButton"><i class="fi-rr-eye"></i> Alterar Visibilidade</button>
-                                
-                            </div>
-
-                            
-
-                        </dialog>
-
-
-                    </div>
 
                 </div>
 
@@ -395,7 +224,8 @@
         <!-- Aba de Estatistica do Adiminstrador - Maria Sophia -->
 
         <div class="contentTab" id="statistic">
-
+                        
+              
             <main class="container">
                 <section class="top-bar">
                     <h2>Estatísticas</h2>
@@ -494,7 +324,7 @@
         
                 </section>
             </main>
-
+                
         </div>
 
         <!-- Aba de Gerenciar Usuarios do Adiminstrador - João Vitor -->
@@ -578,9 +408,9 @@
             <!-- Titulo e descrição -->
             <div class="tittleContentTab">
 
-                <h1>Todos os Projetos</h1>
+                <h1>Aprovar Projetos</h1>
 
-                <p>Clique em "Ver Detalhes" para ver os detalhes dos projetos.</p>
+                <p>Clique em "Ver Detalhes" para analisar e aprovar ou rejeitar cada projeto.</p>
 
             </div>
 
@@ -621,14 +451,6 @@
 
             </div>
 
-            <div class="noResultsForSearch">
-
-                <h2>Nenhum resultado encontrado.</h2>
-
-            </div>
-
-                
-
             <div class="containerCard">
 
                 <button class="postagem-card">
@@ -646,6 +468,8 @@
                 </button>
 
             </div>
+
+            
 
         </div>
 
