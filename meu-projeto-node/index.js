@@ -26,3 +26,12 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
     });
+const { Pool } = require('pg');
+
+// A Vercel injeta automaticamente a variável POSTGRES_URL quando você conecta o Neon
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+    ssl: {
+        rejectUnauthorized: false // Obrigatório para conexões seguras na nuvem
+          }
+          });
