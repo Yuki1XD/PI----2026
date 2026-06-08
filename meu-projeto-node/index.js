@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Atribuição das rotas
 app.use('/', viewsRouter); // Cuida de entregar os HTMLs
-app.use('/apis/auth', authApi); // Cuida do login/cadastro
+app.use('/apis/usuarios/auth', authApi); // Cuida do login/cadastro
 app.use('/apis/projects', projetosApi); // Cuida dos projetos e uploads
 
 const PORT = process.env.PORT || 3000;
