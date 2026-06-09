@@ -1,17 +1,19 @@
 # TecOwl:
-
+[![Senac](https://img.shields.io/badge/Institution-Senac%20College-blue)](https://www.senac.br/) 
 ##  Project Overview 
 ### Key Features
 
 ## LGPD & Data Privacy Compliance
 
+Because this application processes **Sensitive Personal Data** (*dados pessoais sensíveis*) regarding health and medical history, privacy by design was a core requirement of this project in compliance with Brazilian Federal Law nº 13.709/2018 (LGPD).
+
 ## Tech Stack 
 
-* **Frontend:** 
+* **Frontend:** Html, css
 
 * **Backend:** Node.js
 
-* **Database:** 
+* **Database:** MySql
 
 * **Testing:** 
 
@@ -23,7 +25,6 @@ Follow these steps to run the project environment locally.
 Ensure you have installed: 
 
 * [Git](https://git-scm.com) 
-
 * [Node.js](https://nodejs.org/) (v18.0.0 or higher)
 * [mysql](https://dev.mysql.com/downloads/installer/)
 
@@ -44,6 +45,12 @@ node index.js
 
 ## Core API Endpoints
  
+| Coluna 1 | Coluna 2 | Coluna 3 |
+| :--- | :---: | ---: |
+| Dado A | Dado B | Dado C |
+| Dado 1 | Dado 2 | Dado 3 |
+
+
 ## Future Improvements
 
 ## Authors & Project Team
@@ -52,3 +59,6 @@ node index.js
 * Gabriel - [GitHub](https://github.com/RazebaG)
 * Erik - [GitHub](https://github.com/ARKSTAR64))
 * João - [GitHub](https://github.com/Jv132)
+
+* Academic Advisor / Professor: Prof.
+* Tech English Course Professor: Prof. Leonardo Trevas 
