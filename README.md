@@ -59,9 +59,9 @@ If we , we plan to implement:
 
 ## Authors & Project Team
 
-* Maria Sophia de Lima dos Santos - [GitHub](https://github.com/Yuki1XD))
+* Maria Sophia de Lima dos Santos - [GitHub](https://github.com/Yuki1XD)
 * Gabriel - [GitHub](https://github.com/RazebaG)
-* Erik - [GitHub](https://github.com/ARKSTAR64))
+* Erik - [GitHub](https://github.com/ARKSTAR64)
 * João - [GitHub](https://github.com/Jv132)
 
 * Academic Advisor / Professor: Prof.
