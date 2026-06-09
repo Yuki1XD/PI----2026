@@ -15,7 +15,7 @@ Because this application processes **Sensitive Personal Data** (*dados pessoais 
 
 * **Database:** MySql
 
-* **Testing:** 
+* **Testing:** Render
 
 ## Getting Started (Local Development) 
 Follow these steps to run the project environment locally. 
@@ -45,13 +45,17 @@ node index.js
 
 ## Core API Endpoints
  
-| Coluna 1 | Coluna 2 | Coluna 3 |
+| Method  | Endpoint  | Description | | LGPD Scope  |
 | :--- | :---: | ---: |
-| Dado A | Dado B | Dado C |
-| Dado 1 | Dado 2 | Dado 3 |
+| POST  | /api/auth/register  | Dado C | | Dado C |
+| GET  | /api/ | Dado 3 | | Dado C |
+| DELETE   | /api/privacy/purge  | Dado 3 | | Dado C |
 
 
 ## Future Improvements
+If we , we plan to implement:
+
+* IA
 
 ## Authors & Project Team
 
