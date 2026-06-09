@@ -45,11 +45,11 @@ node index.js
 
 ## Core API Endpoints
  
-| Method  | Endpoint  | Description | | LGPD Scope  |
-| :--- | :---: | ---: |
-| POST  | /api/auth/register  | Dado C | | Dado C |
-| GET  | /api/ | Dado 3 | | Dado C |
-| DELETE   | /api/privacy/purge  | Dado 3 | | Dado C |
+| Method | Endpoint | Description | LGPD Scope |
+| :--- | :---: | ---: | :--- |
+| POST | /api/auth/register | Dado C | Dado C |
+| GET | /api/ | Dado 3 | Dado C |
+| DELETE | /api/privacy/purge | Dado 3 | Dado C |
 
 
 ## Future Improvements
