@@ -25,16 +25,22 @@ Ensure you have installed:
 * [Git](https://git-scm.com) 
 
 * [Node.js](https://nodejs.org/) (v18.0.0 or higher)
-* 
+* [mysql](https://dev.mysql.com/downloads/installer/)
 
 ## Setup and Execution
 
 # 1. Clone the repository 
 git clone 
+
+cd meu-projeto-node
+
 # 2. Run Backend 
+npm install
 
-# 3. Run Frontend (Open a new terminal window) 
+# 3. Run Frontend 
+npm install
 
+node index.js
 
 ## Core API Endpoints
  
@@ -42,7 +48,7 @@ git clone
 
 ## Authors & Project Team
 
-* Maria Sophia de Lima dos Santos -
-* Gabriel -
-* Erik -
-* João -
+* Maria Sophia de Lima dos Santos - [GitHub](https://github.com/Yuki1XD))
+* Gabriel - [GitHub](https://github.com/RazebaG)
+* Erik - [GitHub](https://github.com/ARKSTAR64))
+* João - [GitHub](https://github.com/Jv132)
