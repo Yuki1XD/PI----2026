@@ -5,7 +5,7 @@
 
 ## LGPD & Data Privacy Compliance
 
-Because this application processes **Sensitive Personal Data** (*dados pessoais sensíveis*) regarding health and medical history, privacy by design was a core requirement of this project in compliance with Brazilian Federal Law nº 13.709/2018 (LGPD).
+Because this application processes **Sensitive Personal Data** (*dados pessoais sensíveis*), privacy by design was a core requirement of this project in compliance with Brazilian Federal Law nº 13.709/2018 (LGPD).
 
 ## Tech Stack 
 
@@ -64,5 +64,10 @@ If we , we plan to implement:
 * Erik - [GitHub](https://github.com/ARKSTAR64)
 * João - [GitHub](https://github.com/Jv132)
 
-* Academic Advisor / Professor: Prof.
+* Academic Advisor / Professor: Prof. Filipe Carvalho
+* Academic Advisor / Professor: Prof. Filipe Carvalho
+* Tech English Course Professor: Prof. Leonardo Trevas 
+* Tech English Course Professor: Prof. Leonardo Trevas
+* Tech English Course Professor: Prof. Leonardo Trevas
+* Tech English Course Professor: Prof. Leonardo Trevas
 * Tech English Course Professor: Prof. Leonardo Trevas 
