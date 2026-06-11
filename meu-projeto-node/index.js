@@ -2,10 +2,11 @@
 const express = require("express");
 const path = require("path");
 const fileUpload = require('express-fileupload');
+const session = require('express-session');
 
 // Importação das rotas organizadas
 const viewsRouter = require('./apis/views');
-const authApi = require('./apis/usuarios/auth');
+const authApi = require('./apis/auth/auth');
 const projetosApi = require('./apis/projects/projetos');
 
 const app = express();
@@ -14,6 +15,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
+
+app.use(session({
+  secret: 'seu_segredo_super_seguro_aqui', // Mude para uma string aleatória
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 * 30 } // Sessão expira em 30 minutos
+}));
+
 app.use(express.static(path.join(__dirname, "public")));
 
 // Atribuição das rotas
@@ -21,10 +30,6 @@ app.use('/', viewsRouter); // Cuida de entregar os HTMLs
 app.use('/apis/auth', authApi); // Cuida do login/cadastro
 app.use('/apis/projects', projetosApi); // Cuida dos projetos e uploads
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-    });
-const { Pool } = require('pg');
-
+app.listen(3000, () => {
+  console.log("Servidor rodando em: http://localhost:3000");
+});
