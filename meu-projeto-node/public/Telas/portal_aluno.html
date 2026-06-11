@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="../css/Tela_aluno.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <script src="../js/portais.js" defer></script>
+    <script src="../js/portal_aluno.js" defer></script>
 
 </head>
 <body>
@@ -94,10 +94,6 @@
                 
         
                 <main class="main-content">
-                    <header class="header">
-                        <button class="close-btn"><i class="fa-solid fa-xmark"></i></button>
-                        <h1>Painel Senac</h1>
-                    </header>
         
                     <section class="welcome-banner">
                         <h2>Bem-vindo de volta!</h2>
@@ -189,7 +185,13 @@
                     </label>
 
                     <label>Nome dos Criadores</label>
-                    <input type="text" class="newProjectInput" id="newProjecCreators" name="newProjecCreators" placeholder="Ex: João Silva, Maria Santos">
+                    <div class="creators-search-container">
+                        <div id="selectedCreatorsContainer" class="selected-creators-container"></div>
+                        
+                        <input type="text" class="newProjectInput" id="newProjectCreatorsInput" placeholder="Digite o nome ou e-mail do colaborador...">
+                        
+                        <ul id="creatorsSuggestionsList" class="suggestions-list" style="display: none;"></ul>
+                    </div>
                     
                     <label>Resumo/Apresentação do Projeto</label>
                     <textarea type="text" class="newProjectInput" id="newProjectApresentation" name="newProjectApresentation" placeholder="Descreva seu Projeto"></textarea>
@@ -243,26 +245,9 @@
             </div>
 
             <!-- Lista de Projetos (Padrão Administrador) -->
-            <div class="ProjectAnalizyingContainer">
+            <div class="ProjectAnalizyingContainer" id="listMyProjects">
                 
                 
-                <div class="containerCard">
-
-                    <button class="postagem-card">
-                        <div class="postagem-topo">
-                            <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" alt="Sistema de Biblioteca Digital">
-                        </div>
-                        <div class="postagem-cont">
-                            <h3>Sistema de Biblioteca Digital</h3>
-                            <p>Plataforma completa para gerenciamento de acervo e empréstimos.</p>
-                        </div>
-                        <div class="postagem-inf">
-                            <span>João Silva</span>
-                            <span>22/04/2026</span>
-                        </div>
-                    </button>
-
-                </div>
 
             </div>
 
