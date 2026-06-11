@@ -1,18 +1,15 @@
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const conexao = mysql.createConnection({
   host: 'localhost',
-  user: 'root', 
-  password: 'NovaSenhaForte123!',
-  database: 'projeto_integrado'
+  user: 'root',
+  password: '1234', // Dica: use variáveis de ambiente (.env) aqui no futuro!
+  database: 'observatorio'
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco:', err);
-    return;
-  }
-  console.log('Banco de dados conectado!');
+conexao.connect(function(err) {
+  if (err) throw err;
+  console.log('Conexão com o banco de dados realizada!');
 });
 
-module.exports = connection;
+module.exports = conexao;

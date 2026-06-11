@@ -119,7 +119,7 @@ app.post("/portal_aluno", (req, res) => {
     });
 
   }
-
+ 
   let archives_string_for_db = saved_archives_names.join(',')
 
   const new_project = `INSERT INTO projeto (name_project, img_project, creators_project, date_project, description_project, archives_project, status_project)

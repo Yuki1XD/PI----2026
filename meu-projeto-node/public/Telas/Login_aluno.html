@@ -11,21 +11,22 @@
     <div class="login-container">
         <h2>Login</h2>
 
-        <form>
-            <input type="email" placeholder="seu.email@senac.com" required>
-            <input type="password" placeholder="Digite sua senha" required>
+        <form id="loginForm">
+            <input type="email" id="email" name="emailAluno" placeholder="seu.email@senac.com" required>
+            <input type="password" id="senha" name="passwordAluno" placeholder="Digite sua senha" required>
 
-            <a href="tela_incial_aluno.html">
             <button type="submit">Entrar</button>
-         </a>
-             
         </form>
 
         <div class="register">
             <p>Não tem uma conta?</p>
-            <a href="criar-conta.html">Criar Conta</a>
+            <a href="/cadastro">Criar Conta</a>
         </div>
+
+        <div id="mensagem-erro" style="color: red; margin-top: 10px; font-weight: bold;"></div>
     </div>
+
+    <script src="../js/cadastro.js"></script>
 
 </body>
 </html>

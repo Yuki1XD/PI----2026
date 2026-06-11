@@ -133,7 +133,7 @@ searchInput.addEventListener('input', (event) => {
 
     const value = FormaString(event.target.value)
 
-    const items = document.querySelector(".ProjectAnalizying")
+    const items = document.querySelectorAll(".ProjectAnalizying")
 
     const noResultsForSearch = document.querySelectorAll('.noResultsForSearch')
 
@@ -143,7 +143,7 @@ searchInput.addEventListener('input', (event) => {
         if (FormaString(item.textContent).indexOf(value) !== -1) {
             item.style.display = 'flex'
 
-            let hasResults = true
+            hasResults = true
         }
         else {
             item.style.display = 'none'
@@ -168,7 +168,7 @@ function FormaString(value) {
 
 // JS para o Modal
 
-const openModal = document.querySelectorAll('.openModal')
+const openModal = document.querySelectorAll('.postagem-card')
 
 openModal.forEach(button => {
     button.addEventListener('click', () => {
@@ -212,10 +212,11 @@ if (formAddProject) {
             formData.append('newProjectArchives', arquivo);
         });
 
-        fetch('/portal_aluno', {
+        fetch('/apis/projects/cadastrar', {
             method: 'POST',
             body: formData 
         })
+
         .then(async response => {
             const data = await response.json();
             if (!response.ok) {
@@ -250,7 +251,7 @@ async function loadProjects() {
     
     try {
 
-        const response = await fetch('/apis/projetos/pendentes')
+        const response = await fetch('/apis/projects/pendentes')
         if (!response.ok) throw new Error("Erro ao buscar projetos no servidor")
 
         const projetos = await response.json()
@@ -267,158 +268,129 @@ async function loadProjects() {
         projetos.forEach(projeto => {
 
             const projetoCard = document.createElement('div')
-            projetoCard.classList.add('ProjectAnalizying')
+            projetoCard.classList.add('alaizyProjects')
 
-            const dataFormatada = new Date(projeto.date_project).toLocaleDateString('pt-BR')
+            const dataFormatada = projeto.date_project 
+                ? new Date(projeto.date_project).toLocaleDateString('pt-BR') 
+                : 'Sem data';
 
             projetoCard.innerHTML = `
-                    <img src="/uploads/${projeto.img_project}">
 
                     <div class="textContentOfProject">
 
-                        <h2>${projeto.name_project}</h2>
-                        <p>${projeto.description_project}</p>
+                        <div class="containerCard">
 
-                        <div class="pincipalInformationsOfProject">
-
-                            <p>Participantes: ${projeto.creators_project}</p>
-                            <p>Turma: TI-2024-B</p>
-                            <p>Data: ${projeto.date_project}</p>
-                            <div class="youDontAnalisy"><p>${projeto.status_project}</p></div>
+                            <button class="postagem-card" data-modal="modal-${projeto.id_project}">
+                                <div class="postagem-topo">
+                                    <img src="/uploads/${projeto.img_project}">
+                                </div>
+                                <div class="postagem-cont">
+                                    <h3>${projeto.name_project}</h3>
+                                    <p>${projeto.description_project}</p>
+                                </div>
+                                <div class="postagem-inf">
+                                    <span>${projeto.creators_project}</span>
+                                    <span>${projeto.date_project}</span>
+                                </div>
+                            </button>
 
                         </div>
 
-                            
-
-                        <button data-modal="modal-${projeto.id_project}" class="openModal">Ver Detalhes</button>
-
                         <dialog id="modal-${projeto.id_project}" class="modalWindow">
 
-                            <div class="tiitleOfModal">
-                                <h1>${projeto.name_project}</h1>
-                                <button data-modal="modal-${projeto.id_project}" class="closeModal"><i class="fi-rr-x"></i></button>
+                            <button data-modal="modal-${projeto.id_project}" class="closeModal">
+                                <i class="fi-rr-x"></i>
+                            </button>
+
+                            <div class="imgProjectDetails">
+                                <img src="/uploads/${projeto.img_project}" alt="">
                             </div>
 
-                            <div>
+                            <div class="modalDetails">
+                                <h1>${projeto.name_project}</h1>
 
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-users"></i>
-
+                                <div class="lineDetail">
+                                    <i class="fi-rr-users"></i>
                                     <div>
-
                                         <p class="listOfContentTittle">Criadores</p>
                                         <p>${projeto.creators_project}</p>
-
                                     </div>
-
                                 </div>
 
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-calendar"></i>
-
+                                <div class="lineDetail">
+                                    <i class="fi-rr-calendar"></i>
                                     <div>
-
                                         <p class="listOfContentTittle">Data de Postagem</p>
                                         <p>${projeto.date_project}</p>
-
                                     </div>
-
                                 </div>
 
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-document"></i>
-
+                                <div class="lineDetail">
+                                    <i class="fi-rr-document"></i>
                                     <div>
-
                                         <p class="listOfContentTittle">Categoria</p>
-                                        <p>Animal fofo e engraçado</p>
-
+                                        <p>${projeto.category_project}</p>
                                     </div>
-
                                 </div>
 
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-users"></i>
-
-                                    <div >
-
-                                        <p class="listOfContentTittle">Turma</p>
-                                        <p>TI-2024-B</p>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-users"></i>
-
+                                <div class="lineDetail">
+                                    <i class="fi-rr-users"></i>
                                     <div>
+                                        <p class="listOfContentTittle">Turma</p>
+                                        <p>${projeto.class_project}</p>
+                                    </div>
+                                </div>
 
+                                <div class="lineDetail">
+                                    <i class="fi-rr-users"></i>
+                                    <div>
                                         <p class="listOfContentTittle">Professor Orientador</p>
-                                        <p>Machado de Assis</p>
-
+                                        <p>${projeto.teacher_project}</p>
                                     </div>
-
                                 </div>
 
-                                <div class="listOfContent">
-
-                                    <i class="fi fi-rr-tags"></i>
-
-                                    <div class="listTagsForModal">
-
+                                <div class="lineDetail">
+                                    <i class="fi-rr-label"></i>
+                                    <div>
                                         <p class="listOfContentTittle">Tags</p>
-
-                                        <div class="displayTagModal">
-
-                                            <div class="nameTagForModal"><p>Animal</p></div>
-                                            <div class="nameTagForModal"><p>Fofura</p></div>
-                                            <div class="nameTagForModal"><p>Engraçado</p></div>
-
-                                        </div>
-                                            
+                                        <p>Api</p>
                                     </div>
-
                                 </div>
 
-                            </div>
-
-                            <div class="modalDescriptionStatus">
-
-                                <div class="displayTagModalStatus">
-
-                                    <p>Status</p>
-                                    <div class="statusOfAnalizy">
-                                        <p>${projeto.status_project}</p>
+                                <div class="lineDetail">
+                                    <i class="fi-rr-folder"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Arquivos do Projeto</p>
+                                        <p>oiiiiiiiiiiiiiiiiiii</p>
                                     </div>
-
+                                    
                                 </div>
-
 
                                 <div>
-
-                                    <p>Descrição:</p>
-                                    <p>${projeto.description_project}</p>
-
+                                    <h11>Status</h11>
+                                    <p class="ModalStatus">Em analise</p>
                                 </div>
+                                    
+                                <div>
+                                    <h11>Descrição</h11>
+                                    <p class="modalDesc">${projeto.description_project}</p>
+                                </div>
+
+                                
 
                             </div>
 
                             <div>
-
-                                <h2>Adicionar Analise</h2>
-
-                                <textarea rows="4" wrap="hard" cols="40" class="addAnalizyForProject" maxlength="50" placeholder="Adicione uma analise"></textarea>
-
+                                <label>Adicione uma analise a esse projeto:</label>
+                                <textarea></textarea>
                             </div>
 
-                            <button class="sendAnalizy">Enviar Analise</button>
-                                
+                            <div>
+                                <button class="sendAnalizy">Enviar Analise</button>
+                            </div>
+
+                            
+
 
                         </dialog>
 
@@ -436,17 +408,25 @@ async function loadProjects() {
 }
 
 function rebinModalEvents() {
-    document.querySelectorAll('.openModal').forEach(button => {
-        button.onclick = () => {
+    document.querySelectorAll('.postagem-card').forEach(button => {
+        button.onclick = (e) => {
+            e.preventDefault()
             const modalID = button.getAttribute('data-modal')
-            document.getElementById(modalID).showModal()
+            const modal = document.getElementById(modalID)
+            if(modal) {
+                modal.showModal()
+            }
         }
     })
 
     document.querySelectorAll('.closeModal').forEach(button => {
-        button.onclick = () => {
+        button.onclick = (e) => {
+            e.preventDefault();
             const modalID = button.getAttribute('data-modal')
-            document.getElementById(modalID).close()
+            const modal = document.getElementById(modalID)
+            if(modal) {
+                modal.close()
+            }
         }
     })
 }

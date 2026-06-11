@@ -251,7 +251,7 @@ async function loadProjects() {
     
     try {
 
-        const response = await fetch('/apis/projects/pendentes')
+        const response = await fetch('/apis/projects/analisados')
         if (!response.ok) throw new Error("Erro ao buscar projetos no servidor")
 
         const projetos = await response.json()
@@ -384,11 +384,10 @@ async function loadProjects() {
                             </div>
 
                             <div class="buttonModal">
-                                <button class="sendAnalizy" id="acceptProject">Aceitar Projeto</button>
-                                <button class="sendAnalizy" id="rejectProject">Rejeitar Projeto</button>
+                                <button class="sendAnalizy accept-btn" id="acceptProject" data-id="${projeto.id_project}">Aceitar Projeto</button>
+                                <button class="sendAnalizy reject-btn" id="rejectProject" data-id="${projeto.id_project}">Rejeitar Projeto</button>
                                 <button class="sendAnalizy" id="visibilityProject"><i class="fi-rr-eye"></i>Visibilidade do Projeto</button>
                             </div>
-
                             
 
 
@@ -429,4 +428,54 @@ function rebinModalEvents() {
             }
         }
     })
+
+    // === NOVA LÓGICA PARA ATUALIZAR STATUS ===
+    
+    // Botão de Aceitar
+    document.querySelectorAll('.accept-btn').forEach(button => {
+        button.onclick = async (e) => {
+            e.preventDefault();
+            const id = button.getAttribute('data-id');
+            
+            enviarAnaliseAdmin(id, 'aceito');
+        };
+    });
+
+    // Botão de Rejeitar
+    document.querySelectorAll('.reject-btn').forEach(button => {
+        button.onclick = async (e) => {
+            e.preventDefault();
+            const id = button.getAttribute('data-id');
+            
+            enviarAnaliseAdmin(id, 'rejeitado');
+        };
+    });
+}
+
+// Função auxiliar para disparar o FETCH de atualização
+async function enviarAnaliseAdmin(id, statusEscolhido) {
+    try {
+        const response = await fetch(`/apis/projects/aceitar_rejeitar/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                status_project: statusEscolhido
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.mensagem || 'Erro ao processar análise.');
+        }
+
+        alert(data.mensagem);
+        window.location.reload(); // Recarrega a página para atualizar a lista
+
+    } catch (error) {
+        console.error('Erro:', error);
+        alert(error.message);
+    }
 }

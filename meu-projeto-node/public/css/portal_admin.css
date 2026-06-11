@@ -864,6 +864,10 @@ body {
     outline: none;
 }
 
+#acceptProject:hover {
+    transform: scale(1.05);
+}
+
 #rejectProject {
     display: flex;
     align-items: center;
@@ -878,6 +882,10 @@ body {
     font-size: 15px;
     transition: 0.3s;
     outline: none;
+}
+
+#rejectProject:hover {
+    transform: scale(1.05);
 }
 
 #visibilityProject {
