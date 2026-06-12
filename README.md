@@ -65,7 +65,7 @@ If we , we plan to implement:
 * João - [GitHub](https://github.com/Jv132)
 
 * Academic Advisor / Professor: Prof. Filipe Carvalho
-* Academic Advisor / Professor: Prof. Filipe Carvalho
+* Academic Advisor / Professor: Prof. Sonia Gomes
 * Tech English Course Professor: Prof. Leonardo Trevas 
 * Tech English Course Professor: Prof. Leonardo Trevas
 * Tech English Course Professor: Prof. Leonardo Trevas
