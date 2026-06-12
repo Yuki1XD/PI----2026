@@ -373,32 +373,28 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 async function loadMyProjects() {
-    const container = document.getElementById("listMyProjects")
-
+    const container = document.getElementById("listMyProjects");
     const noResultsForSearch = document.querySelector('.noResultsForSearch');
     
     try {
+        const response = await fetch('/apis/projects/my_projects');
+        if (!response.ok) throw new Error("Erro ao buscar projetos no servidor");
 
-        const response = await fetch('/apis/projects/my_projects')
-        if (!response.ok) throw new Error("Erro ao buscar projetos no servidor")
-
-        const projetos = await response.json()
+        const projetos = await response.json();
 
         if (projetos.length === 0) {
-            if (noResultsForSearch) noResultsForSearch.style.display = 'block'
-            return
+            if (noResultsForSearch) noResultsForSearch.style.display = 'block';
+            return;
         }
 
-        if (noResultsForSearch) noResultsForSearch.style.display = 'none'
-
-        container.innerHTML = ''
+        if (noResultsForSearch) noResultsForSearch.style.display = 'none';
+        container.innerHTML = '';
 
         projetos.forEach(projeto => {
+            const projetoCard = document.createElement('div');
+            projetoCard.classList.add('alaizyProjects'); // Mantido conforme seu padrão CSS
 
-            const projetoCard = document.createElement('div')
-            projetoCard.classList.add('alaizyProjects')
-
-            // Define uma cor ou classe baseado no status para dar um feedback visual ao aluno
+            // Tratamento dinâmico de Status
             let statusClass = 'status-pendente';
             let statusTexto = 'Em análise';
             if (projeto.status_project === 'aprovado' || projeto.status_project === 'analisado') {
@@ -409,136 +405,120 @@ async function loadMyProjects() {
                 statusTexto = 'Recusado';
             }
 
+            // ATENÇÃO: Verifique se os nomes após 'projeto.' batem com as chaves do seu JSON do Back-end
             projetoCard.innerHTML = `
+                <div class="textContentOfProject">
+                    <div class="containerCard">
+                        <button class="postagem-card" data-modal="modal-${projeto.id_project}">
+                            <div class="postagem-topo">
+                                <img src="/uploads/${projeto.img_project || 'default.png'}">
+                            </div>
+                            <div class="postagem-cont">
+                                <h3>${projeto.name_project || 'Sem Título'}</h3>
+                                <p>${projeto.description_project || 'Sem descrição.'}</p>
+                            </div>
+                            <div class="postagem-inf">
+                                <span>${projeto.creators_project || 'Não informado'}</span>
+                                <span>${projeto.date_project || ''}</span>
+                            </div>
+                        </button>
+                    </div>
 
-                    <div class="textContentOfProject">
+                    <dialog id="modal-${projeto.id_project}" class="modalWindow">
+                        <button data-modal="modal-${projeto.id_project}" class="closeModal">
+                            <i class="fi-rr-x"></i>
+                        </button>
 
-                        <div class="containerCard">
-
-                            <button class="postagem-card" data-modal="modal-${projeto.id_project}">
-                                <div class="postagem-topo">
-                                    <img src="/uploads/${projeto.img_project}">
-                                </div>
-                                <div class="postagem-cont">
-                                    <h3>${projeto.name_project}</h3>
-                                    <p>${projeto.description_project}</p>
-                                </div>
-                                <div class="postagem-inf">
-                                    <span>${projeto.creators_project}</span>
-                                    <span>${projeto.date_project}</span>
-                                </div>
-                            </button>
-
+                        <div class="imgProjectDetails">
+                            <img src="/uploads/${projeto.img_project || 'default.png'}" alt="Imagem do Projeto">
                         </div>
 
-                        <dialog id="modal-${projeto.id_project}" class="modalWindow">
+                        <div class="modalDetails">
+                            <h1>${projeto.name_project || 'Sem Título'}</h1>
 
-                            <button data-modal="modal-${projeto.id_project}" class="closeModal">
-                                <i class="fi-rr-x"></i>
-                            </button>
-
-                            <div class="imgProjectDetails">
-                                <img src="/uploads/${projeto.img_project}" alt="">
+                            <div class="lineDetail">
+                                <i class="fi-rr-users"></i>
+                                <div>
+                                    <p class="listOfContentTittle">Criadores</p>
+                                    <p>${projeto.creators_project || 'Não informado'}</p>
+                                </div>
                             </div>
 
-                            <div class="modalDetails">
-                                <h1>${projeto.name_project}</h1>
-
-                                <div class="lineDetail">
-                                    <i class="fi-rr-users"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Criadores</p>
-                                        <p>${projeto.creators_project}</p>
-                                    </div>
-                                </div>
-
-                                <div class="lineDetail">
-                                    <i class="fi-rr-calendar"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Data de Postagem</p>
-                                        <p>${projeto.date_project}</p>
-                                    </div>
-                                </div>
-
-                                <div class="lineDetail">
-                                    <i class="fi-rr-document"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Categoria</p>
-                                        <p>${projeto.category_project}</p>
-                                    </div>
-                                </div>
-
-                                <div class="lineDetail">
-                                    <i class="fi-rr-users"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Turma</p>
-                                        <p>${projeto.class_project}</p>
-                                    </div>
-                                </div>
-
-                                <div class="lineDetail">
-                                    <i class="fi-rr-users"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Professor Orientador</p>
-                                        <p>${projeto.teacher_project}</p>
-                                    </div>
-                                </div>
-
-                                <div class="lineDetail">
-                                    <i class="fi-rr-label"></i>
-                                    <div>
-                                        <p class="listOfContentTittle">Tags</p>
-                                        <p>Api</p>
-                                    </div>
-                                </div>
-
-                                <div class="lineDetail">
-                                    <i class="fi-rr-folder"></i>
-                                    <div>
-                                        <h11>Arquivos do projeto</h11>
-                                        <div id="modalFilesContainer" class="files-download-box"></div>
-                                        <div id="modalFilesContainer-${projeto.id_project}" class="files-download-box"></div>
-                                    </div>
-                                    
-                                </div>
-
+                            <div class="lineDetail">
+                                <i class="fi-rr-calendar"></i>
                                 <div>
-                                    <h11>Status</h11>
-                                    <p class="ModalStatus">Em analise</p>
+                                    <p class="listOfContentTittle">Data de Postagem</p>
+                                    <p>${projeto.date_project || 'Não informada'}</p>
                                 </div>
-                                    
-                                <div>
-                                    <h11>Descrição</h11>
-                                    <p class="modalDesc">${projeto.description_project}</p>
-                                </div>
-
                             </div>
 
-                        </dialog>
+                            <div class="lineDetail">
+                                <i class="fi-rr-document"></i>
+                                <div>
+                                    <p class="listOfContentTittle">Categoria</p>
+                                    <p>${projeto.category_project || 'Não definida'}</p>
+                                </div>
+                            </div>
 
-                    </div>   
-            `
-            container.appendChild(projetoCard)
+                            <div class="lineDetail">
+                                <i class="fi-rr-users"></i>
+                                <div>
+                                    <p class="listOfContentTittle">Turma</p>
+                                    <p>${projeto.class_project || 'Não definida'}</p>
+                                </div>
+                            </div>
 
+                            <div class="lineDetail">
+                                <i class="fi-rr-users"></i>
+                                <div>
+                                    <p class="listOfContentTittle">Professor Orientador</p>
+                                    <p>${projeto.teacher_project || 'Não atribuído'}</p>
+                                </div>
+                            </div>
+
+                            <div class="lineDetail">
+                                <i class="fi-rr-folder"></i>
+                                <div>
+                                    <p class="listOfContentTittle">Arquivos do projeto</p>
+                                    <div id="modalFilesContainer-${projeto.id_project}" class="files-download-box"></div>
+                                </div>
+                            </div>
+
+                            <div class="lineDetail">
+                                <i class="fi-rr-info"></i>
+                                <div>
+                                    <p class="listOfContentTittle">Status</p>
+                                    <p class="ModalStatus ${statusClass}">${statusTexto}</p>
+                                </div>
+                            </div>
+                                
+                            <div class="lineDetail">
+                                <i class="fi-rr-text"></i>
+                                <div>
+                                    <p class="listOfContentTittle">Descrição</p>
+                                    <p class="modalDesc">${projeto.description_project || 'Sem descrição disponível.'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
+            `;
+            container.appendChild(projetoCard);
+
+            // Renderização dos links de download dos arquivos
             const filesContainer = document.getElementById(`modalFilesContainer-${projeto.id_project}`);
-            
             if (filesContainer && projeto.archives_project) {
-                // Transforma a string "arq1.pdf,arq2.docx" em um Array ['arq1.pdf', 'arq2.docx']
                 const listaArquivos = projeto.archives_project.split(',');
 
                 listaArquivos.forEach(nomeArquivo => {
-                    // Remove espaços em branco extras se houver
                     nomeArquivo = nomeArquivo.trim(); 
                     if (!nomeArquivo) return;
 
-                    // Tenta descobrir o nome original ou mantém o gerado se não houver mapeamento
-                    // (Como usamos UUID no backend, o nome visual será o UUID, mas você pode tratar a string)
                     const linkDownload = document.createElement('a');
                     linkDownload.href = `/uploads/${nomeArquivo}`;
-                    linkDownload.download = nomeArquivo; // Força o navegador a baixar
-                    linkDownload.classList.add('download-file-btn'); // Crie uma classe CSS para estilizar se quiser
+                    linkDownload.download = nomeArquivo;
+                    linkDownload.classList.add('download-file-btn');
                     
-                    // Define um ícone bonitinho baseado na extensão
                     const extensao = nomeArquivo.split('.').pop().toLowerCase();
                     let icone = 'fi-rr-document';
                     if (extensao === 'pdf') icone = 'fi-rr-file-pdf';
@@ -549,16 +529,15 @@ async function loadMyProjects() {
                         <i class="fi ${icone}"></i>
                         <span>Baixar Arquivo (${extensao.toUpperCase()})</span>
                     `;
-
                     filesContainer.appendChild(linkDownload);
                 });
             }
-        })
+        });
 
-        rebinModalEvents()
+        rebinModalEvents();
 
     } catch (err) {
-        console.error('Erro ao carregar projetos: ', err)
+        console.error('Erro ao carregar projetos: ', err);
     }
 }
 

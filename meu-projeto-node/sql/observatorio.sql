@@ -1,60 +1,55 @@
 CREATE DATABASE IF NOT EXISTS observatorio;
 USE observatorio;
 
--- 1. Cria a tabela de usuários primeiro (base para as outras)
-CREATE TABLE IF NOT EXISTS users (
-    id_user INT PRIMARY KEY AUTO_INCREMENT,
-    name_user VARCHAR(50) NOT NULL,
-    email_user VARCHAR(50) NOT NULL,
-    address_user VARCHAR(50),
-    cpf_user INT,
-    password_user VARCHAR(25) NOT NULL,
-    tipo ENUM('aluno', 'professor', 'admin') NOT NULL
-);
-
--- 2. NOVA: Tabela de Turmas
+-- 1. Cria a tabela de Turmas (precisa vir antes de users e teachers)
 CREATE TABLE IF NOT EXISTS turma (
     id_turma INT PRIMARY KEY AUTO_INCREMENT,
     nome_turma VARCHAR(50) NOT NULL,
     ano_letivo INT NOT NULL
 );
 
--- 3. NOVA: Vinculo de Alunos com as Turmas (N para N)
-CREATE TABLE IF NOT EXISTS turma_alunos (
-    turma_id INT,
-    aluno_id INT,
-    PRIMARY KEY (turma_id, aluno_id),
-    FOREIGN KEY (turma_id) REFERENCES  turma(id_turma) ON DELETE CASCADE,
-    FOREIGN KEY (aluno_id) REFERENCES users(id_user) ON DELETE CASCADE
+-- 2. Tabela de usuários ajustada
+CREATE TABLE IF NOT EXISTS users (
+    id_user INT PRIMARY KEY AUTO_INCREMENT,
+    name_user VARCHAR(50) NOT NULL,
+    email_user VARCHAR(50) NOT NULL,
+    address_user VARCHAR(50),
+    cpf_user BIGINT, -- Alterado para BIGINT porque CPF estrapola o limite do INT comum
+    password_user VARCHAR(25) NOT NULL,
+    tipo ENUM('aluno', 'professor', 'admin') NOT NULL,
+    turma_id INT NOT NULL, -- OBRIGATÓRIO: Todo aluno/user precisa estar vinculado a uma turma
+    FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE RESTRICT
 );
 
--- 4. AJUSTADA: Tabela de Professores (Vinculada a um Usuário e a uma Turma)
+-- 3. Tabela de Professores (Vinculada a um Usuário e a uma Turma)
 CREATE TABLE IF NOT EXISTS teacher (
     id_teacher INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    turma_id INT NOT NULL,
-    class_teacher VARCHAR(15), -- Ex: "Sala 04" ou "Laboratório"
-    function_teacher VARCHAR(50), -- Ex: "Regente", "Substituto"
+    turma_id INT NOT NULL, -- OBRIGATÓRIO: Professor responsável por esta turma
+    class_teacher VARCHAR(15), 
+    function_teacher VARCHAR(50), 
     FOREIGN KEY (user_id) REFERENCES users(id_user) ON DELETE CASCADE,
     FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE CASCADE
 );
 
--- 2. Cria a tabela principal de projetos (sem o campo individual creators_id)
+-- 4. Tabela de projetos corrigida com os campos faltantes
 CREATE TABLE IF NOT EXISTS project (
     id_project INT PRIMARY KEY AUTO_INCREMENT,
-    name_project VARCHAR(150) NOT NULL UNIQUE, -- Aumentado o tamanho do nome do projeto
+    name_project VARCHAR(150) NOT NULL UNIQUE, 
     img_project VARCHAR(100),
     creators_project VARCHAR(200) NOT NULL,
     date_project DATE DEFAULT (CURRENT_DATE),
     description_project VARCHAR(200),
     archives_project TEXT,
     tags_project VARCHAR(200),
-    teacher_project VARCHAR(50),
+    category_project VARCHAR(50) NOT NULL DEFAULT 'Não informada', -- ADICIONADO
+    class_project VARCHAR(50) NOT NULL DEFAULT 'Não informada',    -- ADICIONADO
+    teacher_project VARCHAR(50) NOT NULL DEFAULT 'Não informado',
     alalysis_project VARCHAR(200),
     status_project VARCHAR(50) NOT NULL
 );
 
--- 3. Cria a tabela intermediária que vincula N usuários a N projetos
+-- 5. Tabela intermediária N para N (Criadores e Projetos)
 CREATE TABLE IF NOT EXISTS project_creators (
     project_id INT,
     user_id INT,
@@ -78,17 +73,62 @@ select * from users;
 select * from project;
 select * from project_creators;
 
--- Insere o usuário de teste padrão
-insert into users (name_user, email_user, password_user, tipo) values 
-('Erik Melado', 'erik_me_da_o_email@please.com', '44444444', 'professor'),
-('Maria Sophia', 'Maria.santos4960041@edu.pe.senac.br', '123456789', 'aluno'),
-('Gabriel Felipe', 'gabriefbm@gmail.com', '987654321', 'aluno');
+-- =========================================================================
+-- 1. POPULANDO AS TURMAS
+-- Precisamos de pelo menos 3 turmas para os 3 professores ficarem em turmas diferentes.
+-- =========================================================================
+INSERT INTO turma (nome_turma, ano_letivo) VALUES 
+('1º Periodo ADS', 2026),
+('2º Periodo ADS', 2026),
+('3º Periodo ADS', 2026);
 
+
+-- =========================================================================
+-- 2. POPULANDO OS USUÁRIOS
+-- Condições atendidas:
+-- -> 2 Alunos na mesma turma (Turma 1) e 1 Aluno em outra (Turma 2).
+-- -> 3 Professores criados (depois vamos vinculá-los às suas respectivas turmas na tabela teacher).
+-- -> 3 Administradores criados.
+-- =========================================================================
+INSERT INTO users (name_user, email_user, address_user, cpf_user, password_user, tipo, turma_id) VALUES 
+-- Alunos
+('Lucas Silva', 'lucas@edu.com', 'Rua A, 123', 11122233344, 'senha123', 'aluno', 1),       -- Aluno 1 (Turma 1)
+('Mariana Souza', 'mariana@edu.com', 'Rua B, 456', 55566677788, 'senha456', 'aluno', 1),   -- Aluno 2 (Turma 1 - Mesma classe de Lucas)
+('Carlos Eduardo', 'carlos@edu.com', 'Rua C, 789', 99900011122, 'senha789', 'aluno', 2),  -- Aluno 3 (Turma 2 - Classe diferente)
+
+-- Professores
+('Reginaldo Leme', 'reginaldo@edu.com', 'Av. Central, 10', 12345678901, 'prof123', 'professor', 1),
+('Ana Beatriz', 'ana.beatriz@edu.com', 'Av. Norte, 20', 23456789012, 'prof456', 'professor', 2),
+('Sérgio Moro', 'sergio@edu.com', 'Av. Sul, 30', 34567890123, 'prof789', 'professor', 3),
+
+-- Administradores (vinculados à Turma 1 apenas para cumprir a restrição NOT NULL)
+('Diretora Glória', 'gloria@admin.com', 'Rua Principal, 1', 45678901234, 'admin123', 'admin', 1),
+('Vice-Diretor Roberto', 'roberto@admin.com', 'Rua Lateral, 2', 56789012345, 'admin456', 'admin', 1),
+('Coordenadora Marta', 'marta@admin.com', 'Rua Direita, 3', 67890123456, 'admin789', 'admin', 1);
+
+
+-- =========================================================================
+-- 3. POPULANDO A TABELA TEACHER
+-- Aqui fazemos a amarração final do professor ao seu cargo e à sua respectiva turma.
+-- Os IDs dos usuários professores criados acima serão 4, 5 e 6 (considerando o AUTO_INCREMENT).
+-- =========================================================================
+INSERT INTO teacher (user_id, turma_id, class_teacher, function_teacher) VALUES 
+(4, 1, 'Requisitos', 'Regente'), -- Professor Reginaldo na Turma 1
+(5, 2, 'Coding', 'Regente'),    -- Professora Ana na Turma 2
+(6, 3, 'Banco de Dados', 'Colaborador');  -- Professor Sérgio na Turma 3
 
 -- DROP de tabelas
+
+-- 1. Apaga primeiro as tabelas que dependem de outras
+DROP TABLE IF EXISTS class_students;
+DROP TABLE IF EXISTS teacher;
+DROP TABLE IF EXISTS project_creators;
+DROP TABLE IF EXISTS atualizações;
+
+-- 2. Agora que ninguém depende delas, apaga as tabelas principais
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS project;
-DROP TABLE IF EXISTS project_creators;
+DROP TABLE IF EXISTS turma;
 
 -- DROP DA DATABASE
 DROP DATABASE IF EXISTS observatorio;
