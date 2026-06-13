@@ -2,18 +2,21 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 
-const telasPath = path.join(__dirname, "..", "public", "Telas");
+// 1. IMPORTANTE: Você precisa importar a sua conexão com o banco de dados aqui!
+// Ajuste o caminho abaixo para onde está o seu arquivo de configuração do banco (ex: mysql/pg)
+const conexao = require('./auth/auth'); // <-- OU o arquivo correto de conexão (ex: ../config/db)
+
+// CORREÇÃO DO CAMINHO: Subindo 1 nível para achar a pasta public correta
+const telasPath = path.join(__dirname, "..", "public", "Telas"); 
 
 // MIDDLEWARES DE PROTEÇÃO
-// 1. Verifica se está logado como Aluno
 function protegerAluno(req, res, next) {
     if (req.session.usuario && req.session.usuario.tipo === 'aluno') {
-        return next(); // Autorizado, pode prosseguir
+        return next(); 
     }
-    res.redirect('/login_aluno'); // Não autorizado, vai para o login
+    res.redirect('/login_aluno'); 
 }
 
-// 2. Verifica se está logado como Professor
 function protegerProfessor(req, res, next) {
     if (req.session.usuario && req.session.usuario.tipo === 'professor') {
         return next();
@@ -21,7 +24,6 @@ function protegerProfessor(req, res, next) {
     res.redirect('/login_professor');
 }
 
-// 3. Verifica se está logado como Admin
 function protegerAdmin(req, res, next) {
     if (req.session.usuario && req.session.usuario.tipo === 'admin') {
         return next();
@@ -37,7 +39,7 @@ router.get("/login_aluno", (req, res) => res.sendFile(path.join(telasPath, "logi
 router.get("/login_professor", (req, res) => res.sendFile(path.join(telasPath, "login_professor.html")));
 router.get("/login_adm", (req, res) => res.sendFile(path.join(telasPath, "login_adm.html")));
 
-// --- ROTAS PROTEGIDAS (Adicionamos o respectivo middleware antes do callback) ---
+// --- ROTAS PROTEGIDAS ---
 router.get("/portal_aluno", protegerAluno, (req, res) => {
     res.sendFile(path.join(telasPath, "portal_aluno.html"));
 });
@@ -50,14 +52,14 @@ router.get("/portal_admin", protegerAdmin, (req, res) => {
     res.sendFile(path.join(telasPath, "portal_admin.html"));
 });
 
-// Rota opcional para fazer Logout (limpar a sessão)
+// Logout
 router.get("/logout", (req, res) => {
     req.session.destroy(() => {
         res.redirect('/login');
     });
 });
 
-// ROTA: Buscar usuários por nome ou e-mail (Retorna apenas alunos para o vínculo)
+// ROTA: Buscar usuários (Protegida contra travamentos por falta de 'conexao')
 router.get("/buscar_colaboradores", (req, res) => {
   const search = req.query.search;
 
@@ -65,7 +67,6 @@ router.get("/buscar_colaboradores", (req, res) => {
     return res.status(400).json([]);
   }
 
-  // Busca que filtra por parte do nome ou do e-mail, limitando a alunos
   const queryBusca = `
     SELECT id_user AS id, name_user AS nome, email_user AS email 
     FROM users 
@@ -75,13 +76,19 @@ router.get("/buscar_colaboradores", (req, res) => {
 
   const valorBusca = `%${search}%`;
 
-  conexao.query(queryBusca, [valorBusca, valorBusca], (err, results) => {
-    if (err) {
-      console.error('Erro ao buscar usuários:', err);
-      return res.status(500).json({ erro: 'Erro interno ao buscar usuários' });
-    }
-    res.json(results);
-  });
+  // Se você não importou a conexão ainda, este bloco try/catch evita que o Node trave a página
+  try {
+      conexao.query(queryBusca, [valorBusca, valorBusca], (err, results) => {
+        if (err) {
+          console.error('Erro ao buscar usuários:', err);
+          return res.status(500).json({ erro: 'Erro interno ao buscar usuários' });
+        }
+        res.json(results);
+      });
+  } catch (error) {
+      console.error("Erro crítico: A variável 'conexao' não está configurada neste arquivo.", error);
+      res.status(500).json({ erro: "Erro de configuração no servidor." });
+  }
 });
 
 module.exports = router;
