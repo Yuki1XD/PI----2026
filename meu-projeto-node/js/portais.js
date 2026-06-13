@@ -54,3 +54,37 @@ newProjectImg.addEventListener('change', function(e) {
     }
 
 })
+
+
+const formAddProject = document.getElementById('formAddProject');
+    if (formAddProject) {
+        formAddProject.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dados = {
+                titulo: document.getElementById('newProjectTittle').value,
+                descricao: document.getElementById('newProjectApresentation').value,
+                usuario_id: 1 // Temporário: ajuste conforme seu sistema de login
+            };
+
+            try {
+                const response = await fetch('/api/projetos/criar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+
+                const resultado = await response.json();
+
+                if (response.ok) {
+                    alert('🚀 Projeto publicado com sucesso!');
+                    window.location.reload(); // Recarrega para limpar e atualizar
+                } else {
+                    alert('Erro ao publicar: ' + (resultado.erro || 'Erro desconhecido'));
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                alert('Erro ao conectar com o servidor. O node index.js está rodando?');
+            }
+        });
+    };

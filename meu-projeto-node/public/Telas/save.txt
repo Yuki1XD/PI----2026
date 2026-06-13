@@ -1,0 +1,115 @@
+<div class="containerCard">
+
+                <button class="postagem-card" data-modal="modal-moodeng">
+                    <div class="postagem-topo">
+                        <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" alt="Sistema de Biblioteca Digital">
+                    </div>
+                    <div class="postagem-cont">
+                        <h3>Sistema de Biblioteca Digital</h3>
+                        <p>Plataforma completa para gerenciamento de acervo e empréstimos.</p>
+                    </div>
+                    <div class="postagem-inf">
+                        <span>João Silva</span>
+                        <span>22/04/2026</span>
+                    </div>
+                </button>
+
+            </div>
+
+            <dialog id="modal-moodeng" class="modalWindow">
+
+                <button data-modal="modal-moodeng" class="closeModal">
+                    <i class="fi-rr-x"></i>
+                </button>
+
+                <div class="imgProjectDetails">
+                    <img src="/public/imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" alt="">
+                </div>
+
+                <div class="modalDetails">
+                    <h1>Titulo do projeto</h1>
+
+                    <div class="lineDetail">
+                        <i class="fi-rr-users"></i>
+                        <div>
+                            <p class="listOfContentTittle">Criadores</p>
+                            <p>João Vitor, Sophia Maria</p>
+                        </div>
+                    </div>
+
+                    <div class="lineDetail">
+                        <i class="fi-rr-calendar"></i>
+                        <div>
+                            <pclass="listOfContentTittle">Data de Postagem</p>
+                            <p>13/07/2040</p>
+                        </div>
+                    </div>
+
+                    <div class="lineDetail">
+                        <i class="fi-rr-document"></i>
+                        <div>
+                            <p class="listOfContentTittle">Categoria</p>
+                            <p>Engenharia de Software</p>
+                        </div>
+                    </div>
+
+                    <div class="lineDetail">
+                        <i class="fi-rr-users"></i>
+                        <div>
+                            <p class="listOfContentTittle">Turma</p>
+                            <p>TI-2024-A</p>
+                        </div>
+                    </div>
+
+                    <div class="lineDetail">
+                        <i class="fi-rr-users"></i>
+                        <div>
+                            <p class="listOfContentTittle">Professor Orientador</p>
+                            <p>Prof. Erik Melado</p>
+                        </div>
+                    </div>
+
+                    <div class="lineDetail">
+                        <i class="fi-rr-label"></i>
+                        <div>
+                            <p class="listOfContentTittle">Tags</p>
+                            <p>Api</p>
+                        </div>
+                    </div>
+
+                    <div class="lineDetail">
+                        <i class="fi-rr-folder"></i>
+                        <div>
+                            <p class="listOfContentTittle">Arquivos do Projeto</p>
+                            <p>oiiiiiiiiiiiiiiiiiii</p>
+                        </div>
+                        
+                    </div>
+
+                    <div>
+                        <h11>Status</h11>
+                        <p class="ModalStatus">Em analise</p>
+                    </div>
+                        
+                    <div>
+                        <h11>Descrição</h11>
+                        <p class="modalDesc">Sistema de gerenciamento de arquivos multipart aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                    </div>
+
+                    
+
+                </div>
+
+                <div>
+                    <label>Adicione uma analise a esse projeto:</label>
+                    <textarea></textarea>
+                </div>
+
+                <div>
+                    <button class="sendAnalizy">Enviar Analise</button>
+                </div>
+
+                
+
+
+            </dialog>

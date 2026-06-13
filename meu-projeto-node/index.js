@@ -1,46 +1,39 @@
 const express = require("express");
 const path = require("path");
-const authApi = require('./apis/auth');
-const projetosApi = require('./apis/projetos');
+const fileUpload = require('express-fileupload');
+const session = require('express-session');
+
+// Importação das rotas organizadas
+const viewsRouter = require('./apis/views');
+const authApi = require('./apis/auth/auth');
+const projetosApi = require('./apis/projects/projetos');
 
 const app = express();
 
+// Middlewares globais
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "Telas")));
-app.use('/css', express.static(path.join(__dirname, "css")));
-app.use('/js', express.static(path.join(__dirname, "js")));
-app.use("/imgs", express.static(path.join(__dirname, "imgs"))); 
-app.use('/api/auth', authApi);
-app.use('/api/projetos', projetosApi);
+app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
 
-app.get("/", (req, res) => {
-  res.redirect("/tela_incial");
-});
+app.use(session({
+  secret: 'seu_segredo_super_seguro_aqui', 
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 * 30 } // Sessão expira em 30 minutos
+}));
 
-app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Login.html"));
-});
+// Servir arquivos estáticos da pasta public
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/cadastro", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Cadastro.html"));
-});
+// CORREÇÃO CRÍTICA: Expõe de forma global a pasta de uploads para o front-end achar as fotos/arquivos
+app.use('/uploads', express.static(path.join(__dirname, "public", "uploads")));
 
-app.get("/perfil", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Cadastro2.html"));
-});
+// Atribuição das rotas
+app.use('/', viewsRouter); 
+app.use('/apis/auth', authApi); 
+app.use('/apis/projects', projetosApi); 
 
-app.get("/tela_incial", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "tela_incial.html"));
-});
-
-app.get("/aluno", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "tela_incial_aluno.html"));
-});
-
-app.get("/criar_projeto", (req, res) => {
-  res.sendFile(path.join(__dirname, "Telas", "Criar_Projeto.html"));
-});
-
+app.use('/apis/users', authApi);
 
 app.listen(3000, () => {
   console.log("Servidor rodando em: http://localhost:3000");
