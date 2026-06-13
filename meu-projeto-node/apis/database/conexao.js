@@ -2,6 +2,7 @@
 const mysql = require('mysql2');
 
 // 1. Conecta primeiro sem especificar o banco de dados (apenas no servidor)
+
 const conexaoSemBanco = mysql.createConnection({
   host: 'localhost',
   user: 'root',
