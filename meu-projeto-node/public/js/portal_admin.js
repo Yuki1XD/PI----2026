@@ -236,6 +236,7 @@ if (formAddProject) {
     });
 }
 
+<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", () => {
     carregarDadosInicio();
 });
@@ -349,11 +350,47 @@ async function loadProjectsAdmin(endpoint, containerId) {
         projetos.forEach(projeto => {
             const projetoCard = document.createElement('div');
             projetoCard.classList.add('containerCard'); 
+=======
+// FETCH API para adicionar projetos
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('listProjectsTeacher')) {
+        loadProjects()
+    }
+})
+
+async function loadProjects() {
+    const container = document.getElementById("listProjectsTeacher")
+
+    const noResultsForSearch = document.querySelector('.noResultsForSearch');
+    
+    try {
+
+        const response = await fetch('/apis/projects/analisados')
+        if (!response.ok) throw new Error("Erro ao buscar projetos no servidor")
+
+        const projetos = await response.json()
+
+        if (projetos.length === 0) {
+            if (noResultsForSearch) noResultsForSearch.style.display = 'block'
+            return
+        }
+
+        if (noResultsForSearch) noResultsForSearch.style.display = 'none'
+
+        container.innerHTML = ''
+
+        projetos.forEach(projeto => {
+
+            const projetoCard = document.createElement('div')
+            projetoCard.classList.add('alaizyProjects')
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 
             const dataFormatada = projeto.date_project 
                 ? new Date(projeto.date_project).toLocaleDateString('pt-BR') 
                 : 'Sem data';
 
+<<<<<<< HEAD
             // Configuração visual do Badge de Status
             let statusClasse = '';
             let statusTexto = '';
@@ -575,12 +612,193 @@ function rebindModalEvents(contextoContainer) {
             if (confirm('Confirmar salvamento do projeto com o status: REJEITADO?')) {
                 enviarAnaliseAdmin(id, 'rejeitado', categoria, visibilidade);
             }
+=======
+            projetoCard.innerHTML = `
+
+                    <div class="textContentOfProject">
+
+                        <div class="containerCard">
+
+                            <button class="postagem-card" data-modal="modal-${projeto.id_project}">
+                                <div class="postagem-topo">
+                                    <img src="/uploads/${projeto.img_project}">
+                                </div>
+                                <div class="postagem-cont">
+                                    <h3>${projeto.name_project}</h3>
+                                    <p>${projeto.description_project}</p>
+                                </div>
+                                <div class="postagem-inf">
+                                    <span>${projeto.creators_project}</span>
+                                    <span>${projeto.date_project}</span>
+                                </div>
+                            </button>
+
+                        </div>
+
+                        <dialog id="modal-${projeto.id_project}" class="modalWindow">
+
+                            <button data-modal="modal-${projeto.id_project}" class="closeModal">
+                                <i class="fi-rr-x"></i>
+                            </button>
+
+                            <div class="imgProjectDetails">
+                                <img src="/uploads/${projeto.img_project}" alt="">
+                            </div>
+
+                            <div class="modalDetails">
+                                <h1>${projeto.name_project}</h1>
+
+                                <div class="lineDetail">
+                                    <i class="fi-rr-users"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Criadores</p>
+                                        <p>${projeto.creators_project}</p>
+                                    </div>
+                                </div>
+
+                                <div class="lineDetail">
+                                    <i class="fi-rr-calendar"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Data de Postagem</p>
+                                        <p>${projeto.date_project}</p>
+                                    </div>
+                                </div>
+
+                                <div class="lineDetail">
+                                    <i class="fi-rr-document"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Categoria</p>
+                                        <p>${projeto.category_project}</p>
+                                    </div>
+                                </div>
+
+                                <div class="lineDetail">
+                                    <i class="fi-rr-users"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Turma</p>
+                                        <p>${projeto.class_project}</p>
+                                    </div>
+                                </div>
+
+                                <div class="lineDetail">
+                                    <i class="fi-rr-users"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Professor Orientador</p>
+                                        <p>${projeto.teacher_project}</p>
+                                    </div>
+                                </div>
+
+                                <div class="lineDetail">
+                                    <i class="fi-rr-label"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Tags</p>
+                                        <p>Api</p>
+                                    </div>
+                                </div>
+
+                                <div class="lineDetail">
+                                    <i class="fi-rr-folder"></i>
+                                    <div>
+                                        <p class="listOfContentTittle">Arquivos do Projeto</p>
+                                        <p>oiiiiiiiiiiiiiiiiiii</p>
+                                    </div>
+                                    
+                                </div>
+
+                                <div>
+                                    <h11>Status</h11>
+                                    <p class="ModalStatus">Em analise</p>
+                                </div>
+                                    
+                                <div>
+                                    <h11>Descrição</h11>
+                                    <p class="modalDesc">${projeto.description_project}</p>
+                                </div>
+
+                                <div>
+                                    <h11>Análise do Professor</h11>
+                                    <p class="modalAnalizy">O andamento do projeto esta otimo, mas ainda precisa de ajustes em pequenos detalhes.</p>
+                                </div>
+
+                            </div>
+
+                            <div class="buttonModal">
+                                <button class="sendAnalizy accept-btn" id="acceptProject" data-id="${projeto.id_project}">Aceitar Projeto</button>
+                                <button class="sendAnalizy reject-btn" id="rejectProject" data-id="${projeto.id_project}">Rejeitar Projeto</button>
+                                <button class="sendAnalizy" id="visibilityProject"><i class="fi-rr-eye"></i>Visibilidade do Projeto</button>
+                            </div>
+                            
+
+
+                        </dialog>
+
+
+                    </div>   
+            `
+            container.appendChild(projetoCard)
+        })
+
+        rebinModalEvents()
+
+    } catch (err) {
+        console.error('Erro ao carregar projetos: ', err)
+    }
+}
+
+function rebinModalEvents() {
+    document.querySelectorAll('.postagem-card').forEach(button => {
+        button.onclick = (e) => {
+            e.preventDefault()
+            const modalID = button.getAttribute('data-modal')
+            const modal = document.getElementById(modalID)
+            if(modal) {
+                modal.showModal()
+            }
+        }
+    })
+
+    document.querySelectorAll('.closeModal').forEach(button => {
+        button.onclick = (e) => {
+            e.preventDefault();
+            const modalID = button.getAttribute('data-modal')
+            const modal = document.getElementById(modalID)
+            if(modal) {
+                modal.close()
+            }
+        }
+    })
+
+    // === NOVA LÓGICA PARA ATUALIZAR STATUS ===
+    
+    // Botão de Aceitar
+    document.querySelectorAll('.accept-btn').forEach(button => {
+        button.onclick = async (e) => {
+            e.preventDefault();
+            const id = button.getAttribute('data-id');
+            
+            enviarAnaliseAdmin(id, 'aceito');
+        };
+    });
+
+    // Botão de Rejeitar
+    document.querySelectorAll('.reject-btn').forEach(button => {
+        button.onclick = async (e) => {
+            e.preventDefault();
+            const id = button.getAttribute('data-id');
+            
+            enviarAnaliseAdmin(id, 'rejeitado');
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
         };
     });
 }
 
+<<<<<<< HEAD
 // Executa a atualização do status, categoria e visibilidade via PUT no Back-end
 async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visibilidadeEscolhida) {
+=======
+// Função auxiliar para disparar o FETCH de atualização
+async function enviarAnaliseAdmin(id, statusEscolhido) {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     try {
         const response = await fetch(`/apis/projects/aceitar_rejeitar/${id}`, {
             method: 'PUT',
@@ -588,15 +806,20 @@ async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visib
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+<<<<<<< HEAD
                 status_project: statusEscolhido,
                 category_project: categoriaEscolhida,   
                 visibility_project: visibilidadeEscolhida 
+=======
+                status_project: statusEscolhido
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
             })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
+<<<<<<< HEAD
             throw new Error(data.mensagem || 'Erro ao atualizar dados do projeto.');
         }
 
@@ -896,3 +1119,16 @@ async function excluirUsuarioAdmin(id) {
         alert(error.message);
     }
 }
+=======
+            throw new Error(data.mensagem || 'Erro ao processar análise.');
+        }
+
+        alert(data.mensagem);
+        window.location.reload(); // Recarrega a página para atualizar a lista
+
+    } catch (error) {
+        console.error('Erro:', error);
+        alert(error.message);
+    }
+}
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe

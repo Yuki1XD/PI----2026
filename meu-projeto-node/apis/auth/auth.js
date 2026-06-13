@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const conexao = require('../database/conexao'); 
+<<<<<<< HEAD
 const path = require('path');
 const fs = require('fs');
 
@@ -15,11 +16,17 @@ if (!fs.existsSync(CAMINHO_UPLOADS)) {
 // =========================================================================
 // ROTAS DE AUTENTICAÇÃO EXISTENTES (LOGIN / BUSCAR)
 // =========================================================================
+=======
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 
 router.post("/login_aluno", (req, res) => {
   let name_student = req.body.emailAluno;
   let password_student = req.body.passwordAluno;
 
+<<<<<<< HEAD
+=======
+  // Buscamos o usuário correspondente
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
   const select = `SELECT id_user, email_user, tipo, name_user FROM users WHERE email_user = ? AND password_user = ?`;
 
   conexao.query(select, [name_student, password_student], (err, results) => {
@@ -28,16 +35,29 @@ router.post("/login_aluno", (req, res) => {
       return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
     }
 
+<<<<<<< HEAD
     if (results.length > 0) {
       const usuario = results[0]; 
       
+=======
+    // Se encontrou o usuário
+    if (results.length > 0) {
+      const usuario = results[0]; // Pega o primeiro resultado encontrado
+      
+      // SALVA O USUÁRIO NA SESSÃO (Aqui dentro do callback, onde 'usuario' existe!)
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
       req.session.usuario = {
           id: usuario.id_user,
           nome: usuario.name_user,
           tipo: usuario.tipo 
       };
 
+<<<<<<< HEAD
       let urlRedirecionamento = '/portal_aluno'; 
+=======
+      // Verifica a função (tipo) e define o destino
+      let urlRedirecionamento = '/portal_aluno'; // padrão
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
       
       if (usuario.tipo === 'professor') {
         urlRedirecionamento = '/portal_professor';
@@ -45,16 +65,32 @@ router.post("/login_aluno", (req, res) => {
         urlRedirecionamento = '/portal_admin';
       }
 
+<<<<<<< HEAD
+=======
+      // Retornamos um único JSON confirmando o sucesso e indicando para onde ir
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
       return res.status(200).json({ 
         sucesso: true, 
         redirecionar: urlRedirecionamento 
       });
+<<<<<<< HEAD
     } else {
+=======
+
+    } else {
+      // Se não encontrou, o login falhou
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
       return res.status(401).json({ sucesso: false, mensagem: "E-mail ou senha incorretos." });
     }
   });
 });
 
+<<<<<<< HEAD
+=======
+// No arquivo de rotas de login/usuários (o segundo arquivo que você mandou)
+// Cole este bloco antes do module.exports = router;
+
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 router.get("/buscar", (req, res) => {
   const search = req.query.search;
 
@@ -80,6 +116,7 @@ router.get("/buscar", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // =========================================================================
 // ROTAS DO ADMINISTRADOR - GERENCIAMENTO DE USUÁRIOS (com express-fileupload)
 // =========================================================================
@@ -207,4 +244,6 @@ router.delete("/deletar/:id", (req, res) => {
   });
 });
 
+=======
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 module.exports = router;

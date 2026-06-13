@@ -8,8 +8,12 @@ const conexao = require('../database/conexao'); // Importa a conexão automátic
 const app = express();
 
 // Servir a pasta de uploads publicamente para downloads
+<<<<<<< HEAD
 // Servir a pasta de uploads publicamente para downloads (Corrigido o caminho de pastas)
 app.use('/uploads', express.static(path.join(__dirname, '..', '..', 'public', 'uploads')));
+=======
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 
 // ROTA: Buscar projetos pendentes
 router.get("/pendentes", (req, res) => {
@@ -35,9 +39,16 @@ router.get("/pendentes", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // ROTA: Cadastrar um novo projeto
 router.post("/cadastrar", async (req, res) => { // Adicionado async
 
+=======
+// ROTA: Cadastrar um novo projeto (Antigo app.post("/portal_aluno"))
+router.post("/cadastrar", (req, res) => {
+
+  // 1. Captura o ID do usuário logado
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
   const creators_id = req.session && req.session.usuario ? req.session.usuario.id : null;
   const creators_nome = req.session && req.session.usuario ? req.session.usuario.nome : "Aluno Logado";
 
@@ -45,12 +56,20 @@ router.post("/cadastrar", async (req, res) => { // Adicionado async
      return res.status(401).json({ mensagem: "Usuário não autenticado." });
   }
 
+<<<<<<< HEAD
+=======
+  // Verificar se arquivos chegaram
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).json({ mensagem: "Nenhum arquivo foi enviado." });
   }
 
   let name_project = req.body.newProjectTittle;
   let img_project = req.files.newProjectImg;
+<<<<<<< HEAD
+=======
+  let date_post = req.body.newProjectDate;
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
   let description_project = req.body.newProjectApresentation;
   let archives_project = req.files.newProjectArchives;
   let category_project = req.body.newProjectCategory || 'Geral'; 
@@ -84,7 +103,11 @@ router.post("/cadastrar", async (req, res) => { // Adicionado async
     WHERE usr.id_user = ? LIMIT 1
   `;
 
+<<<<<<< HEAD
   conexao.query(queryDadosIniciais, [creators_id], async (errDados, resultDados) => {
+=======
+  conexao.query(queryDadosIniciais, [creators_id], (errDados, resultDados) => {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     if (errDados || resultDados.length === 0) {
       console.error("Erro ao buscar dados de turma do aluno:", errDados);
       return res.status(500).json({ mensagem: "Erro ao validar perfil e turma do aluno." });
@@ -98,12 +121,17 @@ router.post("/cadastrar", async (req, res) => { // Adicionado async
     let img_name = uuidv4() + extension_img;
     let uploadPathImg = path.join(__dirname, "..", "..", "public", "uploads", img_name);
 
+<<<<<<< HEAD
     img_project.mv(uploadPathImg, async (err) => {
+=======
+    img_project.mv(uploadPathImg, (err) => {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
       if (err) {
         console.error("Erro ao salvar imagem:", err);
         return res.status(500).json({ mensagem: "Erro ao salvar a imagem do projeto." });
       }
 
+<<<<<<< HEAD
       // CORREÇÃO: Tratando múltiplos arquivos com Promises
       let saved_archives_names = [];
       let archives_list = Array.isArray(archives_project) ? archives_project : [archives_project];
@@ -121,6 +149,29 @@ router.post("/cadastrar", async (req, res) => { // Adicionado async
         await Promise.all(uploadPromises); // Espera TODOS os arquivos salvarem
       } catch (uploadErr) {
         console.error("Erro ao salvar arquivos:", uploadErr);
+=======
+      // Garantir que arquivos são um Array para salvar múltiplos
+      let saved_archives_names = [];
+      let archives_list = Array.isArray(archives_project) ? archives_project : [archives_project];
+      let uploadErrors = false;
+
+      for (let file of archives_list) {
+        let extension_archive = path.extname(file.name);
+        let archive_name = uuidv4() + extension_archive;
+        saved_archives_names.push(archive_name);
+
+        let uploadPathArchive = path.join(__dirname, "..", "..", "public", "uploads", archive_name);
+
+        file.mv(uploadPathArchive, (err) => {
+          if (err) {
+            console.error("Erro ao salvar arquivo:", err);
+            uploadErrors = true;
+          }
+        });
+      }
+
+      if (uploadErrors) {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
         return res.status(500).json({ mensagem: "Erro ao salvar um ou mais arquivos do projeto." });
       }
 
@@ -137,6 +188,11 @@ router.post("/cadastrar", async (req, res) => { // Adicionado async
         }
 
         const novoProjetoId = results.insertId;
+<<<<<<< HEAD
+=======
+
+        // Cria as linhas de vinculo para cada criador selecionado
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
         const vinculos = creatorsIdsArray.map(idUser => [novoProjetoId, idUser]);
         const queryVinculo = `INSERT INTO project_creators (project_id, user_id) VALUES ?`;
 
@@ -150,10 +206,17 @@ router.post("/cadastrar", async (req, res) => { // Adicionado async
         });
       });
     });
+<<<<<<< HEAD
   });
 });
 
 // ROTA: Buscar projetos específicos do aluno logado (Modificada para retornar lista de criadores estruturada)
+=======
+  }); // Fechamento correto da queryDadosIniciais
+});
+
+// ROTA: Buscar projetos específicos do aluno logado (CORRIGIDA)
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 router.get("/my_projects", (req, res) => {
   const usuarioLogadoId = req.session && req.session.usuario ? req.session.usuario.id : null;
 
@@ -161,6 +224,10 @@ router.get("/my_projects", (req, res) => {
     return res.status(401).json({ mensagem: "Usuário não autenticado." });
   }
 
+<<<<<<< HEAD
+=======
+  // Alterado: Adicionado subquery ou GROUP_CONCAT para listar todos os participantes do projeto
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
   const queryMeusProjetos = `
     SELECT p.id_project, p.name_project, p.img_project, p.description_project, 
            p.archives_project, p.status_project, p.category_project, p.class_project, p.teacher_project,
@@ -168,11 +235,15 @@ router.get("/my_projects", (req, res) => {
            (SELECT GROUP_CONCAT(u.name_user SEPARATOR ', ') 
             FROM project_creators pc2 
             INNER JOIN users u ON pc2.user_id = u.id_user 
+<<<<<<< HEAD
             WHERE pc2.project_id = p.id_project) AS creators_project,
            (SELECT JSON_ARRAYAGG(JSON_OBJECT('id', u.id_user, 'nome', u.name_user, 'email', u.email_user))
             FROM project_creators pc3
             INNER JOIN users u ON pc3.user_id = u.id_user
             WHERE pc3.project_id = p.id_project) AS creators_list_json
+=======
+            WHERE pc2.project_id = p.id_project) AS creators_project
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     FROM project p
     INNER JOIN project_creators pc ON p.id_project = pc.project_id
     WHERE pc.user_id = ? 
@@ -184,6 +255,7 @@ router.get("/my_projects", (req, res) => {
       console.error('Erro no banco de dados: ', err);
       return res.status(500).json({ erro: 'Erro interno ao buscar seus projetos' });
     }
+<<<<<<< HEAD
     
     // Converte a string de JSON que o MySQL retorna em objetos nativos JS
     results.forEach(proj => {
@@ -194,10 +266,13 @@ router.get("/my_projects", (req, res) => {
       }
     });
 
+=======
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     res.json(results);
   });
 });
 
+<<<<<<< HEAD
 // ROTA CORRIGIDA: Atualizar características de um projeto existente
 router.post("/atualizar", (req, res) => {
   const usuarioLogadoId = req.session && req.session.usuario ? req.session.usuario.id : null;
@@ -323,6 +398,8 @@ router.post("/atualizar", (req, res) => {
   });
 });
 
+=======
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 // ROTA: Salvar análise do professor e atualizar status do projeto (Aceito / Rejeitado)
 router.put("/analisar/:id", (req, res) => {
   const id_project = req.params.id;
@@ -336,7 +413,11 @@ router.put("/analisar/:id", (req, res) => {
 
   const queryAtualizar = `
     UPDATE project 
+<<<<<<< HEAD
     SET analysis_project = ?, teacher_project = ?, status_project = ? 
+=======
+    SET alalysis_project = ?, teacher_project = ?, status_project = ? 
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     WHERE id_project = ?
   `;
 
@@ -354,6 +435,7 @@ router.put("/analisar/:id", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // ROTA CORRIGIDA: Buscar projetos prontos para a auditoria do Administrador (enviados e analisados)
 router.get("/analisados", (req, res) => {
   const queryAnalisados = `
@@ -383,11 +465,22 @@ router.get("/analisados", (req, res) => {
     if (err) {
       console.error('Erro ao buscar projetos para o Admin:', err);
       return res.status(500).json({ erro: 'Erro interno ao buscar projetos no banco de dados.' });
+=======
+// ROTA: Buscar projetos já analisados
+router.get("/analisados", (req, res) => {
+  const queryAnalisados = `SELECT * FROM project WHERE status_project = 'analisado'`;
+
+  conexao.query(queryAnalisados, function(err, results) {
+    if (err) {
+      console.error('Erro ao buscar projetos analisados:', err);
+      return res.status(500).json({ erro: 'Erro interno ao buscar projetos' });
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     }
     res.json(results);
   });
 });
 
+<<<<<<< HEAD
 // ROTA ATUALIZADA: Atualizar o status final, categoria e visibilidade do projeto via Painel Admin
 router.put("/aceitar_rejeitar/:id", (req, res) => {
   const id_project = req.params.id;
@@ -426,6 +519,31 @@ router.put("/aceitar_rejeitar/:id", (req, res) => {
 
     const acao = status_project === 'aceito' ? 'aprovado e publicado' : 'recusado';
     res.json({ mensagem: `O projeto foi ${acao} com sucesso com a categoria "${categoriaFinal}" e modo "${visibilidadeFinal}"!` });
+=======
+router.put("/aceitar_rejeitar/:id", (req, res) => {
+  const id_project = req.params.id;
+  const { status_project } = req.body;
+
+  const novoStatus = status_project || 'analisado';
+
+  const queryAtualizar = `
+    UPDATE project 
+    SET  status_project = ? 
+    WHERE id_project = ?
+  `;
+
+  conexao.query(queryAtualizar, [novoStatus, id_project], (err, results) => {
+    if (err) {
+      console.error('Erro ao atualizar análise no banco:', err);
+      return res.status(500).json({ erro: 'Erro interno ao salvar análise.' });
+    }
+    
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ mensagem: "Projeto não encontrado." });
+    }
+
+    res.json({ mensagem: `Projeto atualizado para '${novoStatus}' com sucesso!` });
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
   });
 });
 
@@ -480,7 +598,11 @@ router.get("/dashboard", (req, res) => {
           } else if (proj.status_project === 'analisado') {
             descricao = `O professor <strong>${proj.teacher_project || 'Orientador'}</strong> adicionou uma análise ao projeto <strong>"${proj.name_project}"</strong> (Aguardando decisão do ADM).`;
             tipo = 'edicao'; 
+<<<<<<< HEAD
           } else if (proj.status_project === 'aceito') {
+=======
+          } else if (proj.status_project === 'aprovado') {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
             descricao = `Parabéns! Seu projeto <strong>"${proj.name_project}"</strong> foi aprovado pelo administrador e está publicado.`;
             tipo = 'aprovado';
           } else if (proj.status_project === 'rejeitado') {
@@ -511,6 +633,7 @@ router.get("/dashboard", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 // ROTA NOVA: Buscar ABSOLUTAMENTE TODOS os projetos (Para gerenciamento geral do Admin)
 router.get("/", (req, res) => {
   const queryTodosOsProjetos = `
@@ -626,4 +749,6 @@ router.get("/dashboard-inicio", (req, res) => {
   });
 });
 
+=======
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 module.exports = router;

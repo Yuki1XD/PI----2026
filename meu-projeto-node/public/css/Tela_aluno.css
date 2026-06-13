@@ -1363,6 +1363,7 @@ body {
     overflow-wrap: break-word;
     word-break: break-word; 
 }
+<<<<<<< HEAD
 
 /* ==========================================
    ESTILIZAÇÃO DO DIALOG DE EDIÇÃO (ADAPTADO)
@@ -1528,3 +1529,5 @@ body {
     color: #ff4b33;
     transform: scale(1.05);
 }
+=======
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe

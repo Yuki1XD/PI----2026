@@ -711,6 +711,10 @@ body {
     flex-wrap: wrap;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 .cancelButton {
     background-color: red;
     color: white;
@@ -806,6 +810,7 @@ body {
     backdrop-filter: blur(3px);
 }
 
+<<<<<<< HEAD
 /* Componente Base do Status no Modal */
 .ModalStatus {
     display: inline-flex;  /* Evita que a barra pinte a tela de ponta a ponta */
@@ -844,6 +849,16 @@ body {
 /* Caso caia em alguma string inesperada */
 .status-padrao {
     background-color: #95a5a6; /* Cinza */
+=======
+.ModalStatus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 15px;
+    color: white;
+    background-color: red;
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
 }
 
 .modalDesc {
@@ -877,7 +892,11 @@ body {
     gap: 15px;
 }
 
+<<<<<<< HEAD
 .accept-btn {
+=======
+#acceptProject {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     display: flex;
     align-items: center;
     justify-content: center;
@@ -893,11 +912,19 @@ body {
     outline: none;
 }
 
+<<<<<<< HEAD
 .accept-btn:hover {
     transform: scale(1.05);
 }
 
 .reject-btn {
+=======
+#acceptProject:hover {
+    transform: scale(1.05);
+}
+
+#rejectProject {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     display: flex;
     align-items: center;
     justify-content: center;
@@ -913,7 +940,11 @@ body {
     outline: none;
 }
 
+<<<<<<< HEAD
 .reject-btn:hover {
+=======
+#rejectProject:hover {
+>>>>>>> efd802116ee8446aad31fedaca1fa9fb08e21ebe
     transform: scale(1.05);
 }
 
