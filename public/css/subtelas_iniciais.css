@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Roboto Condensed", sans-serif;
+}
+
+body{
+    min-height: 1000px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cabeçalho */
+.site-header {
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 1px 10px rgba(0,0,0,0.08);
+    
+    /* Configurações para fixar o topo */
+    position: sticky; 
+    top: 0; 
+    
+    z-index: 1000;
+}
+
+.header-top,
+.header-nav{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 26px;
+}
+
+.header-top{
+    height:70px;
+    border-bottom:2px solid #f6a01a;
+}
+
+.header-nav{
+    height:52px;
+    background:#f4f4f4;
+}
+
+.logo img{
+    height:48px;  
+    width:auto;
+}
+
+.header-region{
+    color:#243c66;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+}
+
+.header-nav ul{
+    display:flex;
+    list-style:none;
+    gap:18px;
+    align-items:center;
+}
+
+/* Links normais do menu */
+.header-nav li.items a {
+    color:#1a56db;
+    text-decoration:none;
+    padding:8px 10px;
+    transition:.2s;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.header-nav li.items a:hover {
+    color:#0f3f95;
+}
+
+/* Botão de Login */
+.btn-login {
+    background-color: #f95e05;
+    color: #ffffff; 
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+    text-decoration:none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-login:hover {
+    background-color: #ff5900;
+    transform: scale(1.05); 
+}
+
+
+.filterContainer {
+    display: flex;
+    align-items: center;
+    border: grey 1px solid;
+    padding: 20px;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+.searchBarStyle {
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    border: grey 1px solid;
+    width: 50%;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.searchBarStyle i {
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.searchBarStyle input {
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.selectFilter {
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    border: grey 1px solid;
+    margin-right: 10px;
+}
+
+.filterInputStyle, .selectFilter {
+    min-width: auto;
+}
+
+/*Parte das Últimas Postagens*/
+.containerCard {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.Utimas_postagens,
+.ultimas-postagens {
+    width: 100%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.postagens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    padding: 20px 0 0;
+    justify-items: stretch;
+}
+
+.Utimas_postagens h2,
+.ultimas-postagens h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+    padding: 20px 0 0;
+}
+
+.postagem-card {
+    width: 100%;
+    max-width: 300px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+    transition: transform 0.2s;
+}
+
+.postagem-card:hover {
+    transform: translateY(-5px);
+}
+
+.postagem-inf {
+    display: flex;
+    justify-content: space-between;
+    color: #999;
+    font-size: 12px;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+}
+
+.postagem-cont p{
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.postagem-cont h3{
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    color: #222;
+}
+
+.postagem-cont {
+    padding: 20px;
+}
+
+.postagem-topo {
+    height: 160px;
+    width: 100%;
+}
+
+.postagem-topo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.bg-laranja { background-color: #f95e05; }
+.bg-azul { background-color: #1a56db; }
+
+/* Container principal da seção Sobre */
+.sobre {
+    position: relative;
+    width: 100%;
+    max-width: 1200px; /* Alinhado com o padrão do seu site */
+    height: 450px;     /* Altura fixa para criar a área do banner */
+    margin: 40px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    
+    /* Centraliza o texto verticalmente e horizontalmente sobre a imagem */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Configuração da Imagem de Fundo */
+.sobre img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1; /* Fica atrás do texto */
+    transition: filter 0.3s ease;
+    filter: brightness(0.7); /* Escurece a imagem por padrão para dar contraste */
+}
+
+/* Elementos de texto (Título e Parágrafo) */
+.sobre h2, 
+.sobre .descricao {
+    position: relative;
+    z-index: 2; /* Ficam à frente da imagem */
+    color: #ffffff; /* Texto branco para contrastar com a imagem */
+    transition: text-shadow 0.3s ease;
+    max-width: 800px;
+}
+
+.sobre h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.sobre .descricao {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* --- EFEITO AO PASSAR O MOUSE --- */
+
+/* Escurece um pouco mais a imagem para destacar o texto */
+.sobre:hover img {
+    filter: brightness(0.5);
+}
+
+/* Adiciona a sombra forte atrás dos textos */
+.sobre:hover h2,
+.sobre:hover .descricao {
+    text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.9), 
+                 -2px -2px 15px rgba(0, 0, 0, 0.9);
+}
+
+/* --- SEÇÃO MISSÃO, VISÃO E VALORES --- */
+
+.missao-visao-valores {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.container-mvv {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    width: 100%;
+}
+
+/* Estilo Base do Card */
+.mvv-item {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Linha colorida no topo de cada card para identidade visual */
+.card-missao { border-top: 4px solid #1a56db; }   /* Azul */
+.card-visao { border-top: 4px solid #f95e05; }    /* Laranja */
+.card-valores { border-top: 4px solid #f6a01a; }  /* Amarelo/Laranja Senac */
+
+/* Efeito Hover nos Cards */
+.mvv-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilização do Container do Ícone */
+.mvv-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Cores de fundo suaves (soft background) para os ícones */
+.card-missao .mvv-icon { background-color: rgba(26, 86, 219, 0.1); color: #1a56db; }
+.card-visao .mvv-icon { background-color: rgba(249, 94, 5, 0.1); color: #f95e05; }
+.card-valores .mvv-icon { background-color: rgba(246, 160, 26, 0.1); color: #f6a01a; }
+
+.mvv-icon i {
+    font-size: 28px;
+    display: flex;
+}
+
+/* Animação do ícone ao passar o mouse no card */
+.mvv-item:hover .mvv-icon {
+    transform: scale(1.1);
+}
+
+/* Títulos dos Cards */
+.mvv-item h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #243c66; /* Azul escuro do seu cabeçalho */
+    margin-bottom: 15px;
+}
+
+/* Textos descritivos */
+.mvv-item p {
+    font-size: 15px;
+    color: #555555;
+    line-height: 1.6;
+    margin: 0;
+}

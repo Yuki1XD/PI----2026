@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/css/tela_incial.css">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/tela_inicial.js" defer></script>
+    <title>Página Inicial</title>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-top">
+            <div class="logo">
+                <img src="/imgs/Logo.png" alt="Senac">
+            </div>
+
+            <div class="header-region">Pernambuco</div>
+        </div>
+
+        <nav class="header-nav" aria-label="Navegação principal">
+            <ul>
+                <li class="items"><a href="/">Inicial</a></li>
+                <li class="items"><a href="/projetos">Projetos</a></li>    
+                <li class="items"><a href="/sobre">Sobre</a></li>
+            </ul>
+
+            <a href="/login_aluno" class="btn-login">Login</a>
+        </nav>
+    </header>
+    <section class="hero">
+        <div class="hero-slideshow">
+            <img src="/imgs/group-multinational-busy-people-working-office-2048x1367.webp" alt="Equipe trabalhando em escritório">
+        </div>
+        <div class="hero-content">
+            <i class="fi fi-rr-graduation-cap"></i>
+            <h1>Bem-vindo ao Repositório de Projetos Acadêmicos</h1>
+            <p>Explore os projetos desenvolvidos pelos nossos alunos nas diversas áreas de formação do Senac</p>
+            
+            <div class="Pesquisa">
+                <form action="/buscar" method="GET" onsubmit="event.preventDefault();">
+                    <i class="fi fi-rr-search lupa-icon"></i>
+                    <input type="search" id="search-input" name="q" placeholder="Pesquisar projetos, tags" class="input-pesquisa">
+                </form>
+            </div>
+        </div>
+    </section>
+<!-- Categorias de Projetos/ depois vai contabiliza automaticamente a quantidade de projetos -->
+    
+    <section class="categorias-container">
+        <div class="categorias-header">
+            <h2>Categorias de Projetos</h2>
+            <p>Navegue pelas diferentes áreas de conhecimento e descubra os projetos desenvolvidos</p>
+        </div>
+
+        <div class="categorias-grid" id="container-categorias-dinamicas">
+            </div>
+    </section>
+
+<!-- Vai entra na tela de login -->
+    <div class="Parte_comunidade">
+        <h2>Faça parte desta comunidade</h2>
+        <p>Você é aluno do Senac e quer compartilhar seu projeto? Entre em contato conosco e participe deste repositório</p>
+        <a href="#" class="btn-participar">Envie projeto</a>
+
+    </div>
+    <div class="Utimas_postagens">
+        <h2>Últimas Postagens</h2>
+        <div class="postagens-grid" id="container-postagens">
+
+            
+        </div>
+    </div>
+
+    
+        <section class="recent-updates-container">
+            <h2>Alterações Recentes</h2>
+            <div class="update-list" id="container-alteracoes">
+                
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 class="stats-title">Estatísticas da Plataforma</h2>
+            <div class="stats-grid">
+                <div class="stat-card bg-orange">
+                    <i class="fas fa-folder-open"></i>
+                    <h3 id="stat-publicados">0</h3>
+                    <p>Projetos Publicados</p>
+                </div>
+                <div class="stat-card bg-blue">
+                    <i class="fas fa-users"></i>
+                    <h3 id="stat-ativos">0</h3>
+                    <p>Alunos Ativos</p>
+                </div>
+                <div class="stat-card bg-green">
+                    <i class="fas fa-check-circle"></i>
+                    <h3 id="stat-pendentes">0</h3>
+                    <p>Projetos Pendentes</p>
+                </div>
+                <div class="stat-card bg-purple">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3 id="stat-professores">0</h3>
+                    <p>Professores Cadastrados</p>
+                </div>
+            </div>
+        </section>
+
+</body>
+</html>

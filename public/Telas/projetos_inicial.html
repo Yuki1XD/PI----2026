@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/css/subtelas_iniciais.css">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/tela_inicial.js" defer></script>
+    <title>Página Inicial</title>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-top">
+            <div class="logo">
+                <img src="/imgs/Logo.png" alt="Senac">
+            </div>
+            <div class="header-region">Pernambuco</div>
+        </div>
+
+        <nav class="header-nav" aria-label="Navegação principal">
+            <ul>
+                <li class="items"><a href="/">Inicial</a></li>
+                <li class="items"><a href="/projetos">Projetos</a></li>
+                <li class="items"><a href="/sobre">Sobre</a></li>
+            </ul>
+            <a href="/login_aluno" class="btn-login">Login</a>
+        </nav>
+    </header>
+
+    <div class="filterContainer">
+        <div class="searchBarStyle">
+            <i class="fi fi-rr-search"></i>
+            <input type="text" id="search-input" placeholder="Buscar projetos públicos..." class="searchInput">
+        </div>
+
+        <select id="select-ordem" class="selectFilter">
+            <option value="more_new">Mais Recentes</option>
+            <option value="more_old">Mais Antigos</option>
+        </select>
+        
+        </div>
+
+    <main class="conteudo-principal">
+        <div id="container-postagens" class="containerCard"></div>
+    </main>
+    
+</body>
+</html>

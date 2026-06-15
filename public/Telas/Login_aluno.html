@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login</title>
+    <link rel="stylesheet" href="css/Login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <form id="loginForm">
+            <input type="email" id="email" name="emailAluno" placeholder="seu.email@senac.com" required>
+            <input type="password" id="senha" name="passwordAluno" placeholder="Digite sua senha" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="register">
+            <p>Não tem uma conta?</p>
+            <a href="/cadastro">Criar Conta</a>
+        </div>
+
+        <div id="mensagem-erro" style="color: red; margin-top: 10px; font-weight: bold;"></div>
+    </div>
+
+    <script src="../js/cadastro.js"></script>
+
+</body>
+</html>
