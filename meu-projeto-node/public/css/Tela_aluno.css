@@ -142,6 +142,17 @@ body {
     color: red;
 }
 
+#exitTabButton {
+    color: red;
+    position: fixed;
+    bottom: 20px;
+}
+
+#exitTabButton a {
+    text-decoration: none;
+    color: red;
+}
+
 #exitTabButton:focus {
     color: white;
     background-color: red;

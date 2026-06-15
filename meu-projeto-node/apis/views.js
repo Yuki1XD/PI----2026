@@ -31,6 +31,9 @@ function protegerAdmin(req, res, next) {
 
 // --- ROTAS PÚBLICAS ---
 router.get("/", (req, res) => res.sendFile(path.join(telasPath, "index.html")));
+router.get("/projetos", (req, res) => res.sendFile(path.join(telasPath, "projetos_inicial.html")));
+router.get("/categorias", (req, res) => res.sendFile(path.join(telasPath, "categorias_inicial.html")));
+router.get("/sobre", (req, res) => res.sendFile(path.join(telasPath, "sobre_inicial.html")));
 router.get("/login", (req, res) => res.sendFile(path.join(telasPath, "Login.html")));
 router.get("/cadastro", (req, res) => res.sendFile(path.join(telasPath, "criar_conta.html")));
 router.get("/login_aluno", (req, res) => res.sendFile(path.join(telasPath, "login_aluno.html")));

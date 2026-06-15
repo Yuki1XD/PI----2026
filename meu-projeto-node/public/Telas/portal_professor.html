@@ -20,18 +20,14 @@
         <!-- Informações pessoais do inicio do menu lateral -->
 
         <div class="viewPerfil">
-
-            <div>
-                <img src="../Imagens/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" class="imgPerfil">
+            <div id="teacherImgContainer">
+                <h3 style="color: white;">Carregando...</h3>
             </div>
 
             <div class="namePerfil">
-
-                <h3>Nome do Professor</h3>
-                <p>Professor</p>
-
+                <h3 id="teacherName">Carregando...</h3>
+                <p id="teacherRole">Professor</p>
             </div>
-
         </div>
 
         <hr>
@@ -48,7 +44,7 @@
 
             <button class="buttonTab" content-id="configurations"><i class="fi fi-rr-settings"></i> Configurações</button>
 
-            <button class="buttonTab" content-id="exit" id="exitTabButton"><i class="fi fi-rr-address-card"></i>Sair</button>
+            <button class="buttonTab" content-id="exit" id="exitTabButton"><i class="fi fi-rr-address-card"></i><a href="/login-professsor">Sair</a></button>
 
 
         </div> 
@@ -214,22 +210,6 @@
 
                 
 
-                <div class="containerCard">
-
-                    <div class="postagem-card">
-                        <div class="postagem-topo">
-                            <img src="../imgs/24styles-moodeng-bite-bfmh-videoSixteenByNineJumbo1600.jpg" alt="Sistema de Biblioteca Digital">
-                        </div>
-                        <div class="postagem-cont">
-                            <h3>Sistema de Biblioteca Digital</h3>
-                            <p>Plataforma completa para gerenciamento de acervo e empréstimos.</p>
-                        </div>
-                        <div class="postagem-inf">
-                            <span>João Silva</span>
-                            <span>22/04/2026</span>
-                        </div>
-                    </div>
-
                 </div>         
 
             </div>
@@ -241,27 +221,17 @@
 
         <div class="contentTab" id="analyzedProjects">
 
-            <!-- Titulo e descrição -->
             <div class="tittleContentTab">
-
                 <h1>Projetos Analisados</h1>
-
                 <p>Clique em "Ver Detalhes" para ver os projetos analisados. A aprovação final será feita pelo administrador</p>
-
             </div>
 
-            <!-- Filtragem de Projetos para serem analisados -->
             <div class="filterContainer">
-
                 <div class="searchBarStyle">
-
                     <div>
                         <i class="fi fi-rr-search"></i>
                     </div>
-
                     <input type="text" placeholder="Pesquisar projetos..." class="searchInput">
-
-
                 </div>
 
                 <select name="alfabeticOrder" class="selectFilter">
@@ -280,24 +250,19 @@
                 </select>
 
                 <select name="analyzedOrder" class="selectFilter">
-                    <option value="recife">Arguardando Analise</option>
-                    <option value="olinda">Analise Enviada</option>
+                    <option value="recife">Aguardando Análise</option>
+                    <option value="olinda">Análise Enviada</option>
                 </select>
-
-
             </div>
 
-            <div class="noResultsForSearch">
-
-                <h2>Nenhum resultado encontrado.</h2>
-
-            </div>
-
-                
             <div class="alaizyProjects" id="listAnalyzedProjectsTeacher">
+                
+                <div class="noResultsForSearch">
+                    <h2>Nenhum resultado encontrado.</h2>
+                </div>
+
             </div>
             
-
         </div>
 
 
@@ -330,3 +295,4 @@
 
 </body>
 </html>
+

@@ -207,4 +207,43 @@ router.delete("/deletar/:id", (req, res) => {
   });
 });
 
+// =========================================================================
+// ROTA PARA BUSCAR PERFIL DO PROFESSOR LOGADO
+// =========================================================================
+router.get("/profile", (req, res) => {
+  // Verifica se o usuário está logado na sessão
+  if (!req.session || !req.session.usuario) {
+    return res.status(401).json({ mensagem: "Não autorizado. Faça login novamente." });
+  }
+
+  const idUsuarioLogado = req.session.usuario.id;
+
+  // Busca os dados do usuário e junta com dados específicos da tabela de professores (se houver)
+  const queryPerfil = `
+    SELECT 
+      u.name_user AS name_teacher, 
+      u.email_user AS email_teacher, 
+      u.tipo AS role_user,
+      u.avatar_user AS img_teacher,
+      t.function_teacher AS function_teacher
+    FROM users u
+    LEFT JOIN teacher t ON u.id_user = t.user_id
+    WHERE u.id_user = ?
+  `;
+
+  conexao.query(queryPerfil, [idUsuarioLogado], (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar perfil do professor:", err);
+      return res.status(500).json({ mensagem: "Erro interno ao buscar perfil." });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ mensagem: "Professor não encontrado." });
+    }
+
+    // Retorna os dados prontos para o front-end
+    return res.json(results[0]);
+  });
+});
+
 module.exports = router;
