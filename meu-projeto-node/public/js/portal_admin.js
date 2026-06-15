@@ -898,15 +898,14 @@ async function excluirUsuarioAdmin(id) {
 }
 
 // Função estatistica 
-
 document.addEventListener("DOMContentLoaded", () => {
     carregarEstatisticas();
 });
 
 async function carregarEstatisticas() {
     try {
-        // Faz a requisição para a rota que criamos no Node.js
-        const resposta = await fetch("/api/estatisticas");
+        // 1. Rota atualizada para bater com o seu back-end
+        const resposta = await fetch("/api/projects/statistics");
         const dados = await resposta.json();
 
         if (dados.erro) {
@@ -914,31 +913,46 @@ async function carregarEstatisticas() {
             return;
         }
 
-        // 1. Atualiza os cards principais usando os IDs do seu HTML
+        // 2. Atualiza os cards principais usando os IDs do seu HTML
         document.getElementById("num-usuarios").innerText = `+${dados.novosUsuarios}`;
         document.getElementById("num-projetos").innerText = dados.projetosPublicados;
         document.getElementById("taxa-aprovacao").innerText = dados.taxaAprovacao;
 
-        // 2. Atualiza a lista de Categorias dinamicamente
+        // 3. Atualiza a lista de Categorias dinamicamente
         const containerCategorias = document.getElementById("container-categorias");
-        containerCategorias.innerHTML = ""; // Limpa os dados estáticos do HTML
+        containerCategorias.innerHTML = ""; // Limpa o "Carregando..." do HTML
 
-        dados.categorias.forEach(cat => {
-            // Calcula uma porcentagem visual para a barra (ex: baseada em um limite de 100)
-            const porcentagem = Math.min(cat.quantidade, 100); 
+        if (dados.categorias && dados.categorias.length > 0) {
+            dados.categorias.forEach((cat, index) => {
+                // Alterna a cor das barras entre laranja e azul para o visual não ficar cansativo
+                const corBarra = index % 2 === 0 ? "orange" : "blue";
 
-            containerCategorias.innerHTML += `
-                <div class="progress-item">
-                    <div class="progress-labels">
-                        <span>${cat.nome}</span>
-                        <span class="count-val">${cat.quantidade}</span>
+                // Calcula a porcentagem real de projetos que pertencem a essa categoria
+                const totalProjetos = dados.projetosPublicados || 1; 
+                const porcentagem = (cat.nome / totalProjetos) * 100; // 'cat.nome' guarda o valor mapeado na query do banco
+
+                // Se o banco retornar valores nulos ou vazios por falta de preenchimento, tratamos aqui:
+                const nomeCategoria = cat.nome || "Não informada";
+
+                containerCategorias.innerHTML += `
+                    <div class="progress-item">
+                        <div class="progress-labels">
+                            <span>${nomeCategoria}</span>
+                            <span class="count-val">${cat.quantidade}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill ${corBarra}" style="width: ${porcentagem.toFixed(0)}%;"></div>
+                        </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill orange" style="width: ${porcentagem}%;"></div>
-                    </div>
-                </div>
-            `;
-        });
+                `;
+            });
+        } else {
+            containerCategorias.innerHTML = `<p style="color: #666; font-size: 14px;">Nenhum dado de categoria encontrado.</p>`;
+        }
+
+        // Limpa o esqueleto de tags caso queira implementar depois
+        const containerTags = document.getElementById("container-tags");
+        containerTags.innerHTML = `<p style="color: #666; font-size: 14px;">Dados de Tags em desenvolvimento...</p>`;
 
     } catch (erro) {
         console.error("Erro ao conectar com a API de estatísticas:", erro);
