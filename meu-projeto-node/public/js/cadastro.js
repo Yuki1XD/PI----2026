@@ -15,13 +15,15 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
                 passwordAluno: senha
             })
         });
+        // ... dentro do try do seu addEventListener ...
         const dados = await resposta.json();
+
         if (resposta.ok && dados.sucesso) {
-            // Se o banco validou e retornou sucesso, o navegador redireciona
+            // Se o banco validou e retornou sucesso, redireciona
             window.location.href = dados.redirecionar;
         } else {
-            // Exibe a mensagem de erro vinda do servidor (Ex: "E-mail ou senha incorretos.")
-            document.getElementById('mensagem-erro').innerText = dados.mensagem;
+            // Agora, qualquer erro (401, 400, etc) vai cair aqui e mostrar a mensagem
+            document.getElementById('mensagem-erro').innerText = dados.mensagem || "Erro ao realizar login.";
         }
     } catch (erro) {
         console.error("Erro ao tentar fazer login:", erro);
