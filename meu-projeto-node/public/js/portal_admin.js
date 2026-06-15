@@ -896,3 +896,51 @@ async function excluirUsuarioAdmin(id) {
         alert(error.message);
     }
 }
+
+// Função estatistica 
+
+document.addEventListener("DOMContentLoaded", () => {
+    carregarEstatisticas();
+});
+
+async function carregarEstatisticas() {
+    try {
+        // Faz a requisição para a rota que criamos no Node.js
+        const resposta = await fetch("/api/estatisticas");
+        const dados = await resposta.json();
+
+        if (dados.erro) {
+            console.error("Erro do servidor:", dados.erro);
+            return;
+        }
+
+        // 1. Atualiza os cards principais usando os IDs do seu HTML
+        document.getElementById("num-usuarios").innerText = `+${dados.novosUsuarios}`;
+        document.getElementById("num-projetos").innerText = dados.projetosPublicados;
+        document.getElementById("taxa-aprovacao").innerText = dados.taxaAprovacao;
+
+        // 2. Atualiza a lista de Categorias dinamicamente
+        const containerCategorias = document.getElementById("container-categorias");
+        containerCategorias.innerHTML = ""; // Limpa os dados estáticos do HTML
+
+        dados.categorias.forEach(cat => {
+            // Calcula uma porcentagem visual para a barra (ex: baseada em um limite de 100)
+            const porcentagem = Math.min(cat.quantidade, 100); 
+
+            containerCategorias.innerHTML += `
+                <div class="progress-item">
+                    <div class="progress-labels">
+                        <span>${cat.nome}</span>
+                        <span class="count-val">${cat.quantidade}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill orange" style="width: ${porcentagem}%;"></div>
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (erro) {
+        console.error("Erro ao conectar com a API de estatísticas:", erro);
+    }
+}

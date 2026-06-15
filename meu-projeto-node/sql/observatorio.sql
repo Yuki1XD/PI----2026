@@ -1,3 +1,4 @@
+-- Active: 1779450411689@@127.0.0.1@3306
 CREATE DATABASE IF NOT EXISTS observatorio;
 USE observatorio;
 
@@ -14,11 +15,11 @@ CREATE TABLE IF NOT EXISTS users (
     name_user VARCHAR(50) NOT NULL,
     email_user VARCHAR(50) NOT NULL,
     address_user VARCHAR(50),
-    cpf_user BIGINT, -- Alterado para BIGINT porque CPF estrapola o limite do INT comum
+    cpf_user BIGINT, 
     password_user VARCHAR(25) NOT NULL,
     tipo ENUM('aluno', 'professor', 'admin') NOT NULL,
-    turma_id INT NOT NULL, -- OBRIGATÓRIO: Todo aluno/user precisa estar vinculado a uma turma
-    FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE RESTRICT
+    turma_id INT NULL, 
+    FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE SET NULL 
 );
 
 -- 3. Tabela de Professores (Vinculada a um Usuário e a uma Turma)
@@ -132,3 +133,19 @@ DROP TABLE IF EXISTS turma;
 
 -- DROP DA DATABASE
 DROP DATABASE IF EXISTS observatorio;
+
+INSERT INTO users (name_user, email_user, address_user, cpf_user, password_user, tipo, turma_id) VALUES 
+('Lucas Silva', 'lucas@edu.com', 'Rua A, 123', 11122233344, 'senha123', 'aluno', 1),       
+('Mariana Souza', 'mariana@edu.com', 'Rua B, 456', 55566677788, 'senha456', 'aluno', 1),   
+('Carlos Eduardo', 'carlos@edu.com', 'Rua C, 789', 99900011122, 'senha789', 'aluno', 2),  
+('Reginaldo Leme', 'reginaldo@edu.com', 'Av. Central, 10', 12345678901, 'prof123', 'professor', NULL),
+('Ana Beatriz', 'ana.beatriz@edu.com', 'Av. Norte, 20', 23456789012, 'prof456', 'professor', NULL),
+('Sérgio Moro', 'sergio@edu.com', 'Av. Sul, 30', 34567890123, 'prof789', 'professor', NULL),
+('Diretora Glória', 'gloria@admin.com', 'Rua Principal, 1', 45678901234, 'admin123', 'admin', NULL),
+('Vice-Diretor Roberto', 'roberto@admin.com', 'Rua Lateral, 2', 56789012345, 'admin456', 'admin', NULL),
+('Coordenadora Marta', 'marta@admin.com', 'Rua Direita, 3', 67890123456, 'admin789', 'admin', NULL);
+
+INSERT INTO teacher (user_id, turma_id, class_teacher, function_teacher) VALUES 
+(4, 1, 'Requisitos', 'Regente'), 
+(5, 2, 'Coding', 'Regente'),    
+(6, 3, 'Banco de Dados', 'Colaborador');
