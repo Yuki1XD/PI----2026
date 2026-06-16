@@ -904,8 +904,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function carregarEstatisticas() {
     try {
-        // 1. Rota atualizada para bater com o seu back-end
-        const resposta = await fetch("/projects/statistics");
+        // 1. CORREÇÃO: URL ajustada para bater com o mapeamento exato do back-end
+        const resposta = await fetch("/projects/api/projects/statistics");
         const dados = await resposta.json();
 
         if (dados.erro) {
@@ -920,16 +920,16 @@ async function carregarEstatisticas() {
 
         // 3. Atualiza a lista de Categorias dinamicamente
         const containerCategorias = document.getElementById("container-categorias");
-        containerCategorias.innerHTML = ""; // Limpa o "Carregando..." do HTML
+        containerCategorias.innerHTML = ""; // Limpa o container
 
         if (dados.categorias && dados.categorias.length > 0) {
             dados.categorias.forEach((cat, index) => {
-                // Alterna a cor das barras entre laranja e azul para o visual não ficar cansativo
+                // Alterna a cor das barras entre laranja e azul
                 const corBarra = index % 2 === 0 ? "orange" : "blue";
 
-                // Calcula a porcentagem real de projetos que pertencem a essa categoria
+                // 🌟 CORREÇÃO: Uso de 'cat.quantidade' para o cálculo matemático da porcentagem
                 const totalProjetos = dados.projetosPublicados || 1; 
-                const porcentagem = (cat.nome / totalProjetos) * 100; // 'cat.nome' guarda o valor mapeado na query do banco
+                const porcentagem = (cat.quantidade / totalProjetos) * 100; 
 
                 // Se o banco retornar valores nulos ou vazios por falta de preenchimento, tratamos aqui:
                 const nomeCategoria = cat.nome || "Não informada";
