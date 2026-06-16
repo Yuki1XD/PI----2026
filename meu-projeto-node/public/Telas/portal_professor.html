@@ -8,22 +8,14 @@
     <link rel="stylesheet" href="../css/portal_professor.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <script src="../js/portal_professor.js" defer></script>
-
 </head>
 <body>
     
-    <!-- Menu lateral -->
-
-    <div  id="menuSide">
-
-
-        <!-- Informações pessoais do inicio do menu lateral -->
-
+    <div id="menuSide">
         <div class="viewPerfil">
             <div id="teacherImgContainer">
                 <h3 style="color: white;">Carregando...</h3>
             </div>
-
             <div class="namePerfil">
                 <h3 id="teacherName">Carregando...</h3>
                 <p id="teacherRole">Professor</p>
@@ -32,34 +24,18 @@
 
         <hr>
 
-        <!-- Botões do menu lateral -->
-        
         <div class="tabs">
-
             <button class="buttonTab" content-id="start"><i class="fi fi-rr-home"></i> Inicio</button>
-
             <button class="buttonTab" content-id="analyzeProjects"><i class="fi fi-rr-add"></i> Analisar Projetos</button>
-
             <button class="buttonTab" content-id="analyzedProjects"><i class="fi fi-rr-folder-open"></i> Projetos Analisados</button>
-
             <button class="buttonTab" content-id="configurations"><i class="fi fi-rr-settings"></i> Configurações</button>
-
             <button class="buttonTab" content-id="exit" id="exitTabButton"><i class="fi fi-rr-address-card"></i><a href="/login-professsor">Sair</a></button>
-
-
         </div> 
-
     </div>
 
-
-    <!-- Cabeçalho da pagina -->
-
     <header>
-
         <div id="header">
-
             <div class="menuBurguer">
-
                 <button class="menuButton" id="menuButton">
                     <span>
                         <div class="linha"></div>
@@ -67,22 +43,14 @@
                         <div class="linha"></div>
                     </span>
                 </button>
-
             </div>
-            
             <h1 class="nomePainel">Painel Professor</h1>
-
         </div>
-
     </header>
 
     <div id="contentContainerId">
 
-
-        <!-- Aba de Inicio do Professor - Erik -->
-
         <div class="contentTab show" id="start">
-
             <header class="header">
                 <h1>Painel Senac</h1>
             </header>
@@ -144,36 +112,20 @@
             </section>
 
             <button class="help-btn"><i class="fa-solid fa-question"></i></button>
-
         </div>
 
-
-        <!-- Aba de Analisar Projetos do Professor - Gabriel Felipe -->
-
         <div class="contentTab" id="analyzeProjects">
-
-
-            <!-- Titulo e descrição -->
             <div class="tittleContentTab">
-
                 <h1>Analisar Projetos</h1>
-
                 <p>Clique em "Ver Detalhes" para analisar cada projeto. A aprovação final será feita pelo administrador</p>
-
             </div>
 
-            <!-- Filtragem de Projetos para serem analisados -->
             <div class="filterContainer">
-
                 <div class="searchBarStyle">
-
                     <div>
                         <i class="fi fi-rr-search"></i>
                     </div>
-
                     <input type="text" placeholder="Pesquisar projetos..." class="searchInput">
-
-
                 </div>
 
                 <select name="alfabeticOrder" class="selectFilter">
@@ -192,35 +144,19 @@
                 </select>
 
                 <select name="analyzedOrder" class="selectFilter">
-                    <option value="recife">Arguardando Analise</option>
+                    <option value="recife">Aguardando Analise</option>
                     <option value="olinda">Analise Enviada</option>
                 </select>
-
-
             </div>
 
-            <!-- Projetos a serem analisados -->
             <div class="alaizyProjects" id="listProjectsTeacher">
-
                 <div class="noResultsForSearch">
-
                     <h2>Nenhum resultado encontrado.</h2>
-
                 </div>
-
-                
-
-                </div>         
-
             </div>
-
         </div>
 
-
-        <!-- Aba de Projetos Analisados do Professor - João Vitor -->
-
         <div class="contentTab" id="analyzedProjects">
-
             <div class="tittleContentTab">
                 <h1>Projetos Analisados</h1>
                 <p>Clique em "Ver Detalhes" para ver os projetos analisados. A aprovação final será feita pelo administrador</p>
@@ -256,43 +192,44 @@
             </div>
 
             <div class="alaizyProjects" id="listAnalyzedProjectsTeacher">
-                
                 <div class="noResultsForSearch">
                     <h2>Nenhum resultado encontrado.</h2>
                 </div>
-
             </div>
-            
         </div>
 
-
-        <!-- Aba de Configurações do Professor - João Barbosa -->
-
         <div class="contentTab" id="configurations">
-
             <div class="contentConfiguration">
-
                 <main class="config-container">
                     <h2>Configurações Pessoais</h2>
+                    
                     <div class="config-box">
-                        <form>
+                        <form id="formDadosProfessor">
                             <label>Nome</label>
-                            <input type="text" value="Prof. Carlos Alberto">
+                            <input type="text" id="configNome" readonly style="background-color: #f5f5f5; cursor: not-allowed;">
                             <label>E-mail</label>
-                            <input type="email" value="carlos.alberto@senac.com">
+                            <input type="email" id="configEmail" readonly style="background-color: #f5f5f5; cursor: not-allowed;">
                             <label>Função</label>
-                            <input type="text" value="Professor de Programação">
-                            <button type="submit">Salvar Alterações</button>
+                            <input type="text" id="configFuncao" readonly style="background-color: #f5f5f5; cursor: not-allowed;">
+                        </form>
+                    </div>
+
+                    <h2 style="margin-top: 30px;">Alterar Senha</h2>
+                    <div class="config-box">
+                        <form id="formAlterarSenha">
+                            <label for="currentPassword">Senha Atual</label>
+                            <input type="password" id="currentPassword" name="currentPassword" required placeholder="Digite sua senha atual">
+                            
+                            <label for="newPassword">Nova Senha</label>
+                            <input type="password" id="newPassword" name="newPassword" required placeholder="Mínimo 6 caracteres">
+                            
+                            <button type="submit">Atualizar Senha</button>
                         </form>
                     </div>
                 </main>
-
             </div>
-
         </div>
 
     </div>
-
 </body>
 </html>
-
