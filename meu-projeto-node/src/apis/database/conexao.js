@@ -2,14 +2,17 @@
 const mysql = require('mysql2');
 
 // 1. Conecta primeiro sem especificar o banco de dados (apenas no servidor)
-const conexaoSemBanco = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '1234'
+const conexao = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
+  ssl: { rejectUnauthorized: false } // Aiven exige SSL
 });
 
 // 2. Cria o banco de dados se ele não existir
-conexaoSemBanco.query('CREATE DATABASE IF NOT EXISTS observatorio;', (err) => {
+conexao.query('CREATE DATABASE IF NOT EXISTS observatorio;', (err) => {
   if (err) {
     console.error('Erro ao criar o banco de dados:', err);
     return;
@@ -17,7 +20,7 @@ conexaoSemBanco.query('CREATE DATABASE IF NOT EXISTS observatorio;', (err) => {
   console.log('Banco de dados "observatorio" pronto!');
   
   // Aponta a conexão para o banco criado/existente
-  conexaoSemBanco.query('USE observatorio;');
+  conexao.query('USE observatorio;');
 
   // 3. Cria as tabelas automaticamente se não existirem (na ordem correta de dependência)
   criarTabelasPadrao();
@@ -107,16 +110,16 @@ function criarTabelasPadrao() {
 
   // Execução das queries na ordem correta
   // Primeiro as tabelas independentes:
-  conexaoSemBanco.query(tabelaUsuarios, (err) => { if (err) console.error('Erro tabela users:', err); });
-  conexaoSemBanco.query(tabelaTurma, (err) => { if (err) console.error('Erro tabela turma:', err); });
-  conexaoSemBanco.query(tabelaProjetos, (err) => { if (err) console.error('Erro tabela project:', err); });
+  conexao.query(tabelaUsuarios, (err) => { if (err) console.error('Erro tabela users:', err); });
+  conexao.query(tabelaTurma, (err) => { if (err) console.error('Erro tabela turma:', err); });
+  conexao.query(tabelaProjetos, (err) => { if (err) console.error('Erro tabela project:', err); });
 
   // Depois as tabelas que dependem das anteriores:
-  conexaoSemBanco.query(tabelaTurmaAlunos, (err) => { if (err) console.error('Erro tabela turma_alunos:', err); });
-  conexaoSemBanco.query(tabelaTeacher, (err) => { if (err) console.error('Erro tabela teacher:', err); });
-  conexaoSemBanco.query(tabelaProjectCreators, (err) => { if (err) console.error('Erro tabela project_creators:', err); });
+  conexao.query(tabelaTurmaAlunos, (err) => { if (err) console.error('Erro tabela turma_alunos:', err); });
+  conexao.query(tabelaTeacher, (err) => { if (err) console.error('Erro tabela teacher:', err); });
+  conexao.query(tabelaProjectCreators, (err) => { if (err) console.error('Erro tabela project_creators:', err); });
   
-  conexaoSemBanco.query(tabelaAtualizacoes, (err) => {
+  conexao.query(tabelaAtualizacoes, (err) => {
     if (err) {
       console.error('Erro tabela atualizações:', err);
     } else {
@@ -126,4 +129,4 @@ function criarTabelasPadrao() {
 }
 
 // Exportamos a conexão já configurada
-module.exports = conexaoSemBanco;
+module.exports = conexao;

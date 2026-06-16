@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 
-const telasPath = path.join(__dirname, "..", "public", "Telas");
+const telasPath = path.join(__dirname, "..", "..", "public", "Telas");
 
 // MIDDLEWARES DE PROTEÇÃO
 // 1. Verifica se está logado como Aluno
