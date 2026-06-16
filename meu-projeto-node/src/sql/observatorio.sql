@@ -18,15 +18,17 @@ CREATE TABLE IF NOT EXISTS users (
     cpf_user VARCHAR(11),
     password_user VARCHAR(25) NOT NULL,
     tipo ENUM('aluno', 'professor', 'admin') NOT NULL,
-    turma_id INT NOT NULL, -- OBRIGATÓRIO: Todo aluno/user precisa estar vinculado a uma turma
-    FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE RESTRICT
+    turma_id INT NULL, 
+    status_user ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
+    avatar_user VARCHAR(100) DEFAULT NULL,
+    FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE SET NULL
 );
 
 -- 3. Tabela de Professores (Vinculada a um Usuário e a uma Turma)
 CREATE TABLE IF NOT EXISTS teacher (
     id_teacher INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    turma_id INT NOT NULL, -- OBRIGATÓRIO: Professor responsável por esta turma
+    turma_id INT NOT NULL, 
     class_teacher VARCHAR(15), 
     function_teacher VARCHAR(50), 
     FOREIGN KEY (user_id) REFERENCES users(id_user) ON DELETE CASCADE,

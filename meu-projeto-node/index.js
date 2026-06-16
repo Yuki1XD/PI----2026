@@ -5,7 +5,7 @@ const express = require("express");
 const path = require("path");
 const fileUpload = require('express-fileupload');
 const session = require('express-session');
-const cors = require('cors'); // Importado para evitar o erro de CORS no front
+const cors = require('cors'); 
 
 // Importação das rotas organizadas
 const viewsRouter = require('./src/apis/views');
@@ -15,9 +15,9 @@ const projetosApi = require('./src/apis/projects/projetos');
 const app = express();
 
 // Middlewares globais
-app.use(cors()); // Ativa o CORS antes das rotas
+app.use(cors()); 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true })); // Alterado para true para melhor suporte a dados de formulários complexos
 app.use(fileUpload());
 
 // Configuração da Sessão
@@ -38,10 +38,10 @@ app.use(express.static(path.join(__dirname, "public")));
 // Expõe a pasta de uploads globalmente para o front-end
 app.use('/uploads', express.static(path.join(__dirname, "public", "uploads")));
 
-// Atribuição das rotas
+// Atribuição das rotas (✨ CORRIGIDO: Prefixos simplificados e padronizados)
 app.use('/', viewsRouter); 
-app.use('/src/apis/auth', authApi); 
-app.use('/src/apis/projects', projetosApi); 
+app.use('/auth', authApi);       // Antes era '/src/apis/auth'
+app.use('/projects', projetosApi); // Antes era '/src/apis/projects'
 
 // 2. CONFIGURAÇÃO DA PORTA DINÂMICA (Essencial para o Render)
 const PORT = process.env.PORT || 3000;
