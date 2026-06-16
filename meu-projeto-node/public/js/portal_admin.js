@@ -616,7 +616,7 @@ async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visib
 document.addEventListener('DOMContentLoaded', () => {
     // Carrega a listagem de usuários se o container existir na tela
     if (document.getElementById('listAllUsersContainer')) {
-        loadUsersAdmin('/users', 'listAllUsersContainer');
+        loadUsersAdmin('/auth', 'listAllUsersContainer');
     }
 });
 
@@ -857,7 +857,7 @@ function rebindUserModalEvents(contextoContainer) {
 // Executa a atualização via PUT no Back-end (Modificada para receber FormData)
 async function atualizarUsuarioAdmin(id, formData) {
     try {
-        const response = await fetch(`/users/atualizar/${id}`, {
+        const response = await fetch(`/auth/atualizar/${id}`, {
             method: 'PUT',
             // Importante: Ao enviar FormData, NÃO se define o 'Content-Type' manualmente nos headers.
             // O próprio navegador define o boundary correto automaticamente.
@@ -882,7 +882,7 @@ async function atualizarUsuarioAdmin(id, formData) {
 // Função para deletar usuário
 async function excluirUsuarioAdmin(id) {
     try {
-        const response = await fetch(`/users/deletar/${id}`, {
+        const response = await fetch(`/auth/deletar/${id}`, {
             method: 'DELETE'
         });
 
