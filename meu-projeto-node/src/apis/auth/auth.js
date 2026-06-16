@@ -165,7 +165,7 @@ router.put("/atualizar/:id", (req, res) => {
               WHERE id_user = ?
             `;
 
-        conexao.query(queryUpdateComFoto, [name_user.trim(), email_user.trim(), role_tratada, status_user, novoNomeAvatar, idUsuario], (err, result) => {
+        conexao.query(queryUpdateComFoto, [name_user.trim(), email_user.trim(), roleTratada, status_user, novoNomeAvatar, idUsuario], (err, result) => {
           if (err) {
             console.error("Erro ao atualizar usuário com foto no banco:", err);
             return res.status(500).json({ mensagem: "Falha interna ao salvar atualizações." });
@@ -183,7 +183,7 @@ router.put("/atualizar/:id", (req, res) => {
       WHERE id_user = ?
     `;
 
-    conexao.query(queryUpdateSemFoto, [name_user.trim(), email_user.trim(), role_tratada, status_user, idUsuario], (err, result) => {
+    conexao.query(queryUpdateSemFoto, [name_user.trim(), email_user.trim(), roleTratada, status_user, idUsuario], (err, result) => {
       if (err) {
         console.error("Erro ao atualizar usuário sem foto no banco:", err);
         return res.status(500).json({ mensagem: "Falha interna ao salvar atualizações." });

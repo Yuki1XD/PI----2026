@@ -11,15 +11,15 @@
     <div class="login-container">
         <h2>Login</h2>
 
-        <form>
-            <input type="email" placeholder="seu.email@senac.com" required>
-            <input type="password" placeholder="Digite sua senha" required>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="seu.email@senac.com" required>
+            
+            <input type="password" id="senha" placeholder="Digite sua senha" required>
 
-            <a href="tela_incial_aluno.html">
             <button type="submit">Entrar</button>
-         </a>
-             
         </form>
+
+        <div id="mensagem-erro" style="color: red; margin-top: 10px; text-align: center;"></div>
 
         <div class="register">
             <p>Não tem uma conta?</p>
@@ -27,5 +27,6 @@
         </div>
     </div>
 
+    <script src="js/login.js"></script> 
 </body>
 </html>

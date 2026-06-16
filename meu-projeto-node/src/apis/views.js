@@ -36,7 +36,7 @@ router.get("/categorias", (req, res) => res.sendFile(path.join(telasPath, "categ
 router.get("/sobre", (req, res) => res.sendFile(path.join(telasPath, "sobre_inicial.html")));
 router.get("/login", (req, res) => res.sendFile(path.join(telasPath, "login.html")));
 router.get("/cadastro", (req, res) => res.sendFile(path.join(telasPath, "criar_conta.html")));
-router.get("/login_aluno", (req, res) => res.sendFile(path.join(telasPath, "login_aluno.html")));
+router.get("/cadastro_aluno", (req, res) => res.sendFile(path.join(telasPath, "cadastro_aluno.html")));
 router.get("/login_professor", (req, res) => res.sendFile(path.join(telasPath, "login_professor.html")));
 router.get("/login_adm", (req, res) => res.sendFile(path.join(telasPath, "login_adm.html")));
 

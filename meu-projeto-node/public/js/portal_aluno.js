@@ -83,7 +83,7 @@ if (creatorsInput && suggestionsList && selectedContainer) {
             // Rota fictícia /apis/users/buscar (ajustaremos quando você mandar o back-end)
             // No portal_aluno.js (Aproximadamente linha 83)
             // Mude para /apis/auth/buscar:
-            const response = await fetch(`/src/apis/auth/buscar?search=${encodeURIComponent(query)}`);
+            const response = await fetch(`/auth/buscar?search=${encodeURIComponent(query)}`);
             if (!response.ok) throw new Error("Erro ao buscar usuários");
             
             const usuarios = await response.json();
@@ -377,7 +377,7 @@ async function loadMyProjects() {
     const noResultsForSearch = document.querySelector('.noResultsForSearch');
     
     try {
-        const response = await fetch('/src/apis/projects/my_projects');
+        const response = await fetch('/projects/my_projects');
         if (!response.ok) throw new Error("Erro ao buscar projetos no servidor");
 
         const projetos = await response.json();
@@ -590,7 +590,7 @@ function rebinModalEvents() {
 // Função responsável por atualizar os cards e a atividade recente
 async function loadDashboardData() {
     try {
-        const response = await fetch('/src/apis/projects/dashboard');
+        const response = await fetch('/projects/dashboard');
         if (!response.ok) throw new Error("Erro ao buscar dados do painel do aluno");
 
         const data = await response.json();
@@ -695,7 +695,7 @@ if (editCreatorsInput && editSuggestionsList) {
         }
 
         try {
-            const response = await fetch(`/src/apis/auth/buscar?search=${encodeURIComponent(query)}`);
+            const response = await fetch(`/auth/buscar?search=${encodeURIComponent(query)}`);
             if (!response.ok) throw new Error("Erro ao buscar usuários");
             
             const usuarios = await response.json();

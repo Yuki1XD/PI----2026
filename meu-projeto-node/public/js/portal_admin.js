@@ -212,7 +212,7 @@ if (formAddProject) {
             formData.append('newProjectArchives', arquivo);
         });
 
-        fetch('/apis/projects/cadastrar', {
+        fetch('/projects/cadastrar', {
             method: 'POST',
             body: formData 
         })
@@ -245,7 +245,7 @@ async function carregarDadosInicio() {
         // Faz a requisição para a sua API que traz os dados consolidados do dashboard
         // Altere de: '/apis/admin/dashboard-inicio'
         // Para:
-        const response = await fetch('/src/apis/projects/dashboard-inicio');
+        const response = await fetch('/projects/dashboard-inicio');
         if (!response.ok) throw new Error("Erro ao carregar dados do início.");
         
         const dados = await response.json();
@@ -309,12 +309,12 @@ async function carregarDadosInicio() {
 document.addEventListener('DOMContentLoaded', () => {
     // Carrega a aba "Aprovar Projetos" (Apenas aguardando análise/analisados)
     if (document.getElementById('listProjectsTeacher')) {
-        loadProjectsAdmin('/src/apis/projects/analisados', 'listProjectsTeacher');
+        loadProjectsAdmin('/projects/analisados', 'listProjectsTeacher');
     }
     
     // Carrega a aba "Todos os Projetos" (A listagem geral do banco de dados)
     if (document.getElementById('listAllProjectsContainer')) {
-        loadProjectsAdmin('/src/apis/projects', 'listAllProjectsContainer');
+        loadProjectsAdmin('/projects', 'listAllProjectsContainer');
     }
 });
 
@@ -582,7 +582,7 @@ function rebindModalEvents(contextoContainer) {
 // Executa a atualização do status, categoria e visibilidade via PUT no Back-end
 async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visibilidadeEscolhida) {
     try {
-        const response = await fetch(`/src/apis/projects/aceitar_rejeitar/${id}`, {
+        const response = await fetch(`/projects/aceitar_rejeitar/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -857,7 +857,7 @@ function rebindUserModalEvents(contextoContainer) {
 // Executa a atualização via PUT no Back-end (Modificada para receber FormData)
 async function atualizarUsuarioAdmin(id, formData) {
     try {
-        const response = await fetch(`/src/apis/users/atualizar/${id}`, {
+        const response = await fetch(`/users/atualizar/${id}`, {
             method: 'PUT',
             // Importante: Ao enviar FormData, NÃO se define o 'Content-Type' manualmente nos headers.
             // O próprio navegador define o boundary correto automaticamente.
@@ -882,7 +882,7 @@ async function atualizarUsuarioAdmin(id, formData) {
 // Função para deletar usuário
 async function excluirUsuarioAdmin(id) {
     try {
-        const response = await fetch(`/src/apis/users/deletar/${id}`, {
+        const response = await fetch(`/users/deletar/${id}`, {
             method: 'DELETE'
         });
 
@@ -905,7 +905,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function carregarEstatisticas() {
     try {
         // 1. Rota atualizada para bater com o seu back-end
-        const resposta = await fetch("/src/api/projects/statistics");
+        const resposta = await fetch("/projects/statistics");
         const dados = await resposta.json();
 
         if (dados.erro) {
