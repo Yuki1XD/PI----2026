@@ -981,7 +981,6 @@ async function carregarEstatisticas() {
     }
 }
 
-<<<<<<< HEAD
 // === FUNÇÃO PARA SUBSTITUIR O 'ALERT' ===
 // tipo pode ser: 'sucesso' ou 'erro'
 function mostrarAviso(mensagem, tipo = 'sucesso') {
@@ -1080,15 +1079,3 @@ async function carregarPerfilMenuLateral() {
 document.addEventListener("DOMContentLoaded", () => {
     carregarPerfilMenuLateral();
 });
-=======
-// Função auxiliar para avisar o utilizador na interface caso o servidor caia
-function exibirErroVisual() {
-    const erroHTML = `<p style="color: #dc3545; font-size: 14px; font-weight: 500;">⚠️ Não foi possível carregar os dados em tempo real.</p>`;
-    
-    const containerCategorias = document.getElementById("container-categorias");
-    const containerTags = document.getElementById("container-tags");
-    
-    if (containerCategorias) containerCategorias.innerHTML = erroHTML;
-    if (containerTags) containerTags.innerHTML = erroHTML;
-}
->>>>>>> 267809704bf0cd08fa033704904f37d9158eb39e
