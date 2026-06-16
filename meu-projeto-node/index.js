@@ -4,10 +4,10 @@ const fileUpload = require('express-fileupload');
 const session = require('express-session');
 
 // Importação das rotas organizadas
-const viewsRouter = require('./apis/views');
-const authApi = require('./apis/auth/auth');
-const projetosApi = require('./apis/projects/projetos');
-// const usuariosApi = require('./apis/users/usuarios'); // Descomente quando criar este arquivo
+const viewsRouter = require('./src/apis/views');
+const authApi = require('./src/apis/auth/auth');
+const projetosApi = require('./src/apis/projects/projetos');
+// const usuariosApi = require('./src/apis/users/usuarios'); // Descomente quando criar este arquivo
 
 const app = express();
 
@@ -36,9 +36,9 @@ app.use('/uploads', express.static(path.join(__dirname, "public", "uploads")));
 
 // Atribuição das rotas
 app.use('/', viewsRouter); 
-app.use('/apis/auth', authApi); 
-app.use('/apis/projects', projetosApi); 
-// app.use('/apis/users', usuariosApi); // Mapeamento correto para a API de usuários
+app.use('/src/apis/auth', authApi); 
+app.use('/src/apis/projects', projetosApi); 
+// app.use('/src/apis/users', usuariosApi); // Mapeamento correto para a API de usuários
 
 app.listen(3000, () => {
   console.log("Servidor rodando em: http://localhost:3000");
