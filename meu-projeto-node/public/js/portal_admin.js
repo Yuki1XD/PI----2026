@@ -616,7 +616,7 @@ async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visib
 document.addEventListener('DOMContentLoaded', () => {
     // Carrega a listagem de usuários se o container existir na tela
     if (document.getElementById('listAllUsersContainer')) {
-        loadUsersAdmin('/src/apis/users', 'listAllUsersContainer');
+        loadUsersAdmin('/users', 'listAllUsersContainer');
     }
 });
 
