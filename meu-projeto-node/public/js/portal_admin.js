@@ -899,41 +899,53 @@ async function excluirUsuarioAdmin(id) {
 
 // Função estatistica 
 document.addEventListener("DOMContentLoaded", () => {
+    // Executa a função assim que a página terminar de carregar o HTML
     carregarEstatisticas();
 });
 
 async function carregarEstatisticas() {
     try {
-        // 1. CORREÇÃO: URL ajustada para bater com o mapeamento exato do back-end
+        // 1. Faz a requisição para a rota exata do seu back-end (Prefixo + Rota)
         const resposta = await fetch("/projects/api/projects/statistics");
+        
+        // Se a resposta não for bem-sucedida (ex: erro 404 ou 500)
+        if (!resposta.ok) {
+            throw new Error(`Erro na requisição: Status ${resposta.status}`);
+        }
+
         const dados = await resposta.json();
 
+        // Se o back-end devolveu alguma mensagem de erro interna
         if (dados.erro) {
-            console.error("Erro do servidor:", dados.erro);
+            console.error("Erro reportado pelo servidor:", dados.erro);
+            exibirErroVisual();
             return;
         }
 
-        // 2. Atualiza os cards principais usando os IDs do seu HTML
-        document.getElementById("num-usuarios").innerText = `+${dados.novosUsuarios}`;
-        document.getElementById("num-projetos").innerText = dados.projetosPublicados;
-        document.getElementById("taxa-aprovacao").innerText = dados.taxaAprovacao;
+        // 2. Atualiza os cards superiores com os IDs exatos do seu HTML
+        const totalUsuarios = dados.novosUsuarios || 0;
+        
+        // Garante o sinal de '+' apenas se houver mais de 0 utilizadores
+        document.getElementById("num-usuarios").innerText = totalUsuarios > 0 ? `+${totalUsuarios}` : "0";
+        document.getElementById("num-projetos").innerText = dados.projetosPublicados || 0;
+        document.getElementById("taxa-aprovacao").innerText = dados.taxaAprovacao || "0%";
 
-        // 3. Atualiza a lista de Categorias dinamicamente
+        // 3. Atualiza o bloco de "Projetos por Categoria"
         const containerCategorias = document.getElementById("container-categorias");
-        containerCategorias.innerHTML = ""; // Limpa o container
+        containerCategorias.innerHTML = ""; // Limpa o texto "Carregando categorias..."
 
         if (dados.categorias && dados.categorias.length > 0) {
+            const totalProjetos = dados.projetosPublicados || 1; // Evita divisão por zero
+
             dados.categorias.forEach((cat, index) => {
-                // Alterna a cor das barras entre laranja e azul
+                // Alterna a classe de cor entre 'orange' e 'blue' para o CSS aplicar o degradê
                 const corBarra = index % 2 === 0 ? "orange" : "blue";
-
-                // 🌟 CORREÇÃO: Uso de 'cat.quantidade' para o cálculo matemático da porcentagem
-                const totalProjetos = dados.projetosPublicados || 1; 
-                const porcentagem = (cat.quantidade / totalProjetos) * 100; 
-
-                // Se o banco retornar valores nulos ou vazios por falta de preenchimento, tratamos aqui:
+                
+                // Cálculo da percentagem real da categoria face ao total de projetos
+                const porcentagem = (cat.quantidade / totalProjetos) * 100;
                 const nomeCategoria = cat.nome || "Não informada";
 
+                // Injeta a estrutura que o CSS espera receber
                 containerCategorias.innerHTML += `
                     <div class="progress-item">
                         <div class="progress-labels">
@@ -947,14 +959,32 @@ async function carregarEstatisticas() {
                 `;
             });
         } else {
-            containerCategorias.innerHTML = `<p style="color: #666; font-size: 14px;">Nenhum dado de categoria encontrado.</p>`;
+            containerCategorias.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Nenhum projeto ou categoria encontrada no banco de dados.</p>`;
         }
 
-        // Limpa o esqueleto de tags caso queira implementar depois
+        // 4. Atualiza o bloco de "Tags Mais Utilizadas"
         const containerTags = document.getElementById("container-tags");
-        containerTags.innerHTML = `<p style="color: #666; font-size: 14px;">Dados de Tags em desenvolvimento...</p>`;
+        // Preparado para o futuro caso decida enviar dados.tags do back-end
+        if (dados.tags && dados.tags.length > 0) {
+            containerTags.innerHTML = "";
+            // Lógica para tags aqui (idêntica à de categorias se usar barras)
+        } else {
+            containerTags.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Dados de Tags em desenvolvimento...</p>`;
+        }
 
     } catch (erro) {
-        console.error("Erro ao conectar com a API de estatísticas:", erro);
+        console.error("Falha crítica ao conectar com a API de estatísticas:", erro);
+        exibirErroVisual();
     }
+}
+
+// Função auxiliar para avisar o utilizador na interface caso o servidor caia
+function exibirErroVisual() {
+    const erroHTML = `<p style="color: #dc3545; font-size: 14px; font-weight: 500;">⚠️ Não foi possível carregar os dados em tempo real.</p>`;
+    
+    const containerCategorias = document.getElementById("container-categorias");
+    const containerTags = document.getElementById("container-tags");
+    
+    if (containerCategorias) containerCategorias.innerHTML = erroHTML;
+    if (containerTags) containerTags.innerHTML = erroHTML;
 }
