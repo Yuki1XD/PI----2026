@@ -5,7 +5,7 @@ const mysql = require('mysql2');
 const conexaoSemBanco = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'teste'
+  password: '1234'
 });
 
 // 2. Cria o banco de dados se ele não existir

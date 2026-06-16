@@ -246,4 +246,59 @@ router.get("/profile", (req, res) => {
   });
 });
 
+// Adicione esta rota no seu arquivo auth.js (pode ser logo abaixo da rota do /profile)
+
+// =========================================================================
+// ROTA PARA ALTERAR APENAS A SENHA DO PROFESSOR LOGADO
+// =========================================================================
+router.put("/change-password", (req, res) => {
+  // 1. Verifica se o usuário está logado
+  if (!req.session || !req.session.usuario) {
+    return res.status(401).json({ mensagem: "Não autorizado. Faça login novamente." });
+  }
+
+  const idUsuarioLogado = req.session.usuario.id;
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ mensagem: "Todos os campos de senha são obrigatórios." });
+  }
+
+  // 2. Verifica se a senha atual está correta
+  const queryVerificaSenha = `SELECT password_user FROM users WHERE id_user = ?`;
+  
+  conexao.query(queryVerificaSenha, [idUsuarioLogado], (err, results) => {
+    if (err) {
+      console.error("Erro ao verificar senha atual:", err);
+      return res.status(500).json({ mensagem: "Erro interno no servidor." });
+    }
+
+    // Dentro da rota router.put("/change-password", ...)
+    if (results.length === 0) {
+        // Antes: return res.status(404).json({ delete: "Usuário não encontrado." });
+        return res.status(404).json({ mensagem: "Usuário não encontrado." }); // ✨ Corrigido
+    }
+
+    const senhaBanco = results[0].password_user;
+
+    // Nota: Como o seu script SQL inseriu senhas em texto puro ('prof123'), 
+    // a comparação está direta. Se usar criptografia (bcrypt) no futuro, altere aqui.
+    if (currentPassword !== senhaBanco) {
+      return res.status(401).json({ mensagem: "A senha atual digitada está incorreta." });
+    }
+
+    // 3. Atualiza a senha no banco de dados
+    const queryAtualizaSenha = `UPDATE users SET password_user = ? WHERE id_user = ?`;
+
+    conexao.query(queryAtualizaSenha, [newPassword, idUsuarioLogado], (errUpdate, resultUpdate) => {
+      if (errUpdate) {
+        console.error("Erro ao atualizar nova senha:", errUpdate);
+        return res.status(500).json({ mensagem: "Falha ao atualizar a senha no banco de dados." });
+      }
+
+      return res.json({ sucesso: true, mensagem: "Senha atualizada com sucesso!" });
+    });
+  });
+});
+
 module.exports = router;

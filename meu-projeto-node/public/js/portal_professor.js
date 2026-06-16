@@ -81,7 +81,7 @@ async function carregarDadosProfessor() {
     
     try {
         // Faz a requisição para a rota do back-end
-        const response = await fetch('/apis/projects/profile'); 
+        const response = await fetch('/apis/auth/profile');
         
         if (!response.ok) throw new Error("Erro ao buscar dados do professor");
         
@@ -673,10 +673,47 @@ async function carregarDashboardInicio() {
 // INTEGRAÇÃO COM SEUS EVENTOS EXISTENTES
 // =========================================================================
 
-// Modifique o bloco DOMContentLoaded para incluir a nova função:
+// Procure por este bloco no final do seu portal_professor.js e substitua:
 document.addEventListener("DOMContentLoaded", () => {
-    carregarDadosProfessor
+    carregarDadosProfessor(); // CORRIGIDO: Adicionado os parênteses () para de fato executar a função
     loadProjects();
     loadAnalyzedProjects();
-    carregarDashboardInicio(); // Carrega os dados da aba Início assim que entra na página
+    carregarDashboardInicio(); 
 });
+
+// === NOVA ADIÇÃO: Envio do formulário de Alterar Senha ===
+const formAlterarSenha = document.getElementById('formAlterarSenha');
+if (formAlterarSenha) {
+    formAlterarSenha.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+
+        if (newPassword.length < 6) {
+            alert('A nova senha deve ter no mínimo 6 caracteres.');
+            return;
+        }
+
+        try {
+            const response = await fetch('/apis/auth/change-password', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPassword, newPassword })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.mensagem || 'Erro ao atualizar senha.');
+            }
+
+            alert('Senha atualizada com sucesso!');
+            formAlterarSenha.reset(); // Limpa os campos do formulário
+
+        } catch (error) {
+            console.error('Erro ao mudar senha:', error);
+            alert(error.message);
+        }
+    });
+}
