@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const conexao = require('../database/conexao'); 
+const conexao = require('../database/conexao');
 const path = require('path');
 const fs = require('fs');
 
@@ -9,7 +9,7 @@ const CAMINHO_UPLOADS = path.join(__dirname, '../../public/uploads');
 
 // Garante que a pasta de uploads existe
 if (!fs.existsSync(CAMINHO_UPLOADS)) {
-    fs.mkdirSync(CAMINHO_UPLOADS, { recursive: true });
+  fs.mkdirSync(CAMINHO_UPLOADS, { recursive: true });
 }
 
 // =========================================================================
@@ -17,40 +17,47 @@ if (!fs.existsSync(CAMINHO_UPLOADS)) {
 // =========================================================================
 
 router.post("/login_aluno", (req, res) => {
-  let name_student = req.body.emailAluno;
-  let password_student = req.body.passwordAluno;
+  // .trim() limpa qualquer espaço invisível digitado no formulário
+  let email_student = req.body.emailAluno ? req.body.emailAluno.trim() : '';
+  let password_student = req.body.passwordAluno ? req.body.passwordAluno.trim() : '';
 
-  const select = `SELECT id_user, email_user, tipo, name_user FROM users WHERE email_user = ? AND password_user = ?`;
+  console.log(`[Login] Tentativa com e-mail: ${email_student}`);
 
-  conexao.query(select, [name_student, password_student], (err, results) => {
+  // Query ajustada para validar apenas usuários que estão ativos no novo sistema
+  const select = `SELECT id_user, email_user, tipo, name_user FROM users WHERE email_user = ? AND password_user = ? AND status_user = 'ativo'`;
+
+  conexao.query(select, [email_student, password_student], (err, results) => {
     if (err) {
-      console.log('Erro no banco de dados: ', err);
+      console.error('Erro no banco de dados durante login: ', err);
       return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
     }
 
     if (results.length > 0) {
-      const usuario = results[0]; 
-      
+      const usuario = results[0];
+
       req.session.usuario = {
-          id: usuario.id_user,
-          nome: usuario.name_user,
-          tipo: usuario.tipo 
+        id: usuario.id_user,
+        nome: usuario.name_user,
+        tipo: usuario.tipo
       };
 
-      let urlRedirecionamento = '/portal_aluno'; 
-      
+      let urlRedirecionamento = '/portal_aluno';
+
       if (usuario.tipo === 'professor') {
         urlRedirecionamento = '/portal_professor';
       } else if (usuario.tipo === 'admin') {
         urlRedirecionamento = '/portal_admin';
       }
 
-      return res.status(200).json({ 
-        sucesso: true, 
-        redirecionar: urlRedirecionamento 
+      console.log(`[Login] Sucesso! Redirecionando ${usuario.name_user} para ${urlRedirecionamento}`);
+
+      return res.status(200).json({
+        sucesso: true,
+        redirecionar: urlRedirecionamento
       });
     } else {
-      return res.status(401).json({ sucesso: false, mensagem: "E-mail ou senha incorretos." });
+      console.log(`[Login] Falha: Credenciais incorretas para o e-mail ${email_student}`);
+      return res.status(401).json({ sucesso: false, mensagem: "E-mail ou senha incorretos ou usuário inativo." });
     }
   });
 });
@@ -65,7 +72,7 @@ router.get("/buscar", (req, res) => {
   const queryBusca = `
     SELECT id_user AS id, name_user AS nome, email_user AS email 
     FROM users 
-    WHERE (name_user LIKE ? OR email_user LIKE ?) AND tipo = 'aluno'
+    WHERE (name_user LIKE ? OR email_user LIKE ?) AND tipo = 'aluno' AND status_user = 'ativo'
     LIMIT 10
   `;
 
@@ -81,7 +88,7 @@ router.get("/buscar", (req, res) => {
 });
 
 // =========================================================================
-// ROTAS DO ADMINISTRADOR - GERENCIAMENTO DE USUÁRIOS (com express-fileupload)
+// ROTAS DO ADMINISTRADOR - GERENCIAMENTO DE USUÁRIOS
 // =========================================================================
 
 // 1. ROTA GET: Lista todos os usuários
@@ -116,13 +123,16 @@ router.put("/atualizar/:id", (req, res) => {
     return res.status(400).json({ mensagem: "Todos os campos editáveis precisam ser preenchidos." });
   }
 
+  // Garante que a role vá para o ENUM do banco em letras minúsculas ('aluno', 'professor', 'admin')
+  const roleTratada = role_user.toLowerCase().trim();
+
   // Verifica se uma nova foto foi enviada via express-fileupload
   if (req.files && req.files.avatar_user) {
     const arquivoAvatar = req.files.avatar_user;
-    
+
     // Validação simples de tipo de arquivo
     if (!arquivoAvatar.mimetype.startsWith('image/')) {
-        return res.status(400).json({ mensagem: "Apenas arquivos de imagem são permitidos." });
+      return res.status(400).json({ mensagem: "Apenas arquivos de imagem são permitidos." });
     }
 
     // Gera um nome único para a imagem
@@ -134,35 +144,35 @@ router.put("/atualizar/:id", (req, res) => {
     // Busca a foto antiga para apagar e não acumular lixo no servidor
     const queryBuscaAntiga = `SELECT avatar_user FROM users WHERE id_user = ?`;
     conexao.query(queryBuscaAntiga, [idUsuario], (errAntigo, resultadosAntigos) => {
-        if (!errAntigo && resultadosAntigos.length > 0 && resultadosAntigos[0].avatar_user) {
-            const caminhoFotoAntiga = path.join(CAMINHO_UPLOADS, resultadosAntigos[0].avatar_user);
-            if (fs.existsSync(caminhoFotoAntiga)) {
-                fs.unlink(caminhoFotoAntiga, (err) => { if (err) console.log("Não pôde deletar foto antiga:", err); });
-            }
+      if (!errAntigo && resultadosAntigos.length > 0 && resultadosAntigos[0].avatar_user) {
+        const caminhoFotoAntiga = path.join(CAMINHO_UPLOADS, resultadosAntigos[0].avatar_user);
+        if (fs.existsSync(caminhoFotoAntiga)) {
+          fs.unlink(caminhoFotoAntiga, (err) => { if (err) console.log("Não pôde deletar foto antiga:", err); });
+        }
+      }
+
+      // Move o novo arquivo para a pasta de uploads
+      arquivoAvatar.mv(caminhoDestino, (errMv) => {
+        if (errMv) {
+          console.error("Erro ao mover arquivo de avatar:", errMv);
+          return res.status(500).json({ mensagem: "Erro ao salvar a imagem no servidor." });
         }
 
-        // Move o novo arquivo para a pasta de uploads
-        arquivoAvatar.mv(caminhoDestino, (errMv) => {
-            if (errMv) {
-                console.error("Erro ao mover arquivo de avatar:", errMv);
-                return res.status(500).json({ mensagem: "Erro ao salvar a imagem no servidor." });
-            }
-
-            // Atualiza o banco com os dados e o novo nome do avatar
-            const queryUpdateComFoto = `
+        // Atualiza o banco com os dados e o novo nome do avatar
+        const queryUpdateComFoto = `
               UPDATE users 
               SET name_user = ?, email_user = ?, tipo = ?, status_user = ?, avatar_user = ? 
               WHERE id_user = ?
             `;
 
-            conexao.query(queryUpdateComFoto, [name_user, email_user, role_user, status_user, novoNomeAvatar, idUsuario], (err, result) => {
-              if (err) {
-                console.error("Erro ao atualizar usuário com foto no banco:", err);
-                return res.status(500).json({ mensagem: "Falha interna ao salvar atualizações." });
-              }
-              return res.json({ mensagem: "Diretrizes e foto do usuário salvos com sucesso!" });
-            });
+        conexao.query(queryUpdateComFoto, [name_user.trim(), email_user.trim(), role_tratada, status_user, novoNomeAvatar, idUsuario], (err, result) => {
+          if (err) {
+            console.error("Erro ao atualizar usuário com foto no banco:", err);
+            return res.status(500).json({ mensagem: "Falha interna ao salvar atualizações." });
+          }
+          return res.json({ mensagem: "Diretrizes e foto do usuário salvos com sucesso!" });
         });
+      });
     });
 
   } else {
@@ -173,7 +183,7 @@ router.put("/atualizar/:id", (req, res) => {
       WHERE id_user = ?
     `;
 
-    conexao.query(queryUpdateSemFoto, [name_user, email_user, role_user, status_user, idUsuario], (err, result) => {
+    conexao.query(queryUpdateSemFoto, [name_user.trim(), email_user.trim(), role_tratada, status_user, idUsuario], (err, result) => {
       if (err) {
         console.error("Erro ao atualizar usuário sem foto no banco:", err);
         return res.status(500).json({ mensagem: "Falha interna ao salvar atualizações." });
@@ -190,10 +200,10 @@ router.delete("/deletar/:id", (req, res) => {
   const queryBuscaFoto = `SELECT avatar_user FROM users WHERE id_user = ?`;
   conexao.query(queryBuscaFoto, [idUsuario], (err, results) => {
     if (!err && results.length > 0 && results[0].avatar_user) {
-        const caminhoArquivo = path.join(CAMINHO_UPLOADS, results[0].avatar_user);
-        if (fs.existsSync(caminhoArquivo)) {
-            fs.unlinkSync(caminhoArquivo);
-        }
+      const caminhoArquivo = path.join(CAMINHO_UPLOADS, results[0].avatar_user);
+      if (fs.existsSync(caminhoArquivo)) {
+        fs.unlinkSync(caminhoArquivo);
+      }
     }
 
     const queryDelete = `DELETE FROM users WHERE id_user = ?`;
@@ -211,14 +221,12 @@ router.delete("/deletar/:id", (req, res) => {
 // ROTA PARA BUSCAR PERFIL DO PROFESSOR LOGADO
 // =========================================================================
 router.get("/profile", (req, res) => {
-  // Verifica se o usuário está logado na sessão
   if (!req.session || !req.session.usuario) {
     return res.status(401).json({ mensagem: "Não autorizado. Faça login novamente." });
   }
 
   const idUsuarioLogado = req.session.usuario.id;
 
-  // Busca os dados do usuário e junta com dados específicos da tabela de professores (se houver)
   const queryPerfil = `
     SELECT 
       u.name_user AS name_teacher, 
@@ -241,18 +249,14 @@ router.get("/profile", (req, res) => {
       return res.status(404).json({ mensagem: "Professor não encontrado." });
     }
 
-    // Retorna os dados prontos para o front-end
     return res.json(results[0]);
   });
 });
-
-// Adicione esta rota no seu arquivo auth.js (pode ser logo abaixo da rota do /profile)
 
 // =========================================================================
 // ROTA PARA ALTERAR APENAS A SENHA DO PROFESSOR LOGADO
 // =========================================================================
 router.put("/change-password", (req, res) => {
-  // 1. Verifica se o usuário está logado
   if (!req.session || !req.session.usuario) {
     return res.status(401).json({ mensagem: "Não autorizado. Faça login novamente." });
   }
@@ -264,33 +268,27 @@ router.put("/change-password", (req, res) => {
     return res.status(400).json({ mensagem: "Todos os campos de senha são obrigatórios." });
   }
 
-  // 2. Verifica se a senha atual está correta
   const queryVerificaSenha = `SELECT password_user FROM users WHERE id_user = ?`;
-  
+
   conexao.query(queryVerificaSenha, [idUsuarioLogado], (err, results) => {
     if (err) {
       console.error("Erro ao verificar senha atual:", err);
       return res.status(500).json({ mensagem: "Erro interno no servidor." });
     }
 
-    // Dentro da rota router.put("/change-password", ...)
     if (results.length === 0) {
-        // Antes: return res.status(404).json({ delete: "Usuário não encontrado." });
-        return res.status(404).json({ mensagem: "Usuário não encontrado." }); // ✨ Corrigido
+      return res.status(404).json({ mensagem: "Usuário não encontrado." });
     }
 
     const senhaBanco = results[0].password_user;
 
-    // Nota: Como o seu script SQL inseriu senhas em texto puro ('prof123'), 
-    // a comparação está direta. Se usar criptografia (bcrypt) no futuro, altere aqui.
-    if (currentPassword !== senhaBanco) {
+    if (currentPassword.trim() !== senhaBanco) {
       return res.status(401).json({ mensagem: "A senha atual digitada está incorreta." });
     }
 
-    // 3. Atualiza a senha no banco de dados
     const queryAtualizaSenha = `UPDATE users SET password_user = ? WHERE id_user = ?`;
 
-    conexao.query(queryAtualizaSenha, [newPassword, idUsuarioLogado], (errUpdate, resultUpdate) => {
+    conexao.query(queryAtualizaSenha, [newPassword.trim(), idUsuarioLogado], (errUpdate, resultUpdate) => {
       if (errUpdate) {
         console.error("Erro ao atualizar nova senha:", errUpdate);
         return res.status(500).json({ mensagem: "Falha ao atualizar a senha no banco de dados." });
