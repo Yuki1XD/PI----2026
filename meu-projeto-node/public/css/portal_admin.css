@@ -1393,6 +1393,59 @@ body {
 
 
 /*estatisca*/
+/* =========================================================================
+   ESTILIZAÇÃO DAS BARRAS DE PROGRESSO (ESTATÍSTICAS)
+   ========================================================================= */
+
+/* Espaçamento de cada item de categoria/tag */
+.progress-item {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Alinhamento dos textos (Nome da categoria à esquerda, número à direita) */
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* O valor numérico que fica na direita */
+.count-val {
+    font-weight: 700;
+    color: #555;
+}
+
+/* O fundo cinza da barra (onde a cor vai correr por dentro) */
+.progress-bar {
+    background-color: #eef2f5; /* Cinza claro moderno */
+    border-radius: 6px;
+    height: 10px;
+    width: 100%;
+    overflow: hidden; /* Garante que o preenchimento não saia das bordas arredondadas */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* O preenchimento interno da barra */
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    width: 0%; /* Começa em 0% e o JavaScript altera dinamicamente */
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Animação suave ao carregar */
+}
+
+/* Modificador para a cor Laranja */
+.progress-fill.orange {
+    background: linear-gradient(90deg, #ff9f43, #ff793f); /* Degradê laranja moderno */
+}
+
+/* Modificador para a cor Azul */
+.progress-fill.blue {
+    background: linear-gradient(90deg, #54a0ff, #2e86de); /* Degradê azul moderno */
+}
 
 .contentTab#statistic {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -1654,6 +1707,7 @@ body {
         grid-template-columns: 1fr;
     }
 }
+<<<<<<< HEAD
 
 /* Custom Alert & Confirm Modals */
 .custom-alert-dialog, .custom-confirm-dialog {
@@ -1708,3 +1762,5 @@ body {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
 }
+=======
+>>>>>>> 267809704bf0cd08fa033704904f37d9158eb39e

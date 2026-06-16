@@ -1,54 +1,62 @@
+const express = require('express');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+const router = express.Router();
+const conexao = require('../database/conexao'); // Nome correto da variável
+
+
+
 router.get("/api/projects/statistics", (req, res) => {
     
-    // 1. Conta o total de alunos ativos (Filtrando pelo tipo 'aluno')
+    // 1. Conta o total de alunos ativos
     const queryUsuarios = "SELECT COUNT(*) AS total FROM users WHERE tipo = 'aluno'";
     
-    // 2. Conta o total de projetos publicados (Geral ou use um status específico se tiver, ex: WHERE status_project = 'Aprovado')
+    // 2. Conta o total de projetos publicados
     const queryProjetos = "SELECT COUNT(*) AS total FROM project";
     
-    // 3. Agrupa os projetos pelas categorias reais cadastradas no banco
+    // 3. Agrupa os projetos pelas categorias reais
     const queryCategorias = `
         SELECT category_project AS nome, COUNT(*) AS quantidade 
         FROM project 
         GROUP BY category_project
     `;
 
-    // Executa a busca de Usuários/Alunos
-    db.query(queryUsuarios, (err, resUsuarios) => {
+    // 🌟 CORRIGIDO: Alterado 'db.query' para 'conexao.query'
+    conexao.query(queryUsuarios, (err, resultadosUsuarios) => {
         if (err) {
             console.error("Erro ao buscar usuários:", err);
             return res.status(500).json({ erro: "Erro ao buscar dados de usuários" });
         }
 
-        // Executa a busca de Projetos
-        db.query(queryProjetos, (err, resProjetos) => {
+        conexao.query(queryProjetos, (err, resultadosProjetos) => {
             if (err) {
                 console.error("Erro ao buscar projetos:", err);
                 return res.status(500).json({ erro: "Erro ao buscar dados de projetos" });
             }
 
-            // Executa a contagem por Categoria
-            db.query(queryCategorias, (err, resCategorias) => {
+            conexao.query(queryCategorias, (err, resultadosCategorias) => {
                 if (err) {
                     console.error("Erro ao buscar categorias:", err);
                     return res.status(500).json({ erro: "Erro ao buscar dados de categorias" });
                 }
 
-                const totalAlunos = resUsuarios[0].total;
-                const totalProjetos = resProjetos[0].total;
+                // Captura os totais dos arrays de resultados do MySQL
+                const totalAlunos = resultadosUsuarios[0].total;
+                const totalProjetos = resultadosProjetos[0].total;
 
-                // Cálculo simples para a taxa de aprovação baseada no seu HTML
-                // Como não há dados complexos de rejeição explícita ainda, definimos uma taxa padrão ou dinâmica
+                // Cálculo de taxa de aprovação
                 const taxaAprovacao = totalProjetos > 0 ? "100%" : "0%";
 
-                // Envia a resposta mastigada para o Front-end
-                res.json({
-                    novosUsuarios: totalAlunos,      // Vai para o ID "num-usuarios"
-                    projetosPublicados: totalProjetos, // Vai para o ID "num-projetos"
-                    taxaAprovacao: taxaAprovacao,       // Vai para o ID "taxa-aprovacao"
-                    categorias: resCategorias          // Vai renderizar a lista de barras de progresso
+                // Envia a resposta limpa para o Front-end
+                return res.json({
+                    novosUsuarios: totalAlunos,      
+                    projetosPublicados: totalProjetos, 
+                    taxaAprovacao: taxaAprovacao,       
+                    categorias: resultadosCategorias // Retorna o array de categorias [{nome: '...', quantidade: X}]
                 });
             });
         });
     });
 });
+
+module.exports = router;
