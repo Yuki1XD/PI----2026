@@ -212,7 +212,7 @@ if (formAddProject) {
             formData.append('newProjectArchives', arquivo);
         });
 
-        fetch('/apis/projects/cadastrar', {
+        fetch('/src/apis/projects/cadastrar', {
             method: 'POST',
             body: formData 
         })
@@ -251,7 +251,7 @@ async function loadProjects() {
     
     try {
 
-        const response = await fetch('/apis/projects/pendentes')
+        const response = await fetch('/src/apis/projects/pendentes')
         if (!response.ok) throw new Error("Erro ao buscar projetos no servidor")
 
         const projetos = await response.json()

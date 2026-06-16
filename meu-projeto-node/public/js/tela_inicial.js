@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 1. CONSOME A ROTA /dashboard-inicio
 async function carregarEstatisticasEAtividades() {
     try {
-        const response = await fetch('/apis/projects/dashboard-inicio');
+        const response = await fetch('/src/apis/projects/dashboard-inicio');
         if (!response.ok) throw new Error("Erro ao buscar dados do dashboard");
         
         const dados = await response.json();
@@ -60,7 +60,7 @@ async function carregarEstatisticasEAtividades() {
 // 2. CONSOME A ROTA GET / (Retorna apenas projetos públicos)
 async function carregarUltimosProjetos() {
     try {
-        const response = await fetch('/apis/projects');
+        const response = await fetch('/src/apis/projects');
         if (!response.ok) throw new Error("Erro ao carregar projetos");
 
         listaProjetosGlobal = await response.json();

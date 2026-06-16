@@ -5,7 +5,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const senha = document.getElementById('senha').value;
     try {
         // Faz a requisição POST para a sua API do Express
-        const resposta = await fetch('/apis/auth/login_aluno', {
+        // Altere a linha 8 do cadastro.js para:
+        const resposta = await fetch('/src/apis/auth/login_aluno', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
