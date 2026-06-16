@@ -27,19 +27,7 @@ conexao.query('CREATE DATABASE IF NOT EXISTS observatorio;', (err) => {
 });
 
 function criarTabelasPadrao() {
-  // 1. Tabelas Base (Não dependem de ninguém)
-  const tabelaUsuarios = `
-    CREATE TABLE IF NOT EXISTS users (
-      id_user INT PRIMARY KEY AUTO_INCREMENT,
-      name_user VARCHAR(50) NOT NULL,
-      email_user VARCHAR(50) NOT NULL,
-      address_user VARCHAR(50),
-      cpf_user INT,
-      password_user VARCHAR(25) NOT NULL,
-      tipo ENUM('aluno', 'professor', 'admin') NOT NULL
-    );
-  `;
-
+  // 1. TABELAS BASE (Ordem alterada: turma precisa vir antes de users devido à FK)
   const tabelaTurma = `
     CREATE TABLE IF NOT EXISTS turma (
       id_turma INT PRIMARY KEY AUTO_INCREMENT,
@@ -48,6 +36,24 @@ function criarTabelasPadrao() {
     );
   `;
 
+  // Atualizada com turma_id, status_user e avatar_user
+  const tabelaUsuarios = `
+    CREATE TABLE IF NOT EXISTS users (
+      id_user INT PRIMARY KEY AUTO_INCREMENT,
+      name_user VARCHAR(50) NOT NULL,
+      email_user VARCHAR(50) NOT NULL,
+      address_user VARCHAR(50),
+      cpf_user VARCHAR(11),
+      password_user VARCHAR(25) NOT NULL,
+      tipo ENUM('aluno', 'professor', 'admin') NOT NULL,
+      turma_id INT NOT NULL,
+      status_user ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
+      avatar_user VARCHAR(100) DEFAULT NULL,
+      FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE RESTRICT
+    );
+  `;
+
+  // Atualizada com category_project, class_project e visibility_project
   const tabelaProjetos = `
     CREATE TABLE IF NOT EXISTS project (
       id_project INT PRIMARY KEY AUTO_INCREMENT,
@@ -58,23 +64,16 @@ function criarTabelasPadrao() {
       description_project VARCHAR(200),
       archives_project TEXT,
       tags_project VARCHAR(200),
-      teacher_project VARCHAR(50),
-      alalysis_project VARCHAR(200),
-      status_project VARCHAR(50) NOT NULL
+      category_project VARCHAR(50) NOT NULL DEFAULT 'Não informada',
+      class_project VARCHAR(50) NOT NULL DEFAULT 'Não informada',
+      teacher_project VARCHAR(50) NOT NULL DEFAULT 'Não informado',
+      analysis_project VARCHAR(200),
+      status_project VARCHAR(50) NOT NULL,
+      visibility_project VARCHAR(15) DEFAULT 'privado'
     );
   `;
 
-  // 2. Tabelas com Chaves Estrangeiras (Dependem das tabelas base)
-  const tabelaTurmaAlunos = `
-    CREATE TABLE IF NOT EXISTS turma_alunos (
-      turma_id INT,
-      aluno_id INT,
-      PRIMARY KEY (turma_id, aluno_id),
-      FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE CASCADE,
-      FOREIGN KEY (aluno_id) REFERENCES users(id_user) ON DELETE CASCADE
-    );
-  `;
-
+  // 2. TABELAS DE DEPENDÊNCIA N:N E CHAVES ESTRANGEIRAS
   const tabelaTeacher = `
     CREATE TABLE IF NOT EXISTS teacher (
       id_teacher INT PRIMARY KEY AUTO_INCREMENT,
@@ -108,25 +107,32 @@ function criarTabelasPadrao() {
     );
   `;
 
-  // Execução das queries na ordem correta
-  // Primeiro as tabelas independentes:
-  conexao.query(tabelaUsuarios, (err) => { if (err) console.error('Erro tabela users:', err); });
-  conexao.query(tabelaTurma, (err) => { if (err) console.error('Erro tabela turma:', err); });
-  conexao.query(tabelaProjetos, (err) => { if (err) console.error('Erro tabela project:', err); });
+  // Execução das queries respeitando estritamente a hierarquia das FKs:
+  conexao.query(tabelaTurma, (err) => { 
+    if (err) return console.error('Erro tabela turma:', err); 
 
-  // Depois as tabelas que dependem das anteriores:
-  conexao.query(tabelaTurmaAlunos, (err) => { if (err) console.error('Erro tabela turma_alunos:', err); });
-  conexao.query(tabelaTeacher, (err) => { if (err) console.error('Erro tabela teacher:', err); });
-  conexao.query(tabelaProjectCreators, (err) => { if (err) console.error('Erro tabela project_creators:', err); });
-  
-  conexao.query(tabelaAtualizacoes, (err) => {
-    if (err) {
-      console.error('Erro tabela atualizações:', err);
-    } else {
-      console.log('Todas as tabelas foram verificadas/criadas com sucesso no Node.js!');
-    }
+    // Só cria users depois que a tabela turma existir
+    conexao.query(tabelaUsuarios, (err) => { 
+      if (err) return console.error('Erro tabela users:', err); 
+
+      // Cria as tabelas que dependem de users e turmas
+      conexao.query(tabelaTeacher, (err) => { if (err) console.error('Erro tabela teacher:', err); });
+      conexao.query(tabelaAtualizacoes, (err) => { if (err) console.error('Erro tabela atualizações:', err); });
+    });
   });
+
+  // Cria a tabela de projetos de forma independente
+  conexao.query(tabelaProjetos, (err) => { 
+    if (err) return console.error('Erro tabela project:', err); 
+
+    // Só cria project_creators depois que a tabela project existir
+    conexao.query(tabelaProjectCreators, (err) => { if (err) console.error('Erro tabela project_creators:', err); });
+  });
+
+  // Log final simplificado (as queries rodam em paralelo/assíncronas)
+  setTimeout(() => {
+    console.log('Todas as tabelas foram validadas/criadas na Aiven!');
+  }, 1500);
 }
 
-// Exportamos a conexão já configurada
 module.exports = conexao;

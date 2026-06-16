@@ -15,11 +15,11 @@ CREATE TABLE IF NOT EXISTS users (
     name_user VARCHAR(50) NOT NULL,
     email_user VARCHAR(50) NOT NULL,
     address_user VARCHAR(50),
-    cpf_user BIGINT, 
+    cpf_user VARCHAR(11),
     password_user VARCHAR(25) NOT NULL,
     tipo ENUM('aluno', 'professor', 'admin') NOT NULL,
-    turma_id INT NULL, 
-    FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE SET NULL 
+    turma_id INT NOT NULL, -- OBRIGATÓRIO: Todo aluno/user precisa estar vinculado a uma turma
+    FOREIGN KEY (turma_id) REFERENCES turma(id_turma) ON DELETE RESTRICT
 );
 
 -- 3. Tabela de Professores (Vinculada a um Usuário e a uma Turma)
@@ -46,8 +46,9 @@ CREATE TABLE IF NOT EXISTS project (
     category_project VARCHAR(50) NOT NULL DEFAULT 'Não informada', -- ADICIONADO
     class_project VARCHAR(50) NOT NULL DEFAULT 'Não informada',    -- ADICIONADO
     teacher_project VARCHAR(50) NOT NULL DEFAULT 'Não informado',
-    alalysis_project VARCHAR(200),
-    status_project VARCHAR(50) NOT NULL
+    analysis_project VARCHAR(200),
+    status_project VARCHAR(50) NOT NULL,
+    visibility_project VARCHAR(15) DEFAULT 'privado'
 );
 
 -- 5. Tabela intermediária N para N (Criadores e Projetos)
@@ -73,7 +74,14 @@ show tables;
 select * from users;
 select * from project;
 select * from project_creators;
+ALTER TABLE project ADD COLUMN visibility_project VARCHAR(200);
+USE observatorio;
 
+-- Adiciona a coluna de status do usuário (Padrão: ativo)
+ALTER TABLE users ADD COLUMN status_user ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo';
+
+-- Adiciona a coluna para a imagem de perfil do usuário
+ALTER TABLE users ADD COLUMN avatar_user VARCHAR(100) DEFAULT NULL;
 -- =========================================================================
 -- 1. POPULANDO AS TURMAS
 -- Precisamos de pelo menos 3 turmas para os 3 professores ficarem em turmas diferentes.
