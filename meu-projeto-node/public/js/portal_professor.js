@@ -81,7 +81,7 @@ async function carregarDadosProfessor() {
     
     try {
         // Faz a requisição para a rota do back-end
-        const response = await fetch('/src/apis/auth/profile');
+        const response = await fetch('/auth/profile');
         
         if (!response.ok) throw new Error("Erro ao buscar dados do professor");
         
@@ -314,7 +314,7 @@ async function loadProjects() {
     const container = document.getElementById("listProjectsTeacher");
     if (!container) return;
     try {
-        const response = await fetch('/src/apis/projects/pendentes'); // Correto!
+        const response = await fetch('/projects/pendentes'); // Correto!
         if (!response.ok) throw new Error("Erro ao buscar projetos pendentes");
         listaProjetosPendentes = await response.json();
         renderizarProjetos(listaProjetosPendentes, container, false);
@@ -326,7 +326,7 @@ async function loadAnalyzedProjects() {
     const container = document.getElementById("listAnalyzedProjectsTeacher"); 
     if (!container) return;
     try {
-        const response = await fetch('/src/apis/projects/analisados'); // Correto!
+        const response = await fetch('/projects/analisados'); // Correto!
         if (!response.ok) throw new Error("Erro ao buscar projetos analisados");
         listaProjetosAnalisados = await response.json();
         renderizarProjetos(listaProjetosAnalisados, container, true); 
@@ -498,7 +498,7 @@ document.addEventListener('click', async function(e) {
 
         try {
             // CORREÇÃO: Adicionado o prefixo correto da API (/apis/projects)
-            const response = await fetch(`/src/apis/projects/analisar/${idProjeto}`, {
+            const response = await fetch(`/projects/analisar/${idProjeto}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -619,7 +619,7 @@ async function carregarDashboardInicio() {
 
     try {
         // Faz a requisição para a rota específica do dashboard inicial
-        const response = await fetch('/src/apis/projects/dashboard-inicio');
+        const response = await fetch('/projects/dashboard-inicio');
         if (!response.ok) throw new Error("Erro ao carregar dados do dashboard.");
 
         const data = await response.json();
@@ -696,7 +696,7 @@ if (formAlterarSenha) {
         }
 
         try {
-            const response = await fetch('/src/apis/auth/change-password', {
+            const response = await fetch('/auth/change-password', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ currentPassword, newPassword })
