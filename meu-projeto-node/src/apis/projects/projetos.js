@@ -1,3 +1,4 @@
+const fs = require('fs'); // <--- Adicione isso no topo do arquivo
 const express = require('express');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
@@ -106,6 +107,7 @@ router.post("/cadastrar", (req, res) => {
   let category_project = req.body.newProjectCategory || 'Geral'; 
 
   let creatorsIdsArray = [];
+  
   try {
     if (req.body.creatorsIds) {
       creatorsIdsArray = JSON.parse(req.body.creatorsIds);
@@ -142,22 +144,30 @@ router.post("/cadastrar", (req, res) => {
     const nomeTurma = resultDados[0].nome_turma || "Não mapeada";
     const nomeProfessor = resultDados[0].nome_professor || "Sem orientador designado";
 
+    // Define o caminho absoluto para a pasta de uploads
+    const pastaUploads = path.join(process.cwd(), "public", "uploads");
+
+    // Cria a pasta recursivamente se ela não existir
+    if (!fs.existsSync(pastaUploads)) {
+        fs.mkdirSync(pastaUploads, { recursive: true });
+    }
+
     try {
       // Upload Assíncrono da Imagem
       let extension_img = path.extname(img_project.name);
       let img_name = uuidv4() + extension_img;
-      let uploadPathImg = path.join(__dirname, "..", "..", "public", "uploads", img_name);
+      let uploadPathImg = path.join(pastaUploads, img_name); // <--- Atualizado
       await img_project.mv(uploadPathImg);
 
       // Upload Assíncrono de Múltiplos Arquivos
       let saved_archives_names = [];
       let archives_list = Array.isArray(archives_project) ? archives_project : [archives_project];
-      
+
       const uploadPromises = archives_list.map(file => {
         let extension_archive = path.extname(file.name);
         let archive_name = uuidv4() + extension_archive;
         saved_archives_names.push(archive_name);
-        let uploadPathArchive = path.join(__dirname, "..", "..", "public", "uploads", archive_name);
+        let uploadPathArchive = path.join(pastaUploads, archive_name); // <--- Atualizado
         return file.mv(uploadPathArchive); 
       });
 

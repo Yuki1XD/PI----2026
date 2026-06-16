@@ -203,8 +203,8 @@ if (formAddProject) {
         formData.delete('newProjectArchives');
         
         if (arquivosAcumulados.length === 0) {
-            alert('Por favor, adicione ao menos um arquivo ao projeto.');
-            return;
+            mostrarAviso('Por favor, adicione ao menos um arquivo ao projeto.', 'erro');
+            return; 
         }
 
         arquivosAcumulados.forEach(arquivo => {
@@ -225,13 +225,12 @@ if (formAddProject) {
             return data;
         })
         .then(data => {
-            alert('Projeto publicado com sucesso!');
-            
+            mostrarAviso('Projeto publicado com sucesso!', 'sucesso');
             window.location.reload(); 
         })
         .catch(error => {
             console.error('Erro no envio:', error);
-            alert(error.message);
+            mostrarAviso(error.message, 'erro');
         });
     });
 }
@@ -546,7 +545,7 @@ function rebindModalEvents(contextoContainer) {
 
     // Botão de Aceitar / Salvar alterações como Aceito
     contextoContainer.querySelectorAll('.accept-btn').forEach(button => {
-        button.onclick = async (e) => {
+        button.onclick = async (e) => { // Certifique-se de que tem o 'async' aqui
             e.preventDefault();
             const id = button.getAttribute('data-id');
             const containerId = button.getAttribute('data-container');
@@ -555,10 +554,12 @@ function rebindModalEvents(contextoContainer) {
             const categoria = modal.querySelector('.select-categoria').value;
             const visibilidade = modal.querySelector('.select-visibilidade').value;
 
-            if (confirm('Confirmar salvamento do projeto com o status: ACEITO?')) {
+            // Aguarda a resposta do seu painel customizado
+            const confirmado = await mostrarConfirmacao('Confirmar salvamento do projeto com o status: ACEITO?');
+            if (confirmado) {
                 enviarAnaliseAdmin(id, 'aceito', categoria, visibilidade);
             }
-        };
+        };      
     });
 
     // Botão de Rejeitar / Salvar alterações como Rejeitado
@@ -572,7 +573,9 @@ function rebindModalEvents(contextoContainer) {
             const categoria = modal.querySelector('.select-categoria').value;
             const visibilidade = modal.querySelector('.select-visibilidade').value;
 
-            if (confirm('Confirmar salvamento do projeto com o status: REJEITADO?')) {
+            // Aguarda a resposta do seu painel customizado
+            const confirmado = await mostrarConfirmacao('Confirmar salvamento do projeto com o status: REJEITADO?');
+            if (confirmado) {
                 enviarAnaliseAdmin(id, 'rejeitado', categoria, visibilidade);
             }
         };
@@ -600,12 +603,12 @@ async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visib
             throw new Error(data.mensagem || 'Erro ao atualizar dados do projeto.');
         }
 
-        alert(data.mensagem || 'Projeto atualizado com sucesso!');
-        window.location.reload(); 
+        mostrarAviso(data.mensagem || 'Projeto atualizado com sucesso!', 'sucesso');
+        setTimeout(() => { window.location.reload(); }, 1500); 
 
     } catch (error) {
         console.error('Erro na requisição PUT:', error);
-        alert(error.message);
+        mostrarAviso(error.message, 'erro');
     }
 }
 
@@ -958,3 +961,102 @@ async function carregarEstatisticas() {
         console.error("Erro ao conectar com a API de estatísticas:", erro);
     }
 }
+
+// === FUNÇÃO PARA SUBSTITUIR O 'ALERT' ===
+// tipo pode ser: 'sucesso' ou 'erro'
+function mostrarAviso(mensagem, tipo = 'sucesso') {
+    const dialog = document.createElement('dialog');
+    dialog.classList.add('custom-alert-dialog');
+    
+    const icone = tipo === 'sucesso' ? 'fi-rr-checkbox' : 'fi-rr-cross-circle';
+    
+    dialog.innerHTML = `
+        <div class="custom-alert-content">
+            <i class="fi ${icone}"></i>
+            <p>${mensagem}</p>
+            <button class="custom-alert-btn">OK</button>
+        </div>
+    `;
+    
+    document.body.appendChild(dialog);
+    dialog.showModal();
+    
+    dialog.querySelector('.custom-alert-btn').addEventListener('click', () => {
+        dialog.close();
+        dialog.remove(); // Limpa do HTML
+    });
+}
+
+// === FUNÇÃO PARA SUBSTITUIR O 'CONFIRM' ===
+// Retorna true ou false de forma assíncrona
+function mostrarConfirmacao(mensagem) {
+    return new Promise((resolve) => {
+        const dialog = document.createElement('dialog');
+        dialog.classList.add('custom-confirm-dialog');
+        
+        dialog.innerHTML = `
+            <div class="custom-confirm-content">
+                <i class="fi fi-rr-interrogation"></i>
+                <p>${mensagem}</p>
+                <button class="custom-confirm-yes">Confirmar</button>
+                <button class="custom-confirm-no">Cancelar</button>
+            </div>
+        `;
+        
+        document.body.appendChild(dialog);
+        dialog.showModal();
+        
+        dialog.querySelector('.custom-confirm-yes').addEventListener('click', () => {
+            dialog.close();
+            dialog.remove();
+            resolve(true);
+        });
+        
+        dialog.querySelector('.custom-confirm-no').addEventListener('click', () => {
+            dialog.close();
+            dialog.remove();
+            resolve(false);
+        });
+    });
+}
+
+// === CARREGAR DADOS DO USUÁRIO LOGADO AUTOMATICAMENTE ===
+async function carregarPerfilMenuLateral() {
+    const imgContainer = document.getElementById("userImgContainer");
+    const nomePerfil = document.getElementById("userName");
+    const cargoPerfil = document.getElementById("userRole");
+
+    try {
+        const response = await fetch('/auth/profile');
+        if (!response.ok) throw new Error("Erro ao carregar perfil");
+
+        const usuario = await response.json();
+
+        // 1. Atualiza o nome e tipo textuais
+        if (nomePerfil) nomePerfil.textContent = usuario.name_user;
+        if (cargoPerfil) cargoPerfil.textContent = usuario.tipo.charAt(0).toUpperCase() + usuario.tipo.slice(1); // Ex: Aluno
+
+        // 2. Regra de negócio para a foto de perfil
+        if (imgContainer) {
+            if (usuario.avatar_user) {
+                // Se o usuário POSSUI foto salva no banco de dados
+                imgContainer.innerHTML = `<img src="/uploads/${usuario.avatar_user}" class="imgPerfil" alt="Foto de perfil">`;
+            } else {
+                // Se o usuário NÃO possui foto (avatar_user é null ou vazio), renderiza o ícone de usuário padrão do Flaticon UIcons
+                imgContainer.innerHTML = `
+                    <i class="fi fi-rr-user" style="font-size: 32px; color: #ccc; background: #f0f0f0; padding: 12px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px;"></i>
+                `;
+            }
+        }
+    } catch (err) {
+        console.error("Erro ao renderizar dados do menu lateral:", err);
+        if (imgContainer) {
+            imgContainer.innerHTML = `<i class="fi fi-rr-user" style="font-size: 32px; color: #ccc;"></i>`;
+        }
+    }
+}
+
+// Garante a execução assim que a página carregar por completo
+document.addEventListener("DOMContentLoaded", () => {
+    carregarPerfilMenuLateral();
+});

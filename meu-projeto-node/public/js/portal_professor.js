@@ -68,58 +68,6 @@ if (newProjectImg) {
     })
 }
 
-// ==========================================
-// CARREGAR DADOS DO PROFESSOR LOGADO
-// ==========================================
-async function carregarDadosProfessor() {
-    const imgContainer = document.getElementById("teacherImgContainer");
-    const nomePerfil = document.getElementById("teacherName");
-    const cargoPerfil = document.getElementById("teacherRole");
-
-    // Seleciona os inputs da aba de configurações para preenchê-los automaticamente
-    const formConfig = document.querySelector("#configurations form");
-    
-    try {
-        // Faz a requisição para a rota do back-end
-        const response = await fetch('/auth/profile');
-        
-        if (!response.ok) throw new Error("Erro ao buscar dados do professor");
-        
-        const professor = await response.json();
-
-        // 1. Atualiza os dados no Menu Lateral (Sidebar)
-        if (nomePerfil) nomePerfil.textContent = professor.name_teacher || "Nome do Professor";
-        if (cargoPerfil) cargoPerfil.textContent = professor.function_teacher || "Professor";
-        
-        // Define se exibe a imagem de perfil ou o ícone de usuário vazio
-        if (imgContainer) {
-            if (professor.img_teacher) {
-                // Se tiver imagem no banco, renderiza a tag IMG
-                imgContainer.innerHTML = `<img src="/uploads/${professor.img_teacher}" class="imgPerfil" id="teacherImg" alt="Foto do Professor">`;
-            } else {
-                // Se NÃO tiver imagem, insere o ícone de usuário padrão da sua biblioteca UIcons
-                imgContainer.innerHTML = `<i class="fi fi-rr-user" id="teacherImg" style="font-size: 40px; color: #ccc; background: #f0f0f0; padding: 10px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px;"></i>`;
-            }
-        }
-
-        // 2. Preenche os campos da aba "Configurações Pessoais" dinamicamente
-        if (formConfig) {
-            const inputs = formConfig.querySelectorAll('input');
-            if (inputs.length >= 3) {
-                inputs[0].value = professor.name_teacher || "";
-                inputs[1].value = professor.email_teacher || "";
-                inputs[2].value = professor.function_teacher || "Professor";
-            }
-        }
-
-    } catch (err) {
-        console.error("Erro ao carregar perfil do professor:", err);
-        if (imgContainer) {
-            imgContainer.innerHTML = `<i class="fi fi-rr-user" style="font-size: 40px; color: #ccc;"></i>`;
-        }
-    }
-}
-
 // Array global para armazenar todos os arquivos selecionados consecutivamente
 let arquivosAcumulados = [];
 
@@ -669,13 +617,54 @@ async function carregarDashboardInicio() {
     }
 }
 
+// === CARREGAR DADOS DO USUÁRIO LOGADO AUTOMATICAMENTE ===
+async function carregarPerfilMenuLateral() {
+    const imgContainer = document.getElementById("userImgContainer");
+    const nomePerfil = document.getElementById("userName");
+    const cargoPerfil = document.getElementById("userRole");
+
+    try {
+        const response = await fetch('/auth/profile');
+        if (!response.ok) throw new Error("Erro ao carregar perfil");
+
+        const usuario = await response.json();
+
+        // 1. Atualiza o nome e tipo textuais
+        if (nomePerfil) nomePerfil.textContent = usuario.name_user;
+        if (cargoPerfil) cargoPerfil.textContent = usuario.tipo.charAt(0).toUpperCase() + usuario.tipo.slice(1); // Ex: Aluno
+
+        // 2. Regra de negócio para a foto de perfil
+        if (imgContainer) {
+            if (usuario.avatar_user) {
+                // Se o usuário POSSUI foto salva no banco de dados
+                imgContainer.innerHTML = `<img src="/uploads/${usuario.avatar_user}" class="imgPerfil" alt="Foto de perfil">`;
+            } else {
+                // Se o usuário NÃO possui foto (avatar_user é null ou vazio), renderiza o ícone de usuário padrão do Flaticon UIcons
+                imgContainer.innerHTML = `
+                    <i class="fi fi-rr-user" style="font-size: 32px; color: #ccc; background: #f0f0f0; padding: 12px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px;"></i>
+                `;
+            }
+        }
+    } catch (err) {
+        console.error("Erro ao renderizar dados do menu lateral:", err);
+        if (imgContainer) {
+            imgContainer.innerHTML = `<i class="fi fi-rr-user" style="font-size: 32px; color: #ccc;"></i>`;
+        }
+    }
+}
+
+// Garante a execução assim que a página carregar por completo
+document.addEventListener("DOMContentLoaded", () => {
+    carregarPerfilMenuLateral();
+});
+
 // =========================================================================
 // INTEGRAÇÃO COM SEUS EVENTOS EXISTENTES
 // =========================================================================
 
 // Procure por este bloco no final do seu portal_professor.js e substitua:
 document.addEventListener("DOMContentLoaded", () => {
-    carregarDadosProfessor(); // CORRIGIDO: Adicionado os parênteses () para de fato executar a função
+    carregarPerfilMenuLateral(); // CORRIGIDO: Adicionado os parênteses () para de fato executar a função
     loadProjects();
     loadAnalyzedProjects();
     carregarDashboardInicio(); 

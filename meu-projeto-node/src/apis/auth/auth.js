@@ -220,36 +220,29 @@ router.delete("/deletar/:id", (req, res) => {
 // =========================================================================
 // ROTA PARA BUSCAR PERFIL DO PROFESSOR LOGADO
 // =========================================================================
+// Rota para buscar os dados do usuário atualmente logado (Aluno, Professor ou Admin)
 router.get("/profile", (req, res) => {
+  // Verifica se existe um usuário na sessão
   if (!req.session || !req.session.usuario) {
-    return res.status(401).json({ mensagem: "Não autorizado. Faça login novamente." });
+    return res.status(401).json({ mensagem: "Não autenticado." });
   }
 
-  const idUsuarioLogado = req.session.usuario.id;
+  const userId = req.session.usuario.id;
 
-  const queryPerfil = `
-    SELECT 
-      u.name_user AS name_teacher, 
-      u.email_user AS email_teacher, 
-      u.tipo AS role_user,
-      u.avatar_user AS img_teacher,
-      t.function_teacher AS function_teacher
-    FROM users u
-    LEFT JOIN teacher t ON u.id_user = t.user_id
-    WHERE u.id_user = ?
-  `;
+  // Busca o nome, e-mail, tipo e o avatar direto na tabela de users
+  const query = `SELECT name_user, email_user, tipo, avatar_user FROM users WHERE id_user = ?`;
 
-  conexao.query(queryPerfil, [idUsuarioLogado], (err, results) => {
+  conexao.query(query, [userId], (err, results) => {
     if (err) {
-      console.error("Erro ao buscar perfil do professor:", err);
-      return res.status(500).json({ mensagem: "Erro interno ao buscar perfil." });
+      console.error("Erro ao buscar perfil do usuário:", err);
+      return res.status(500).json({ mensagem: "Erro interno no servidor." });
     }
 
-    if (results.length === 0) {
-      return res.status(404).json({ mensagem: "Professor não encontrado." });
+    if (results.length > 0) {
+      return res.json(results[0]); // Retorna os dados do usuário logado
+    } else {
+      return res.status(404).json({ mensagem: "Usuário não encontrado." });
     }
-
-    return res.json(results[0]);
   });
 });
 

@@ -10,7 +10,7 @@ function protegerAluno(req, res, next) {
     if (req.session.usuario && req.session.usuario.tipo === 'aluno') {
         return next(); // Autorizado, pode prosseguir
     }
-    res.redirect('/login_aluno'); // Não autorizado, vai para o login
+    res.redirect('/login'); // Não autorizado, vai para o login
 }
 
 // 2. Verifica se está logado como Professor
@@ -18,7 +18,7 @@ function protegerProfessor(req, res, next) {
     if (req.session.usuario && req.session.usuario.tipo === 'professor') {
         return next();
     }
-    res.redirect('/login_professor');
+    res.redirect('/login');
 }
 
 // 3. Verifica se está logado como Admin
@@ -26,7 +26,7 @@ function protegerAdmin(req, res, next) {
     if (req.session.usuario && req.session.usuario.tipo === 'admin') {
         return next();
     }
-    res.redirect('/login_adm');
+    res.redirect('/login');
 }
 
 // --- ROTAS PÚBLICAS ---

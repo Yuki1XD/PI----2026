@@ -1,3 +1,35 @@
+// === SISTEMA DE NOTIFICAÇÕES CUSTOMIZADAS (Substituta do alert) ===
+function mostrarAviso(mensagem, tipo = 'warning') {
+    const container = document.getElementById('custom-alert-container');
+    if (!container) return;
+
+    // Cria o elemento do aviso
+    const alerta = document.createElement('div');
+    alerta.className = `custom-alert ${tipo}`;
+    
+    alerta.innerHTML = `
+        <span>${mensagem}</span>
+        <button class="custom-alert-close">&times;</button>
+    `;
+
+    // Evento para fechar manualmente no "X"
+    alerta.querySelector('.custom-alert-close').addEventListener('click', () => {
+        alerta.style.opacity = '0';
+        setTimeout(() => alerta.remove(), 300);
+    });
+
+    // Adiciona ao container da tela
+    container.appendChild(alerta);
+
+    // Remove automaticamente após 4 segundos
+    setTimeout(() => {
+        if (alerta.parentNode) {
+            alerta.style.opacity = '0';
+            setTimeout(() => alerta.remove(), 300);
+        }
+    }, 400);
+}
+
 document.getElementById("menuButton").addEventListener('click', () => {
     document.getElementById('header').classList.toggle('movimentHeader')
     document.getElementById('menuSide').classList.toggle('openMenuSide')
@@ -314,7 +346,7 @@ if (formAddProject) {
         formData.delete('newProjectArchives');
         
         if (arquivosAcumulados.length === 0) {
-            alert('Por favor, adicione ao menos um arquivo ao projeto.');
+            mostrarAviso('Por favor, adicione ao menos um arquivo ao projeto.', 'erro');
             return;
         }
 
@@ -324,12 +356,12 @@ if (formAddProject) {
         });
 
         if (criadoresSelecionados.length === 0) {
-            alert('Por favor, adicione pelo menos um criador ao projeto.');
+            mostrarAviso('Por favor, adicione pelo menos um criador ao projeto.', 'erro');
             return;
         }
         formData.append('creatorsIds', JSON.stringify(criadoresSelecionados.map(u => u.id)));
             
-        fetch('/apis/projects/cadastrar', {
+        fetch('/projects/cadastrar', {
             method: 'POST',
             body: formData, 
             credentials: 'include'
@@ -343,13 +375,12 @@ if (formAddProject) {
             return data;
         })
         .then(data => {
-            alert('Projeto publicado com sucesso!');
-            
+            mostrarAviso('Projeto publicado com sucesso!', 'sucesso');
             window.location.reload(); 
         })
         .catch(error => {
             console.error('Erro no envio:', error);
-            alert(error.message);
+            mostrarAviso(error.message, 'erro');
         });
     });
 }
@@ -900,7 +931,7 @@ if (formEditProject) {
         // VALIDAÇÃO CRÍTICA LOCAL: Calcula se sobrou algum arquivo antigo ou se há algum novo
         const arquivosRestantesDoBanco = arquivosOriginaisDoProjeto.filter(arq => !arquivosRemovidosNoEdit.includes(arq));
         if (arquivosRestantesDoBanco.length === 0 && arquivosAcumulados.length === 0) {
-            alert('Por favor, o projeto não pode ficar sem nenhum arquivo anexado.');
+            mostrarAviso('Por favor, o projeto não pode ficar sem nenhum arquivo anexado.', 'erro');
             return;
         }
 
@@ -917,7 +948,7 @@ if (formEditProject) {
         formData.append('creatorsIds', JSON.stringify(criadoresSelecionados.map(u => u.id)));
         formData.append('arquivosRemovidos', JSON.stringify(arquivosRemovidosNoEdit));
 
-        fetch('/apis/projects/atualizar', {
+        fetch('/projects/atualizar', {
             method: 'POST',
             body: formData,
             credentials: 'include'
@@ -928,12 +959,53 @@ if (formEditProject) {
             return data;
         })
         .then(data => {
-            alert('Projeto atualizado com sucesso e encaminhado para revisão!');
+            mostrarAviso('Projeto atualizado com sucesso e encaminhado para revisão!', 'sucesso');
             window.location.reload();
         })
         .catch(error => {
             console.error('Falha no update:', error);
-            alert(error.message);
+            mostrarAviso(error.message, 'erro');
         });
     });
 }
+
+// === CARREGAR DADOS DO USUÁRIO LOGADO AUTOMATICAMENTE ===
+async function carregarPerfilMenuLateral() {
+    const imgContainer = document.getElementById("userImgContainer");
+    const nomePerfil = document.getElementById("userName");
+    const cargoPerfil = document.getElementById("userRole");
+
+    try {
+        const response = await fetch('/auth/profile');
+        if (!response.ok) throw new Error("Erro ao carregar perfil");
+
+        const usuario = await response.json();
+
+        // 1. Atualiza o nome e tipo textuais
+        if (nomePerfil) nomePerfil.textContent = usuario.name_user;
+        if (cargoPerfil) cargoPerfil.textContent = usuario.tipo.charAt(0).toUpperCase() + usuario.tipo.slice(1); // Ex: Aluno
+
+        // 2. Regra de negócio para a foto de perfil
+        if (imgContainer) {
+            if (usuario.avatar_user) {
+                // Se o usuário POSSUI foto salva no banco de dados
+                imgContainer.innerHTML = `<img src="/uploads/${usuario.avatar_user}" class="imgPerfil" alt="Foto de perfil">`;
+            } else {
+                // Se o usuário NÃO possui foto (avatar_user é null ou vazio), renderiza o ícone de usuário padrão do Flaticon UIcons
+                imgContainer.innerHTML = `
+                    <i class="fi fi-rr-user" style="font-size: 32px; color: #ccc; background: #f0f0f0; padding: 12px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px;"></i>
+                `;
+            }
+        }
+    } catch (err) {
+        console.error("Erro ao renderizar dados do menu lateral:", err);
+        if (imgContainer) {
+            imgContainer.innerHTML = `<i class="fi fi-rr-user" style="font-size: 32px; color: #ccc;"></i>`;
+        }
+    }
+}
+
+// Garante a execução assim que a página carregar por completo
+document.addEventListener("DOMContentLoaded", () => {
+    carregarPerfilMenuLateral();
+});
