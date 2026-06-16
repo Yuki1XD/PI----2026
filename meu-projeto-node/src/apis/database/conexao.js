@@ -36,11 +36,12 @@ function criarTabelasPadrao() {
     );
   `;
 
-  // Atualizada com turma_id, status_user e avatar_user
+  // ATUALIZADA: Adicionada a coluna matricula_user após name_user
   const tabelaUsuarios = `
     CREATE TABLE IF NOT EXISTS users (
       id_user INT PRIMARY KEY AUTO_INCREMENT,
       name_user VARCHAR(50) NOT NULL,
+      matricula_user VARCHAR(20) UNIQUE,
       email_user VARCHAR(50) NOT NULL,
       address_user VARCHAR(50),
       cpf_user VARCHAR(11),

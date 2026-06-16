@@ -299,4 +299,80 @@ router.put("/change-password", (req, res) => {
   });
 });
 
+// =========================================================================
+// ROTA DE CADASTRO DO ALUNO (Com validação e criação automática de turma)
+// =========================================================================
+router.post("/cadastrar_aluno", (req, res) => {
+  const { nomeAluno, matriculaAluno, turmaAluno, emailAluno, passwordAluno, confirmarPasswordAluno } = req.body;
+
+  // 1. Validações básicas de preenchimento
+  if (!nomeAluno || !matriculaAluno || !turmaAluno || !emailAluno || !passwordAluno) {
+    return res.status(400).json({ sucesso: false, mensagem: "Todos os campos são obrigatórios." });
+  }
+
+  if (passwordAluno !== confirmarPasswordAluno) {
+    return res.status(400).json({ sucesso: false, mensagem: "As senhas não coincidem." });
+  }
+
+  // 2. Verifica se o e-mail ou a matrícula já estão cadastrados
+  const queryVerificaUsuario = "SELECT id_user FROM users WHERE email_user = ? OR matricula_user = ?";
+  
+  conexao.query(queryVerificaUsuario, [emailAluno.trim(), matriculaAluno.trim()], (err, resultados) => {
+    if (err) {
+      console.error("Erro ao verificar duplicidade:", err);
+      return res.status(500).json({ sucesso: false, mensagem: "Erro interno no servidor." });
+    }
+
+    if (resultados.length > 0) {
+      return res.status(400).json({ sucesso: false, mensagem: "E-mail ou Matrícula já cadastrados no sistema." });
+    }
+
+    // 3. Verifica se a turma digitada já existe
+    const queryTurma = "SELECT id_turma FROM turma WHERE nome_turma = ?";
+    
+    conexao.query(queryTurma, [turmaAluno.trim()], (errTurma, resultadosTurma) => {
+      if (errTurma) {
+        console.error("Erro ao buscar turma:", errTurma);
+        return res.status(500).json({ sucesso: false, mensagem: "Erro ao processar dados da turma." });
+      }
+
+      // Função interna para cadastrar o aluno de fato após resolver a turma
+      const salvarAlunoNoBanco = (idDaTurma) => {
+        const queryInserir = `
+          INSERT INTO users (name_user, matricula_user, email_user, password_user, tipo, turma_id, status_user)
+          VALUES (?, ?, ?, ?, 'aluno', ?, 'ativo')
+        `;
+        
+        conexao.query(queryInserir, [nomeAluno.trim(), matriculaAluno.trim(), emailAluno.trim(), passwordAluno.trim(), idDaTurma], (errInsert, resultadoInsert) => {
+          if (errInsert) {
+            console.error("Erro ao inserir aluno:", errInsert);
+            return res.status(500).json({ sucesso: false, mensagem: "Erro ao finalizar o cadastro do aluno." });
+          }
+          return res.status(201).json({ sucesso: true, mensagem: "Aluno cadastrado com sucesso!" });
+        });
+      };
+
+      // Se a turma EXISTE, usamos o ID dela
+      if (resultadosTurma.length > 0) {
+        const idTurmaExistente = resultadosTurma[0].id_turma;
+        salvarAlunoNoBanco(idTurmaExistente);
+      } else {
+        // Se a turma NÃO EXISTE, criamos ela primeiro (Ano letivo pega o ano atual do sistema)
+        const anoAtual = new Date().getFullYear();
+        const queryCriarTurma = "INSERT INTO turma (nome_turma, ano_letivo) VALUES (?, ?)";
+
+        conexao.query(queryCriarTurma, [turmaAluno.trim(), anoAtual], (errCriar, resultadoCriar) => {
+          if (errCriar) {
+            console.error("Erro ao criar nova turma:", errCriar);
+            return res.status(500).json({ sucesso: false, mensagem: "Não foi possível criar a nova turma." });
+          }
+          
+          const idNovaTurma = resultadoCriar.insertId;
+          salvarAlunoNoBanco(idNovaTurma);
+        });
+      }
+    });
+  });
+});
+
 module.exports = router;
