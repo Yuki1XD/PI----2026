@@ -79,6 +79,8 @@ select * from project_creators;
 ALTER TABLE project ADD COLUMN visibility_project VARCHAR(200);
 USE observatorio;
 
+ALTER TABLE users ADD COLUMN matricula_user VARCHAR(20) UNIQUE AFTER name_user;
+
 -- Adiciona a coluna de status do usuário (Padrão: ativo)
 ALTER TABLE users ADD COLUMN status_user ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo';
 
