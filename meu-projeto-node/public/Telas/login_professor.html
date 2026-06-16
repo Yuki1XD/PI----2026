@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Login</title>
+    <title>Cadastro do Professor</title>
     <link rel="stylesheet" href="css/Login.css">
     <script src="../js/cadastro.js" defer></script>
 </head>
@@ -13,8 +13,13 @@
         <h2>Login</h2>
 
         <form id="loginForm">
-            <input type="email" id="email" name="emailAluno" placeholder="seu.email@senac.com" required>
+            <input type="text" id="nome" name="NomeProfessor" placeholder="seu nome completo" required>
+            <input type="email" id="cpf" name="CPFProfessor" placeholder="000.000.000-00" required>
+            <input type="email" id="email" name="emailProfessor" placeholder="seu.email@senac.com" required>
+            <input type="text" id="função" name="funçãoProfessor" placeholder="Ex: professor de programação" required>
+            <input type="text" id="turma" name="turmaProfessor" placeholder="Ex: TI-2024A, TI-2024B" required>
             <input type="password" id="senha" name="passwordAluno" placeholder="Digite sua senha" required>
+            
 
             <button type="submit">Entrar</button>
         </form>
