@@ -6,11 +6,11 @@ router.get("/api/projects/statistics", (req, res) => {
     // Captura o período enviado pelo Front-end (all, today, week, month)
     const periodo = req.query.period || 'all';
     
-    // Filtros SQL padrão (1=1 traz tudo por padrão)
+    // Filtros SQL padrão (1=1 traz tudo por padrão se não entrar nos IFs)
     let filtroUsuario = " WHERE 1=1 ";
     let filtroProjeto = " WHERE 1=1 ";
 
-    // Aplica o filtro de tempo se as colunas forem 'created_at' ou 'data_criacao'
+    // Aplica o filtro de tempo baseado na coluna 'created_at'
     if (periodo === 'today') {
         filtroUsuario += " AND DATE(created_at) = CURDATE() ";
         filtroProjeto += " AND DATE(created_at) = CURDATE() ";
@@ -56,26 +56,41 @@ router.get("/api/projects/statistics", (req, res) => {
         ${filtroProjeto} AND tags_project IS NOT NULL AND tags_project != ''
     `;
 
+    // Execução encadeada correta das queries no Banco de Dados
     conexao.query(queryUsuarios, (err, resUsuarios) => {
-        if (err) return res.status(500).json({ erro: "Erro ao buscar dados de usuários" });
+        if (err) {
+            console.error("Erro na query de usuários:", err);
+            return res.status(500).json({ erro: "Erro ao buscar dados de usuários" });
+        }
 
         conexao.query(queryProjetos, (err, resProjetos) => {
-            if (err) return res.status(500).json({ erro: "Erro ao buscar dados de projetos" });
+            if (err) {
+                console.error("Erro na query de projetos:", err);
+                return res.status(500).json({ erro: "Erro ao buscar dados de projetos" });
+            }
 
-            conexao.query(containerCategorias => {}, queryCategorias, (err, resCategorias) => {
-                if (err) return res.status(500).json({ erro: "Erro ao buscar dados de categorias" });
+            conexao.query(queryCategorias, (err, resCategorias) => {
+                if (err) {
+                    console.error("Erro na query de categorias:", err);
+                    return res.status(500).json({ erro: "Erro ao buscar dados de categorias" });
+                }
 
                 conexao.query(queryTags, (err, resTags) => {
+                    if (err) {
+                        console.error("Erro na query de tags:", err);
+                        return res.status(500).json({ erro: "Erro ao buscar dados de tags" });
+                    }
+
                     let tagsIniciais = resTags || [];
                     const totalProjetos = resProjetos[0].total || 0;
                     const aceitos = resProjetos[0].aceitos || 0;
                     const rejeitados = resProjetos[0].rejeitados || 0;
 
-                    // Cálculo matemático das taxas percentuais
+                    // Cálculo das taxas percentuais
                     const taxaAprovacao = totalProjetos > 0 ? ((aceitos / totalProjetos) * 100).toFixed(1) + "%" : "0%";
                     const taxaRejeicao = totalProjetos > 0 ? ((rejeitados / totalProjetos) * 100).toFixed(1) + "%" : "0%";
 
-                    // Processamento de Tags por vírgula
+                    // Processamento das Tags
                     let contagemTags = {};
                     tagsIniciais.forEach(row => {
                         const textoTags = row.tags_project || "";
@@ -90,7 +105,7 @@ router.get("/api/projects/statistics", (req, res) => {
                         quantidade: contagemTags[tag]
                     })).sort((a, b) => b.quantidade - a.quantidade).slice(0, 5);
 
-                    // Retorna resposta estruturada para o Front
+                    // Resposta final estruturada enviada para o Front-end
                     return res.json({
                         usuariosAtivos: resUsuarios[0].ativos || 0,
                         usuariosDesativados: resUsuarios[0].desativados || 0,
