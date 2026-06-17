@@ -901,108 +901,87 @@ async function excluirUsuarioAdmin(id) {
 }
 
 // Função estatistica 
- se const express = require('express');
-const router = express.Router();
-const conexao = require('../database/conexao');
+async function carregarEstatisticas() {
+    try {
+        const resposta = await fetch("/projects/api/projects/statistics");
+        if (!resposta.ok) throw new Error(`Erro na requisição: Status ${resposta.status}`);
 
-router.get("/api/projects/statistics", (req, res) => {
-    
-    // 1. Estatísticas de Usuários
-    const queryUsuarios = `
-        SELECT 
-            COUNT(CASE WHEN tipo = 'aluno' AND status_user = 'ativo' THEN 1 END) AS ativos,
-            COUNT(CASE WHEN status_user = 'inativo' THEN 1 END) AS desativados,
-            COUNT(*) AS totalGeral
-        FROM users
-    `;
-    
-    // 2. Estatísticas de Projetos (Status e Totais)
-    const queryProjetos = `
-        SELECT 
-            COUNT(*) AS total,
-            COUNT(CASE WHEN status_project = 'aceito' THEN 1 END) AS aceitos,
-            COUNT(CASE WHEN status_project = 'rejeitado' THEN 1 END) AS rejeitados
-        FROM project
-    `;
-    
-    // 3. Projetos agrupados por Categorias
-    const queryCategorias = `
-        SELECT IFNULL(category_project, 'Não informada') AS nome, COUNT(*) AS quantidade 
-        FROM project 
-        GROUP BY category_project
-    `;
+        const dados = await resposta.json();
+        if (dados.erro) {
+            console.error("Erro reportado pelo servidor:", dados.erro);
+            return;
+        }
 
-    // 4. Tags mais utilizadas (Exemplo considerando que você tenha um campo tags_project string separada por vírgula)
-    // Se não tiver a coluna, a query retornará vazio sem quebrar o sistema.
-    const queryTags = `
-        SELECT tags_project FROM project WHERE tags_project IS NOT NULL AND tags_project != ''
-    `;
+        // 1. Atualização dos Cards Principais (Visão Geral)
+        if(document.getElementById("num-usuarios")) {
+            document.getElementById("num-usuarios").innerText = `+${dados.usuariosAtivos || 0}`;
+        }
+        if(document.getElementById("num-projetos")) {
+            document.getElementById("num-projetos").innerText = dados.projetosPublicados || 0;
+        }
+        if(document.getElementById("taxa-aprovacao")) {
+            document.getElementById("taxa-aprovacao").innerText = dados.taxaAprovacao || "0%";
+        }
 
-    conexao.query(queryUsuarios, (err, resUsuarios) => {
-        if (err) return res.status(500).json({ erro: "Erro ao buscar dados de usuários" });
-
-        conexao.query(queryProjetos, (err, resProjetos) => {
-            if (err) return res.status(500).json({ erro: "Erro ao buscar dados de projetos" });
-
-            conexao.query(queryCategorias, (err, resCategorias) => {
-                if (err) return res.status(500).json({ erro: "Erro ao buscar dados de categorias" });
-
-                conexao.query(queryTags, (err, resTags) => {
-                    // Se der erro nas tags (ex: coluna não existe), definimos um array vazio para não travar
-                    let tagsIniciais = resTags || [];
-
-                    const totalProjetos = resProjetos[0].total || 0;
-                    const aceitos = resProjetos[0].aceitos || 0;
-                    const rejeitados = resProjetos[0].rejeitados || 0;
-
-                    // Cálculos de taxas percentuais
-                    const taxaAprovacao = totalProjetos > 0 ? ((aceitos / totalProjetos) * 100).toFixed(1) + "%" : "0%";
-                    const taxaRejeicao = totalProjetos > 0 ? ((rejeitados / totalProjetos) * 100).toFixed(1) + "%" : "0%";
-
-                    // Processamento lógico de Tags (Separa strings por vírgula e conta a frequência)
-                    let contagemTags = {};
-                    tagsIniciais.forEach(row => {
-                        // Verifica se o campo existe (pode se chamar tags_project ou similar)
-                        const textoTags = row.tags_project || row.tags || "";
-                        textoTags.split(',').forEach(tag => {
-                            let t = tag.trim().toLowerCase();
-                            if(t) contagemTags[t] = (contagemTags[t] || 0) + 1;
-                        });
-                    });
-
-                    // Transforma o objeto de tags em um array ordenado das mais usadas
-                    const listaTagsOrdenadas = Object.keys(contagemTags).map(tag => ({
-                        nome: tag,
-                        quantidade: contagemTags[tag]
-                    })).sort((a, b) => b.quantidade - a.quantidade).slice(0, 5); // Pega as 5 principais
-
-                    // Envia os dados completos unificados
-                    return res.json({
-                        // Aba Visão Geral / Usuários
-                        novosUsuarios: resUsuarios[0].ativos, // Mantido a chave antiga para não quebrar o front básico
-                        usuariosAtivos: resUsuarios[0].ativos,
-                        usuariosDesativados: resUsuarios[0].desativados,
-                        totalUsuarios: resUsuarios[0].totalGeral,
-                        
-                        // Aba Projetos
-                        projetosPublicados: totalProjetos, 
-                        projetosAceitos: aceitos,
-                        projetosRejeitados: rejeitados,
-                        taxaAprovacao: taxaAprovacao,       
-                        taxaRejeicao: taxaRejeicao,
-
-                        // Listas estruturadas
-                        categorias: resCategorias,
-                        tags: listaTagsOrdenadas
-                    });
+        // 2. Atualização Dinâmica do bloco de Categorias
+        const containerCategorias = document.getElementById("container-categorias");
+        if (containerCategorias) {
+            containerCategorias.innerHTML = ""; 
+            if (dados.categorias && dados.categorias.length > 0) {
+                const totalProjetos = dados.projetosPublicados || 1;
+                dados.categorias.forEach((cat, index) => {
+                    const corBarra = index % 2 === 0 ? "orange" : "blue";
+                    const porcentagem = (cat.quantidade / totalProjetos) * 100;
+                    containerCategorias.innerHTML += `
+                        <div class="progress-item">
+                            <div class="progress-labels">
+                                <span>${cat.nome}</span>
+                                <span class="count-val">${cat.quantidade}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill ${corBarra}" style="width: ${porcentagem.toFixed(0)}%;"></div>
+                            </div>
+                        </div>
+                    `;
                 });
-            });
-        });
-    });
-});
+            } else {
+                containerCategorias.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Nenhuma categoria encontrada.</p>`;
+            }
+        }
 
-module.exports = router;
+        // 3. [NOVO] Atualização Dinâmica do bloco de Tags Mais Utilizadas
+        const containerTags = document.getElementById("container-tags");
+        if (containerTags) {
+            containerTags.innerHTML = "";
+            if (dados.tags && dados.tags.length > 0) {
+                // Encontra a tag de maior recorrência para basear a escala do gráfico de barras
+                const maxUso = dados.tags[0].quantidade || 1;
+                dados.tags.forEach((tag, index) => {
+                    const corBarra = index % 2 === 0 ? "blue" : "orange";
+                    const porcentagem = (tag.quantidade / maxUso) * 100;
+                    containerTags.innerHTML += `
+                        <div class="progress-item">
+                            <div class="progress-labels">
+                                <span>#${tag.nome}</span>
+                                <span class="count-val">${tag.quantidade} usos</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill ${corBarra}" style="width: ${porcentagem.toFixed(0)}%;"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                containerTags.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Nenhuma tag identificada nos projetos cadastrados.</p>`;
+            }
+        }
 
+        // 4. [EXTENSÃO] Guardar dados globalmente para alternar visualizações nas sub-abas se necessário
+        window.dadosEstatisticosGlobais = dados;
+
+    } catch (erro) {
+        console.error("Falha crítica ao conectar com a API de estatísticas:", erro);
+    }
 }
 // Listener para alternar os dados dos cards das sub-abas de estatísticas
 document.addEventListener("DOMContentLoaded", () => {
