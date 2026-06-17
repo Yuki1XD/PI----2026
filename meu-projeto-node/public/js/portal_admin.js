@@ -901,37 +901,35 @@ async function excluirUsuarioAdmin(id) {
 }
 
 // Função estatistica 
+// Função Principal para Carregar Estatísticas com Filtro de Período
 async function carregarEstatisticas() {
     try {
-        const resposta = await fetch("/projects/api/projects/statistics");
-        if (!resposta.ok) throw new Error(`Erro na requisição: Status ${resposta.status}`);
+        // Pega o valor selecionado no select do HTML
+        const selectPeriodo = document.getElementById("period");
+        const filtro = selectPeriodo ? selectPeriodo.value : "all";
+
+        // Faz o fetch passando o período via query string (?period=...)
+        const resposta = await fetch(`/projects/api/projects/statistics?period=${filtro}`);
+        if (!resposta.ok) throw new Error(`Status HTTP: ${resposta.status}`);
 
         const dados = await resposta.json();
-        if (dados.erro) {
-            console.error("Erro reportado pelo servidor:", dados.erro);
-            return;
-        }
+        if (dados.erro) return console.error("Erro da API:", dados.erro);
 
-        // 1. Atualização dos Cards Principais (Visão Geral)
-        if(document.getElementById("num-usuarios")) {
-            document.getElementById("num-usuarios").innerText = `+${dados.usuariosAtivos || 0}`;
-        }
-        if(document.getElementById("num-projetos")) {
-            document.getElementById("num-projetos").innerText = dados.projetosPublicados || 0;
-        }
-        if(document.getElementById("taxa-aprovacao")) {
-            document.getElementById("taxa-aprovacao").innerText = dados.taxaAprovacao || "0%";
-        }
+        // Guarda os dados no escopo global da janela para alternar abas sem refazer a requisição
+        window.dadosEstatisticosGlobais = dados;
 
-        // 2. Atualização Dinâmica do bloco de Categorias
+        // Atualiza os 3 cards principais
+        atualizarCardsInterface();
+
+        // Atualiza a lista de Categorias Populares
         const containerCategorias = document.getElementById("container-categorias");
         if (containerCategorias) {
-            containerCategorias.innerHTML = ""; 
+            containerCategorias.innerHTML = "";
             if (dados.categorias && dados.categorias.length > 0) {
-                const totalProjetos = dados.projetosPublicados || 1;
+                const total = dados.projetosPublicados || 1;
                 dados.categorias.forEach((cat, index) => {
-                    const corBarra = index % 2 === 0 ? "orange" : "blue";
-                    const porcentagem = (cat.quantidade / totalProjetos) * 100;
+                    const cor = index % 2 === 0 ? "orange" : "blue";
+                    const pct = (cat.quantidade / total) * 100;
                     containerCategorias.innerHTML += `
                         <div class="progress-item">
                             <div class="progress-labels">
@@ -939,26 +937,24 @@ async function carregarEstatisticas() {
                                 <span class="count-val">${cat.quantidade}</span>
                             </div>
                             <div class="progress-bar">
-                                <div class="progress-fill ${corBarra}" style="width: ${porcentagem.toFixed(0)}%;"></div>
+                                <div class="progress-fill ${cor}" style="width: ${pct.toFixed(0)}%;"></div>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 });
             } else {
-                containerCategorias.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Nenhuma categoria encontrada.</p>`;
+                containerCategorias.innerHTML = `<p style="color:#718096; font-size:14px; font-style:italic;">Nenhum registo.</p>`;
             }
         }
 
-        // 3. [NOVO] Atualização Dinâmica do bloco de Tags Mais Utilizadas
+        // Atualiza a lista de Tags Mais Utilizadas
         const containerTags = document.getElementById("container-tags");
         if (containerTags) {
             containerTags.innerHTML = "";
             if (dados.tags && dados.tags.length > 0) {
-                // Encontra a tag de maior recorrência para basear a escala do gráfico de barras
                 const maxUso = dados.tags[0].quantidade || 1;
                 dados.tags.forEach((tag, index) => {
-                    const corBarra = index % 2 === 0 ? "blue" : "orange";
-                    const porcentagem = (tag.quantidade / maxUso) * 100;
+                    const cor = index % 2 === 0 ? "blue" : "orange";
+                    const pct = (tag.quantidade / maxUso) * 100;
                     containerTags.innerHTML += `
                         <div class="progress-item">
                             <div class="progress-labels">
@@ -966,76 +962,88 @@ async function carregarEstatisticas() {
                                 <span class="count-val">${tag.quantidade} usos</span>
                             </div>
                             <div class="progress-bar">
-                                <div class="progress-fill ${corBarra}" style="width: ${porcentagem.toFixed(0)}%;"></div>
+                                <div class="progress-fill ${cor}" style="width: ${pct.toFixed(0)}%;"></div>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 });
             } else {
-                containerTags.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Nenhuma tag identificada nos projetos cadastrados.</p>`;
+                containerTags.innerHTML = `<p style="color:#718096; font-size:14px; font-style:italic;">Nenhuma tag.</p>`;
             }
         }
 
-        // 4. [EXTENSÃO] Guardar dados globalmente para alternar visualizações nas sub-abas se necessário
-        window.dadosEstatisticosGlobais = dados;
-
     } catch (erro) {
-        console.error("Falha crítica ao conectar com a API de estatísticas:", erro);
+        console.error("Falha ao atualizar painel estatístico:", erro);
     }
 }
-// Listener para alternar os dados dos cards das sub-abas de estatísticas
+
+// Controla dinamicamente as legendas e valores internos dos cards conforme a aba ativa
+function atualizarCardsInterface() {
+    const dados = window.dadosEstatisticosGlobais;
+    if (!dados) return;
+
+    const abaAtiva = document.querySelector("#statistic .tab-item.active");
+    const tipoAba = abaAtiva ? abaAtiva.textContent.trim() : "Visão Geral";
+
+    const label1 = document.getElementById("label-card1");
+    const label2 = document.getElementById("label-card2");
+    const label3 = document.getElementById("label-card3");
+
+    const val1 = document.getElementById("num-usuarios");
+    const val2 = document.getElementById("num-projes");
+    const val3 = document.getElementById("taxa-aprovacao");
+
+    if (tipoAba === "Usuários") {
+        if(label1) label1.innerText = "Novos Usuários Ativos";
+        if(val1) val1.innerText = dados.usuariosAtivos;
+
+        if(label2) label2.innerText = "Usuários Desativados";
+        if(val2) val2.innerText = dados.usuariosDesativados;
+
+        if(label3) label3.innerText = "Total Geral do Período";
+        if(val3) val3.innerText = dados.totalUsuarios;
+    } 
+    else if (tipoAba === "Projetos") {
+        if(label1) label1.innerText = "Projetos Criados";
+        if(val1) val1.innerText = dados.projetosPublicados;
+
+        if(label2) label2.innerText = "Taxa de Aprovação";
+        if(val2) val2.innerText = dados.taxaAprovacao;
+
+        if(label3) label3.innerText = "Taxa de Rejeição";
+        if(val3) val3.innerText = dados.taxaRejeicao;
+    } 
+    else { // Visão Geral
+        if(label1) label1.innerText = "Alunos Ativos";
+        if(val1) val1.innerText = `+${dados.usuariosAtivos}`;
+
+        if(label2) label2.innerText = "Projetos publicados";
+        if(val2) val2.innerText = dados.projetosPublicados;
+
+        if(label3) label3.innerText = "Taxa de aprovação";
+        if(val3) val3.innerText = dados.taxaAprovacao;
+    }
+}
+
+// Configuração dos Eventos Listeners no carregamento da página
 document.addEventListener("DOMContentLoaded", () => {
-    const abasMétricas = document.querySelectorAll("#statistic .tab-item");
     
-    abasMétricas.forEach((aba, index) => {
+    // Recarrega os dados do banco sempre que mudar o select de Período
+    const selectPeriodo = document.getElementById("period");
+    if (selectPeriodo) {
+        selectPeriodo.addEventListener("change", carregarEstatisticas);
+    }
+
+    // Gerencia a alternância visual e de conteúdo das Abas
+    const abasMétricas = document.querySelectorAll("#statistic .tab-item");
+    abasMétricas.forEach(aba => {
         aba.addEventListener("click", () => {
-            // Remove classe ativa de todas e adiciona na clicada
             abasMétricas.forEach(b => b.classList.remove("active"));
             aba.classList.add("active");
-
-            const dados = window.dadosEstatisticosGlobais;
-            if (!dados) return;
-
-            const card1 = document.querySelector("#num-usuarios").closest('.card');
-            const card2 = document.querySelector("#num-projetos").closest('.card');
-            const card3 = document.querySelector("#taxa-aprovacao").closest('.card');
-
-            if (aba.textContent.trim() === "Usuários") {
-                // Modo Usuários: Mostra Ativos, Inativos/Excluídos e Total Geral
-                card1.querySelector('p').innerText = "Usuários Ativos";
-                card1.querySelector('h3').innerText = dados.usuariosAtivos;
-
-                card2.querySelector('p').innerText = "Usuários Desativados";
-                card2.querySelector('h3').innerText = dados.usuariosDesativados;
-
-                card3.querySelector('p').innerText = "Total Registros";
-                card3.querySelector('h3').innerText = dados.totalUsuarios;
-            } 
-            else if (aba.textContent.trim() === "Projetos") {
-                // Modo Projetos: Mostra Criados, Taxa de Aprovação e Taxa de Rejeição
-                card1.querySelector('p').innerText = "Total de Projetos";
-                card1.querySelector('h3').innerText = dados.projetosPublicados;
-
-                card2.querySelector('p').innerText = "Taxa de Aprovação";
-                card2.querySelector('h3').innerText = dados.taxaAprovacao;
-
-                card3.querySelector('p').innerText = "Taxa de Rejeição";
-                card3.querySelector('h3').innerText = dados.taxaRejeicao;
-            } 
-            else {
-                // Retorna ao padrão: Visão Geral
-                card1.querySelector('p').innerText = "Alunos Ativos";
-                card1.querySelector('h3').innerText = `+${dados.usuariosAtivos}`;
-
-                card2.querySelector('p').innerText = "Projetos publicados";
-                card2.querySelector('h3').innerText = dados.projetosPublicados;
-
-                card3.querySelector('p').innerText = "Taxa de aprovação";
-                card3.querySelector('h3').innerText = dados.taxaAprovacao;
-            }
+            atualizarCardsInterface(); // Muda o texto instantaneamente sem chamar o banco
         });
     });
 });
+
 
 // === FUNÇÃO PARA SUBSTITUIR O 'ALERT' ===
 // tipo pode ser: 'sucesso' ou 'erro'
