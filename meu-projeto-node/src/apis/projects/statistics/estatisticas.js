@@ -1,58 +1,97 @@
 const express = require('express');
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
-const conexao = require('../database/conexao'); // Nome correto da variável
-
-
+const conexao = require('../database/conexao');
 
 router.get("/api/projects/statistics", (req, res) => {
     
-    // 1. Conta o total de alunos ativos
-    const queryUsuarios = "SELECT COUNT(*) AS total FROM users WHERE tipo = 'aluno'";
+    // 1. Estatísticas de Usuários
+    const queryUsuarios = `
+        SELECT 
+            COUNT(CASE WHEN tipo = 'aluno' AND status_user = 'ativo' THEN 1 END) AS ativos,
+            COUNT(CASE WHEN status_user = 'inativo' THEN 1 END) AS desativados,
+            COUNT(*) AS totalGeral
+        FROM users
+    `;
     
-    // 2. Conta o total de projetos publicados
-    const queryProjetos = "SELECT COUNT(*) AS total FROM project";
+    // 2. Estatísticas de Projetos (Status e Totais)
+    const queryProjetos = `
+        SELECT 
+            COUNT(*) AS total,
+            COUNT(CASE WHEN status_project = 'aceito' THEN 1 END) AS aceitos,
+            COUNT(CASE WHEN status_project = 'rejeitado' THEN 1 END) AS rejeitados
+        FROM project
+    `;
     
-    // 3. Agrupa os projetos pelas categorias reais
+    // 3. Projetos agrupados por Categorias
     const queryCategorias = `
-        SELECT category_project AS nome, COUNT(*) AS quantidade 
+        SELECT IFNULL(category_project, 'Não informada') AS nome, COUNT(*) AS quantidade 
         FROM project 
         GROUP BY category_project
     `;
 
-    // 🌟 CORRIGIDO: Alterado 'db.query' para 'conexao.query'
-    conexao.query(queryUsuarios, (err, resultadosUsuarios) => {
-        if (err) {
-            console.error("Erro ao buscar usuários:", err);
-            return res.status(500).json({ erro: "Erro ao buscar dados de usuários" });
-        }
+    // 4. Tags mais utilizadas (Exemplo considerando que você tenha um campo tags_project string separada por vírgula)
+    // Se não tiver a coluna, a query retornará vazio sem quebrar o sistema.
+    const queryTags = `
+        SELECT tags_project FROM project WHERE tags_project IS NOT NULL AND tags_project != ''
+    `;
 
-        conexao.query(queryProjetos, (err, resultadosProjetos) => {
-            if (err) {
-                console.error("Erro ao buscar projetos:", err);
-                return res.status(500).json({ erro: "Erro ao buscar dados de projetos" });
-            }
+    conexao.query(queryUsuarios, (err, resUsuarios) => {
+        if (err) return res.status(500).json({ erro: "Erro ao buscar dados de usuários" });
 
-            conexao.query(queryCategorias, (err, resultadosCategorias) => {
-                if (err) {
-                    console.error("Erro ao buscar categorias:", err);
-                    return res.status(500).json({ erro: "Erro ao buscar dados de categorias" });
-                }
+        conexao.query(queryProjetos, (err, resProjetos) => {
+            if (err) return res.status(500).json({ erro: "Erro ao buscar dados de projetos" });
 
-                // Captura os totais dos arrays de resultados do MySQL
-                const totalAlunos = resultadosUsuarios[0].total;
-                const totalProjetos = resultadosProjetos[0].total;
+            conexao.query(queryCategorias, (err, resCategorias) => {
+                if (err) return res.status(500).json({ erro: "Erro ao buscar dados de categorias" });
 
-                // Cálculo de taxa de aprovação
-                const taxaAprovacao = totalProjetos > 0 ? "100%" : "0%";
+                conexao.query(queryTags, (err, resTags) => {
+                    // Se der erro nas tags (ex: coluna não existe), definimos um array vazio para não travar
+                    let tagsIniciais = resTags || [];
 
-                // Envia a resposta limpa para o Front-end
-                return res.json({
-                    novosUsuarios: totalAlunos,      
-                    projetosPublicados: totalProjetos, 
-                    taxaAprovacao: taxaAprovacao,       
-                    categorias: resultadosCategorias // Retorna o array de categorias [{nome: '...', quantidade: X}]
+                    const totalProjetos = resProjetos[0].total || 0;
+                    const aceitos = resProjetos[0].aceitos || 0;
+                    const rejeitados = resProjetos[0].rejeitados || 0;
+
+                    // Cálculos de taxas percentuais
+                    const taxaAprovacao = totalProjetos > 0 ? ((aceitos / totalProjetos) * 100).toFixed(1) + "%" : "0%";
+                    const taxaRejeicao = totalProjetos > 0 ? ((rejeitados / totalProjetos) * 100).toFixed(1) + "%" : "0%";
+
+                    // Processamento lógico de Tags (Separa strings por vírgula e conta a frequência)
+                    let contagemTags = {};
+                    tagsIniciais.forEach(row => {
+                        // Verifica se o campo existe (pode se chamar tags_project ou similar)
+                        const textoTags = row.tags_project || row.tags || "";
+                        textoTags.split(',').forEach(tag => {
+                            let t = tag.trim().toLowerCase();
+                            if(t) contagemTags[t] = (contagemTags[t] || 0) + 1;
+                        });
+                    });
+
+                    // Transforma o objeto de tags em um array ordenado das mais usadas
+                    const listaTagsOrdenadas = Object.keys(contagemTags).map(tag => ({
+                        nome: tag,
+                        quantidade: contagemTags[tag]
+                    })).sort((a, b) => b.quantidade - a.quantidade).slice(0, 5); // Pega as 5 principais
+
+                    // Envia os dados completos unificados
+                    return res.json({
+                        // Aba Visão Geral / Usuários
+                        novosUsuarios: resUsuarios[0].ativos, // Mantido a chave antiga para não quebrar o front básico
+                        usuariosAtivos: resUsuarios[0].ativos,
+                        usuariosDesativados: resUsuarios[0].desativados,
+                        totalUsuarios: resUsuarios[0].totalGeral,
+                        
+                        // Aba Projetos
+                        projetosPublicados: totalProjetos, 
+                        projetosAceitos: aceitos,
+                        projetosRejeitados: rejeitados,
+                        taxaAprovacao: taxaAprovacao,       
+                        taxaRejeicao: taxaRejeicao,
+
+                        // Listas estruturadas
+                        categorias: resCategorias,
+                        tags: listaTagsOrdenadas
+                    });
                 });
             });
         });
