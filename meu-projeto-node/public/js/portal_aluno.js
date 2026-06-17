@@ -20,14 +20,6 @@ function mostrarAviso(mensagem, tipo = 'warning') {
 
     // Adiciona ao container da tela
     container.appendChild(alerta);
-
-    // Remove automaticamente após 4 segundos
-    setTimeout(() => {
-        if (alerta.parentNode) {
-            alerta.style.opacity = '0';
-            setTimeout(() => alerta.remove(), 300);
-        }
-    }, 400);
 }
 
 document.getElementById("menuButton").addEventListener('click', () => {
@@ -346,7 +338,7 @@ if (formAddProject) {
         formData.delete('newProjectArchives');
         
         if (arquivosAcumulados.length === 0) {
-            mostrarAviso('Por favor, adicione ao menos um arquivo ao projeto.', 'erro');
+            alert('Por favor, adicione ao menos um arquivo ao projeto.', 'erro');
             return;
         }
 
@@ -356,7 +348,7 @@ if (formAddProject) {
         });
 
         if (criadoresSelecionados.length === 0) {
-            mostrarAviso('Por favor, adicione pelo menos um criador ao projeto.', 'erro');
+            alert('Por favor, adicione pelo menos um criador ao projeto.', 'erro');
             return;
         }
         formData.append('creatorsIds', JSON.stringify(criadoresSelecionados.map(u => u.id)));
@@ -375,12 +367,12 @@ if (formAddProject) {
             return data;
         })
         .then(data => {
-            mostrarAviso('Projeto publicado com sucesso!', 'sucesso');
+            alert('Projeto publicado com sucesso!', 'sucesso');
             window.location.reload(); 
         })
         .catch(error => {
             console.error('Erro no envio:', error);
-            mostrarAviso(error.message, 'erro');
+            alert(error.message, 'erro');
         });
     });
 }
@@ -931,7 +923,7 @@ if (formEditProject) {
         // VALIDAÇÃO CRÍTICA LOCAL: Calcula se sobrou algum arquivo antigo ou se há algum novo
         const arquivosRestantesDoBanco = arquivosOriginaisDoProjeto.filter(arq => !arquivosRemovidosNoEdit.includes(arq));
         if (arquivosRestantesDoBanco.length === 0 && arquivosAcumulados.length === 0) {
-            mostrarAviso('Por favor, o projeto não pode ficar sem nenhum arquivo anexado.', 'erro');
+            alert('Por favor, o projeto não pode ficar sem nenhum arquivo anexado.', 'erro');
             return;
         }
 
@@ -959,12 +951,12 @@ if (formEditProject) {
             return data;
         })
         .then(data => {
-            mostrarAviso('Projeto atualizado com sucesso e encaminhado para revisão!', 'sucesso');
+            alert('Projeto atualizado com sucesso e encaminhado para revisão!', 'sucesso');
             window.location.reload();
         })
         .catch(error => {
             console.error('Falha no update:', error);
-            mostrarAviso(error.message, 'erro');
+            alert(error.message, 'erro');
         });
     });
 }

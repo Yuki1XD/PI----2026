@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap');
-*:not(dialog) {
+/* SUBSTITUA O SEU SELETOR ANTIGO POR ESTE: */
+html, body, div, span, h1, h2, h3, p, a, ul, li, form, label, textarea, input, button {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:"Roboto Condensed", sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
 }
 
 
@@ -1540,8 +1541,8 @@ body {
     transform: scale(1.05);
 }
 
-/* Container que segura os avisos */
-.custom-alert-container {
+/* Garante que o container de alertas não fique visível/clicável quando vazio */
+#custom-alert-container {
     position: fixed;
     top: 20px;
     right: 20px;
@@ -1549,22 +1550,21 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    pointer-events: none; /* Ignora cliques enquanto invisível */
 }
 
-/* Base do card de aviso */
+/* Estilo base do Alerta */
 .custom-alert {
-    min-width: 300px;
-    max-width: 450px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    color: #fff;
-    font-family: sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 15px 20px;
+    border-radius: 4px;
+    color: #ffffff !important; /* <--- ISSO VAI TORNAR O TEXTO VISÍVEL */
+    font-weight: bold;
+    min-width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    pointer-events: auto; /* Reativa cliques para poder fechar no 'X' */
     animation: slideIn 0.3s ease forwards;
     transition: all 0.3s ease;
 }
@@ -1610,4 +1610,28 @@ body {
 
 .custom-alert-close:hover {
     opacity: 1;
+}
+
+/* Para pop-ups/caixas de diálogo no meio da tela */
+.custom-alert-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    background: #ffffff;
+    z-index: 10000;
+    display: block; /* Garante que fica visível quando ativo */
+}
+
+/* Fundo fosco atrás do pop-up centralizado */
+.custom-alert-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
 }

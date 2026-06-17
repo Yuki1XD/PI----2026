@@ -203,7 +203,7 @@ if (formAddProject) {
         formData.delete('newProjectArchives');
         
         if (arquivosAcumulados.length === 0) {
-            mostrarAviso('Por favor, adicione ao menos um arquivo ao projeto.', 'erro');
+            alert('Por favor, adicione ao menos um arquivo ao projeto.', 'erro');
             return; 
         }
 
@@ -225,12 +225,12 @@ if (formAddProject) {
             return data;
         })
         .then(data => {
-            mostrarAviso('Projeto publicado com sucesso!', 'sucesso');
+            alert('Projeto publicado com sucesso!', 'sucesso');
             window.location.reload(); 
         })
         .catch(error => {
             console.error('Erro no envio:', error);
-            mostrarAviso(error.message, 'erro');
+            alert(error.message, 'erro');
         });
     });
 }
@@ -603,12 +603,12 @@ async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visib
             throw new Error(data.mensagem || 'Erro ao atualizar dados do projeto.');
         }
 
-        mostrarAviso(data.mensagem || 'Projeto atualizado com sucesso!', 'sucesso');
+        alert(data.mensagem || 'Projeto atualizado com sucesso!', 'sucesso');
         setTimeout(() => { window.location.reload(); }, 1500); 
 
     } catch (error) {
         console.error('Erro na requisição PUT:', error);
-        mostrarAviso(error.message, 'erro');
+        alert(error.message, 'erro');
     }
 }
 

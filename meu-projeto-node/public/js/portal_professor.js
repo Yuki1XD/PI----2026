@@ -1,3 +1,23 @@
+function mostrarAviso(mensagem, tipo = 'warning') {
+    const container = document.getElementById('custom-alert-container');
+    if (!container) return;
+
+    const alerta = document.createElement('div');
+    alerta.className = `custom-alert ${tipo}`;
+    
+    alerta.innerHTML = `
+        <span>${mensagem}</span>
+        <button class="custom-alert-close">&times;</button>
+    `;
+
+    alerta.querySelector('.custom-alert-close').addEventListener('click', () => {
+        alerta.style.opacity = '0';
+        setTimeout(() => alerta.remove(), 300);
+    });
+
+    container.appendChild(alerta);
+}
+
 // === CORREÇÃO DO MENU LATERAL ===
 const menuButton = document.getElementById("menuButton");
 const header = document.getElementById('header');
@@ -440,7 +460,7 @@ document.addEventListener('click', async function(e) {
         const textRevisao = document.getElementById(`textarea-${idProjeto}`).value;
 
         if (!textRevisao.trim()) {
-            alert("Por favor, digite um texto para a análise.");
+            alert("Por favor, digite um texto para a análise.", "error");
             return;
         }
 
@@ -457,7 +477,7 @@ document.addEventListener('click', async function(e) {
             });
 
             if (response.ok) {
-                alert("Análise enviada com sucesso!");
+                alert("Análise enviada com sucesso!", "success");
                 document.getElementById(`modal-${idProjeto}`).close();
                 
                 // Atualiza tudo de forma assíncrona e fluida
@@ -466,6 +486,7 @@ document.addEventListener('click', async function(e) {
                 carregarDashboardInicio(); 
             }
         } catch (err) {
+            alert("Erro ao enviar análise.", "error");
             console.error("Erro na requisição PUT:", err);
         }
     }
@@ -651,6 +672,34 @@ async function carregarPerfilMenuLateral() {
             imgContainer.innerHTML = `<i class="fi fi-rr-user" style="font-size: 32px; color: #ccc;"></i>`;
         }
     }
+}
+
+// === SISTEMA DE NOTIFICAÇÕES CUSTOMIZADAS (Substituta do alert) ===
+function mostrarAviso(mensagem, tipo = 'warning') {
+    const container = document.getElementById('custom-alert-container');
+    if (!container) return;
+
+    // Cria o elemento do aviso
+    const alerta = document.createElement('div');
+    alerta.className = `custom-alert ${tipo}`;
+    
+    alerta.innerHTML = `
+        <span>${mensagem}</span>
+        <button class=\"custom-alert-close\">&times;</button>
+    `;
+
+    // Evento para fechar manualmente no "X" -> ISTO CONTINUA A FUNCIONAR
+    alerta.querySelector('.custom-alert-close').addEventListener('click', () => {
+        alerta.style.opacity = '0';
+        setTimeout(() => alerta.remove(), 300); // Dá tempo à animação de desaparecer do CSS
+    });
+
+    // Adiciona ao container da tela
+    container.appendChild(alerta);
+
+    // ==========================================
+    // ❌ O TIMEOUT AUTOMÁTICO FOI REMOVIDO DAQUI
+    // ==========================================
 }
 
 // Garante a execução assim que a página carregar por completo
