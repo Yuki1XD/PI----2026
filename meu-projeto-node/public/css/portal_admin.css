@@ -1707,6 +1707,101 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* --- Ajustes da Seção de Filtros (Alinhamento das fotos de referência) --- */
+.filters {
+    display: flex;
+    justify-content: space-between; /* Afasta o Período do botão de Download */
+    align-items: flex-end;         /* Alinha ambos pela base */
+    width: 100%;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.filter-group select {
+    padding: 0.6rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #1a202c;
+    font-size: 0.9rem;
+    outline: none;
+    min-width: 150px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.filter-group select:focus {
+    border-color: #ff6b00; /* Destaque laranja ao focar */
+}
+
+/* --- Botão Baixar Relatório --- */
+.downloadReportBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espaço entre o ícone e o texto */
+    padding: 0.6rem 1.2rem;
+    background-color: #1a202c; /* Cor escura padrão do menu */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.downloadReportBtn i {
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.downloadReportBtn:hover {
+    background-color: #2d3748; /* Tom levemente mais claro no hover */
+}
+
+.downloadReportBtn:active {
+    transform: scale(0.98);
+}
+
+/* --- Organização dos Gráficos Lado a Lado --- */
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.chart-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #edf2f7;
+}
+
+/* --- Reset e Correções de Responsividade --- */
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+        align-items: stretch; /* O botão e o select ocupam largura total no mobile */
+    }
+    
+    .downloadReportBtn {
+        justify-content: center;
+    }
+}
 
 /* Custom Alert & Confirm Modals */
 .custom-alert-dialog, .custom-confirm-dialog {
