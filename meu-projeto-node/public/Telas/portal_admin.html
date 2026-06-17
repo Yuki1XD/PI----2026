@@ -202,10 +202,13 @@
         <!-- Aba de Estatistica do Adiminstrador - Maria Sophia -->
 
         <div class="contentTab" id="statistic">
+
             <div class="contentApprove">
+
                 <h1>Painel de Estatísticas</h1>
                 
                 <div class="filters">
+
                     <div class="filter-group">
                         <label for="period">Período:</label>
                         <select id="period">
@@ -215,6 +218,13 @@
                             <option value="month">Este Mês</option>
                         </select>
                     </div>
+
+                    <div class="filter-group">
+                        <button class="downloadReportBtn" id="btn-relatorio">
+                            <i class="fi fi-rr-download"></i> Baixar Relatório
+                        </button>
+                    </div>
+
                 </div>
 
                 <nav class="tabs">
@@ -224,21 +234,26 @@
                 </nav>
 
                 <div class="metrics-grid">
+
                     <div class="card">
-                        <p>Alunos Ativos</p>
+                        <p id="label-card1">Alunos Ativos</p>
                         <h3 id="num-usuarios">+0</h3>
                     </div>
+
                     <div class="card">
-                        <p>Projetos publicados</p>
+                        <p id="label-card2">Projetos publicados</p>
                         <h3 id="num-projes">0</h3>
                     </div>
+
                     <div class="card">
-                        <p>Taxa de aprovação</p>
+                        <p id="label-card3">Taxa de aprovação</p>
                         <h3 id="taxa-aprovacao">0%</h3>
                     </div>
+
                 </div>
 
                 <div class="charts-container">
+
                     <div class="chart-card">
                         <h4>Categorias Populares</h4>
                         <div id="container-categorias" class="progress-list">
@@ -250,8 +265,11 @@
                         <div id="container-tags" class="progress-list">
                             </div>
                     </div>
+
                 </div>
+
             </div>
+
         </div>
         
 
