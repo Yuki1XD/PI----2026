@@ -1004,6 +1004,59 @@ router.get("/api/projects/statistics", (req, res) => {
 module.exports = router;
 
 }
+// Listener para alternar os dados dos cards das sub-abas de estatísticas
+document.addEventListener("DOMContentLoaded", () => {
+    const abasMétricas = document.querySelectorAll("#statistic .tab-item");
+    
+    abasMétricas.forEach((aba, index) => {
+        aba.addEventListener("click", () => {
+            // Remove classe ativa de todas e adiciona na clicada
+            abasMétricas.forEach(b => b.classList.remove("active"));
+            aba.classList.add("active");
+
+            const dados = window.dadosEstatisticosGlobais;
+            if (!dados) return;
+
+            const card1 = document.querySelector("#num-usuarios").closest('.card');
+            const card2 = document.querySelector("#num-projetos").closest('.card');
+            const card3 = document.querySelector("#taxa-aprovacao").closest('.card');
+
+            if (aba.textContent.trim() === "Usuários") {
+                // Modo Usuários: Mostra Ativos, Inativos/Excluídos e Total Geral
+                card1.querySelector('p').innerText = "Usuários Ativos";
+                card1.querySelector('h3').innerText = dados.usuariosAtivos;
+
+                card2.querySelector('p').innerText = "Usuários Desativados";
+                card2.querySelector('h3').innerText = dados.usuariosDesativados;
+
+                card3.querySelector('p').innerText = "Total Registros";
+                card3.querySelector('h3').innerText = dados.totalUsuarios;
+            } 
+            else if (aba.textContent.trim() === "Projetos") {
+                // Modo Projetos: Mostra Criados, Taxa de Aprovação e Taxa de Rejeição
+                card1.querySelector('p').innerText = "Total de Projetos";
+                card1.querySelector('h3').innerText = dados.projetosPublicados;
+
+                card2.querySelector('p').innerText = "Taxa de Aprovação";
+                card2.querySelector('h3').innerText = dados.taxaAprovacao;
+
+                card3.querySelector('p').innerText = "Taxa de Rejeição";
+                card3.querySelector('h3').innerText = dados.taxaRejeicao;
+            } 
+            else {
+                // Retorna ao padrão: Visão Geral
+                card1.querySelector('p').innerText = "Alunos Ativos";
+                card1.querySelector('h3').innerText = `+${dados.usuariosAtivos}`;
+
+                card2.querySelector('p').innerText = "Projetos publicados";
+                card2.querySelector('h3').innerText = dados.projetosPublicados;
+
+                card3.querySelector('p').innerText = "Taxa de aprovação";
+                card3.querySelector('h3').innerText = dados.taxaAprovacao;
+            }
+        });
+    });
+});
 
 // === FUNÇÃO PARA SUBSTITUIR O 'ALERT' ===
 // tipo pode ser: 'sucesso' ou 'erro'
