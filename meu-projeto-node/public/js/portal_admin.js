@@ -901,84 +901,108 @@ async function excluirUsuarioAdmin(id) {
 }
 
 // Função estatistica 
-document.addEventListener("DOMContentLoaded", () => {
-    // Executa a função assim que a página terminar de carregar o HTML
-    carregarEstatisticas();
+ se const express = require('express');
+const router = express.Router();
+const conexao = require('../database/conexao');
+
+router.get("/api/projects/statistics", (req, res) => {
+    
+    // 1. Estatísticas de Usuários
+    const queryUsuarios = `
+        SELECT 
+            COUNT(CASE WHEN tipo = 'aluno' AND status_user = 'ativo' THEN 1 END) AS ativos,
+            COUNT(CASE WHEN status_user = 'inativo' THEN 1 END) AS desativados,
+            COUNT(*) AS totalGeral
+        FROM users
+    `;
+    
+    // 2. Estatísticas de Projetos (Status e Totais)
+    const queryProjetos = `
+        SELECT 
+            COUNT(*) AS total,
+            COUNT(CASE WHEN status_project = 'aceito' THEN 1 END) AS aceitos,
+            COUNT(CASE WHEN status_project = 'rejeitado' THEN 1 END) AS rejeitados
+        FROM project
+    `;
+    
+    // 3. Projetos agrupados por Categorias
+    const queryCategorias = `
+        SELECT IFNULL(category_project, 'Não informada') AS nome, COUNT(*) AS quantidade 
+        FROM project 
+        GROUP BY category_project
+    `;
+
+    // 4. Tags mais utilizadas (Exemplo considerando que você tenha um campo tags_project string separada por vírgula)
+    // Se não tiver a coluna, a query retornará vazio sem quebrar o sistema.
+    const queryTags = `
+        SELECT tags_project FROM project WHERE tags_project IS NOT NULL AND tags_project != ''
+    `;
+
+    conexao.query(queryUsuarios, (err, resUsuarios) => {
+        if (err) return res.status(500).json({ erro: "Erro ao buscar dados de usuários" });
+
+        conexao.query(queryProjetos, (err, resProjetos) => {
+            if (err) return res.status(500).json({ erro: "Erro ao buscar dados de projetos" });
+
+            conexao.query(queryCategorias, (err, resCategorias) => {
+                if (err) return res.status(500).json({ erro: "Erro ao buscar dados de categorias" });
+
+                conexao.query(queryTags, (err, resTags) => {
+                    // Se der erro nas tags (ex: coluna não existe), definimos um array vazio para não travar
+                    let tagsIniciais = resTags || [];
+
+                    const totalProjetos = resProjetos[0].total || 0;
+                    const aceitos = resProjetos[0].aceitos || 0;
+                    const rejeitados = resProjetos[0].rejeitados || 0;
+
+                    // Cálculos de taxas percentuais
+                    const taxaAprovacao = totalProjetos > 0 ? ((aceitos / totalProjetos) * 100).toFixed(1) + "%" : "0%";
+                    const taxaRejeicao = totalProjetos > 0 ? ((rejeitados / totalProjetos) * 100).toFixed(1) + "%" : "0%";
+
+                    // Processamento lógico de Tags (Separa strings por vírgula e conta a frequência)
+                    let contagemTags = {};
+                    tagsIniciais.forEach(row => {
+                        // Verifica se o campo existe (pode se chamar tags_project ou similar)
+                        const textoTags = row.tags_project || row.tags || "";
+                        textoTags.split(',').forEach(tag => {
+                            let t = tag.trim().toLowerCase();
+                            if(t) contagemTags[t] = (contagemTags[t] || 0) + 1;
+                        });
+                    });
+
+                    // Transforma o objeto de tags em um array ordenado das mais usadas
+                    const listaTagsOrdenadas = Object.keys(contagemTags).map(tag => ({
+                        nome: tag,
+                        quantidade: contagemTags[tag]
+                    })).sort((a, b) => b.quantidade - a.quantidade).slice(0, 5); // Pega as 5 principais
+
+                    // Envia os dados completos unificados
+                    return res.json({
+                        // Aba Visão Geral / Usuários
+                        novosUsuarios: resUsuarios[0].ativos, // Mantido a chave antiga para não quebrar o front básico
+                        usuariosAtivos: resUsuarios[0].ativos,
+                        usuariosDesativados: resUsuarios[0].desativados,
+                        totalUsuarios: resUsuarios[0].totalGeral,
+                        
+                        // Aba Projetos
+                        projetosPublicados: totalProjetos, 
+                        projetosAceitos: aceitos,
+                        projetosRejeitados: rejeitados,
+                        taxaAprovacao: taxaAprovacao,       
+                        taxaRejeicao: taxaRejeicao,
+
+                        // Listas estruturadas
+                        categorias: resCategorias,
+                        tags: listaTagsOrdenadas
+                    });
+                });
+            });
+        });
+    });
 });
 
-async function carregarEstatisticas() {
-    try {
-        // 1. Faz a requisição para a rota exata do seu back-end (Prefixo + Rota)
-        const resposta = await fetch("/projects/api/projects/statistics");
-        
-        // Se a resposta não for bem-sucedida (ex: erro 404 ou 500)
-        if (!resposta.ok) {
-            throw new Error(`Erro na requisição: Status ${resposta.status}`);
-        }
+module.exports = router;
 
-        const dados = await resposta.json();
-
-        // Se o back-end devolveu alguma mensagem de erro interna
-        if (dados.erro) {
-            console.error("Erro reportado pelo servidor:", dados.erro);
-            exibirErroVisual();
-            return;
-        }
-
-        // 2. Atualiza os cards superiores com os IDs exatos do seu HTML
-        const totalUsuarios = dados.novosUsuarios || 0;
-        
-        // Garante o sinal de '+' apenas se houver mais de 0 utilizadores
-        document.getElementById("num-usuarios").innerText = totalUsuarios > 0 ? `+${totalUsuarios}` : "0";
-        document.getElementById("num-projetos").innerText = dados.projetosPublicados || 0;
-        document.getElementById("taxa-aprovacao").innerText = dados.taxaAprovacao || "0%";
-
-        // 3. Atualiza o bloco de "Projetos por Categoria"
-        const containerCategorias = document.getElementById("container-categorias");
-        containerCategorias.innerHTML = ""; // Limpa o texto "Carregando categorias..."
-
-        if (dados.categorias && dados.categorias.length > 0) {
-            const totalProjetos = dados.projetosPublicados || 1; // Evita divisão por zero
-
-            dados.categorias.forEach((cat, index) => {
-                // Alterna a classe de cor entre 'orange' e 'blue' para o CSS aplicar o degradê
-                const corBarra = index % 2 === 0 ? "orange" : "blue";
-                
-                // Cálculo da percentagem real da categoria face ao total de projetos
-                const porcentagem = (cat.quantidade / totalProjetos) * 100;
-                const nomeCategoria = cat.nome || "Não informada";
-
-                // Injeta a estrutura que o CSS espera receber
-                containerCategorias.innerHTML += `
-                    <div class="progress-item">
-                        <div class="progress-labels">
-                            <span>${nomeCategoria}</span>
-                            <span class="count-val">${cat.quantidade}</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill ${corBarra}" style="width: ${porcentagem.toFixed(0)}%;"></div>
-                        </div>
-                    </div>
-                `;
-            });
-        } else {
-            containerCategorias.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Nenhum projeto ou categoria encontrada no banco de dados.</p>`;
-        }
-
-        // 4. Atualiza o bloco de "Tags Mais Utilizadas"
-        const containerTags = document.getElementById("container-tags");
-        // Preparado para o futuro caso decida enviar dados.tags do back-end
-        if (dados.tags && dados.tags.length > 0) {
-            containerTags.innerHTML = "";
-            // Lógica para tags aqui (idêntica à de categorias se usar barras)
-        } else {
-            containerTags.innerHTML = `<p style="color: #888; font-size: 14px; font-style: italic;">Dados de Tags em desenvolvimento...</p>`;
-        }
-
-    } catch (erro) {
-        console.error("Falha crítica ao conectar com a API de estatísticas:", erro);
-        exibirErroVisual();
-    }
 }
 
 // === FUNÇÃO PARA SUBSTITUIR O 'ALERT' ===
