@@ -45,11 +45,19 @@ node index.js
 
 ## Core API Endpoints
  
-| Method | Endpoint | Description |
-| :--- | :---: | ---: |
-| POST | /api/auth/register | Dado C |
-| GET | /api/ | Dado 3 | 
-| DELETE | /api/privacy/purge | Dado 3 |
+Método,Endpoint,Descrição
+GET,/,Lista todos os projetos com visibilidade pública.
+POST,/cadastrar,Cria um novo projeto com upload de imagem e múltiplos arquivos.
+POST,/atualizar,"Edita os dados, colaboradores e arquivos de um projeto existente."
+GET,/my_projects,Lista os projetos pertencentes ao aluno logado.
+GET,/pendentes,(Professor) Busca projetos que estão aguardando análise (enviado).
+GET,/analisados,(Professor) Busca projetos que já foram analisados (analisado).
+PUT,/analisar/:id,(Professor) Salva o texto de feedback e atualiza o status do projeto.
+PUT,/aceitar_rejeitar/:id,(Admin/Prof) Altera o status do projeto para aceito ou rejeitado.
+GET,/dashboard,Retorna métricas e atividades recentes do aluno logado.
+GET,/dashboard-inicio,"Retorna contagens gerais (alunos, projetos públicos) e timeline recente."
+GET,/estatisticas,"(Admin) Retorna o compilado de totais do sistema (turmas, status, etc)."
+DELETE,/deletar/:id,(Admin) Remove permanentemente um projeto do banco de dados.
 
 
 ## Future Improvements
