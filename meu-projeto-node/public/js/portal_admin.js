@@ -241,32 +241,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function carregarDadosInicio() {
     try {
-        // Faz a requisição para a sua API que traz os dados consolidados do dashboard
-        // Altere de: '/apis/admin/dashboard-inicio'
-        // Para:
-        const response = await fetch('/projects/dashboard-inicio');
+        // 1. Altere o endpoint para apontar para o local correto do seu backend
+        const response = await fetch('/projects/estatisticas'); 
         if (!response.ok) throw new Error("Erro ao carregar dados do início.");
         
         const dados = await response.json();
 
-        // 1. ATUALIZAÇÃO DOS CARDS ESTATÍSTICOS
-        // Seleciona todos os elementos <h3> dentro da seção de cards
         const cardsGrid = document.querySelector(".cards-grid");
         if (cardsGrid) {
             const h3Cards = cardsGrid.querySelectorAll(".card-details h3");
             
-            // Mapeia os dados do back-end na ordem exata do seu HTML:
-            // h3Cards[0] = Total de Alunos
-            // h3Cards[1] = Professores
-            // h3Cards[2] = Projetos Publicados
-            // h3Cards[3] = Pendentes
             if (h3Cards.length >= 4) {
                 h3Cards[0].innerText = dados.totalAlunos || "0";
                 h3Cards[1].innerText = dados.totalProfessores || "0";
                 h3Cards[2].innerText = dados.totalProjetos || "0";
-                h3Cards[3].innerText = dados.totalPendentes || "0";
+                
+                // 2. CORREÇÃO AQUI: Mude de 'totalPendentes' para 'projetosPendentes'
+                h3Cards[3].innerText = dados.totalPendentes || "0"; 
             }
         }
+
+        // ... resto da função (atualização da atividade recente) ...
 
         // 2. ATUALIZAÇÃO DA ATIVIDADE RECENTE
         const containerAtividades = document.querySelector(".activity-list");
@@ -1227,6 +1222,47 @@ async function carregarEstatisticasAdmin() {
     });
   }
 }
+
+// =========================================================================
+// SCRIPT DE CAPTURA E REQUISIÇÃO DE FILTROS COMBINADOS (ADMIN)
+// =========================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    const adminSearchInput = document.getElementById('adminSearchInput');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterStatus = document.getElementById('filterStatus');
+    const filterOrder = document.getElementById('filterOrder');
+
+    // Verifica se os elementos existem na página atual antes de aplicar os listeners
+    if (adminSearchInput && filterCategory && filterStatus && filterOrder) {
+        
+        // Função que junta todos os valores dos filtros e recarrega o container
+        function aplicarFiltrosAtuais() {
+            const busca = adminSearchInput.value;
+            const categoria = filterCategory.value;
+            const status = filterStatus.value;
+            const ordem = filterOrder.value;
+
+            // Constrói a URL com Query Strings dinâmicas para o backend
+            const endpointComFiltros = `/projects?busca=${encodeURIComponent(busca)}&categoria=${categoria}&status=${status}&ordem=${ordem}`;
+            
+            // Chama a função genérica existente para renderizar no container correto
+            loadProjectsAdmin(endpointComFiltros, 'listAllProjectsContainer');
+        }
+
+        // Listener para digitação na Barra de Pesquisa (com debounce simples de 300ms para evitar requisições excessivas)
+        let timeoutBusca;
+        adminSearchInput.addEventListener('input', () => {
+            clearTimeout(timeoutBusca);
+            timeoutBusca = setTimeout(aplicarFiltrosAtuais, 300);
+        });
+
+        // Listeners para mudanças nos seletores (Selects)
+        filterCategory.addEventListener('change', aplicarFiltrosAtuais);
+        filterStatus.addEventListener('change', aplicarFiltrosAtuais);
+        filterOrder.addEventListener('change', aplicarFiltrosAtuais);
+    }
+});
 
 // Executa a função assim que a página terminar de carregar
 document.addEventListener('DOMContentLoaded', carregarEstatisticasAdmin);

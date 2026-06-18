@@ -347,20 +347,34 @@
 
             <div class="filterContainer">
                 <div class="searchBarStyle">
-                    <div><i class="fi fi-rr-search"></i></div>
-                    <input type="text" placeholder="Pesquisar em todos os projetos..." class="searchInput">
+                    <i class="fi fi-rr-search"></i>
+                    <input type="text" id="adminSearchInput" placeholder="Pesquisar por nome, criador, orientador..." class="searchInput">
                 </div>
 
-                <select name="alfabeticOrder" class="selectFilter">
-                    <option value="az_order">Ordenar A-Z</option>
-                    <option value="za_order">Ordernar Z-A</option>
+                <select id="filterCategory" class="selectFilter">
+                    <option value="todas">Todas as Categorias</option>
+                    <option value="Geral">Geral</option>
+                    <option value="Gastronomia">Gastronomia</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Software">Software</option>
+                    <option value="Inteligencia Artificial">Inteligência Artificial</option>
                 </select>
 
-                <select name="dateOrder" class="selectFilter">
-                    <option value="more_new">Mais Recentes</option>
-                    <option value="more_old">Mais Antigos</option>
+                <select id="filterStatus" class="selectFilter">
+                    <option value="todos">Todos os Status</option>
+                    <option value="enviado">Aguardando Análise</option>
+                    <option value="analisado">Análise Enviada</option>
+                    <option value="aceito">Aceito</option>
+                    <option value="rejeitado">Rejeitado</option>
                 </select>
-            </div>
+
+                <select id="filterOrder" class="selectFilter">
+                    <option value="recentes">Mais Recentes</option>
+                    <option value="antigos">Mais Antigos</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+            </div>  
 
             <div class="alaizyProjects" id="listAllProjectsContainer">
                 <div class="noResultsForSearch">

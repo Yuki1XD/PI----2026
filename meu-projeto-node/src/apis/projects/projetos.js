@@ -56,6 +56,74 @@ router.get("/analisados", (req, res) => {
 });
 
 // =========================================================================
+// ROTA: Buscar projetos com múltiplos filtros dinâmicos (Painel Admin)
+// =========================================================================
+router.get("/", (req, res) => {
+  const { busca, categoria, status, turma, ordem } = req.query;
+
+  let queryTodos = `
+    SELECT DISTINCT p.id_project, p.name_project, p.img_project, p.description_project, 
+           p.archives_project, p.status_project, p.category_project, p.class_project, 
+           p.teacher_project, p.visibility_project, p.analysis_project, 
+           DATE_FORMAT(p.date_project, '%Y-%m-%d') AS date_project,
+           p.creators_project AS creators_project
+    FROM project p
+    LEFT JOIN project_creators pc ON p.id_project = pc.project_id
+    LEFT JOIN users u ON pc.user_id = u.id_user
+    WHERE 1=1
+  `;
+
+  const queryParams = [];
+
+  // Filtro de Texto Global (Nome, Criadores, Orientador)
+  if (busca && busca.trim() !== '') {
+    const termo = `%${busca.trim()}%`;
+    queryTodos += ` AND (p.name_project LIKE ? 
+         OR p.creators_project LIKE ? 
+         OR p.teacher_project LIKE ? 
+         OR u.name_user LIKE ?) `;
+    queryParams.push(termo, termo, termo, termo);
+  }
+
+  // Filtro por Categoria exata
+  if (categoria && categoria !== 'todas') {
+    queryTodos += ` AND p.category_project = ? `;
+    queryParams.push(categoria);
+  }
+
+  // Filtro por Status exato
+  if (status && status !== 'todos') {
+    queryTodos += ` AND p.status_project = ? `;
+    queryParams.push(status);
+  }
+
+  // Filtro por Turma/Classe exata
+  if (turma && turma !== 'todas') {
+    queryTodos += ` AND p.class_project = ? `;
+    queryParams.push(turma);
+  }
+
+  // Ordenação Dinâmica
+  if (ordem === 'az') {
+    queryTodos += ` ORDER BY p.name_project ASC`;
+  } else if (ordem === 'za') {
+    queryTodos += ` ORDER BY p.name_project DESC`;
+  } else if (ordem === 'antigos') {
+    queryTodos += ` ORDER BY p.id_project ASC`;
+  } else {
+    queryTodos += ` ORDER BY p.id_project DESC`; // Padrão: Mais Recentes
+  }
+
+  conexao.query(queryTodos, queryParams, function(err, results) {
+    if (err) {
+      console.error('Erro ao buscar projetos com filtros:', err);
+      return res.status(500).json({ erro: 'Erro interno ao buscar projetos no banco de dados.' });
+    }
+    res.json(results);
+  });
+});
+
+// =========================================================================
 // ROTA: Salvar análise do professor (Modifica status para 'analisado')
 // =========================================================================
 router.put("/analisar/:id", (req, res) => {
