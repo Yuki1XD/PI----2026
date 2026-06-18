@@ -386,4 +386,60 @@ router.get("/dashboard-inicio", (req, res) => {
   });
 });
 
+// =========================================================================
+// ROTA: Deletar um projeto do sistema (Apenas Administrador)
+// =========================================================================
+router.delete("/deletar/:id", (req, res) => {
+  const id_project = req.params.id;
+
+  // Opcional: Se houver validação de tipo de sessão para admin no seu app, adicione aqui
+  // if (!req.session || !req.session.usuario || req.session.usuario.tipo !== 'admin') {
+  //   return res.status(403).json({ mensagem: "Acesso negado. Apenas administradores." });
+  // }
+
+  const queryDeletar = `DELETE FROM project WHERE id_project = ?`;
+
+  conexao.query(queryDeletar, [id_project], (err, results) => {
+    if (err) {
+      console.error('Erro ao deletar projeto no banco de dados:', err);
+      return res.status(500).json({ erro: 'Erro interno ao tentar deletar o projeto.' });
+    }
+    
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ mensagem: "Projeto não encontrado." });
+    }
+    
+    res.json({ mensagem: "Projeto deletado com sucesso!" });
+  });
+});
+
+// =========================================================================
+// ROTA: Buscar todas as estatísticas gerais para o painel administrativo
+// =========================================================================
+router.get("/estatisticas", (req, res) => {
+  const queryGeral = `
+    SELECT 
+      (SELECT COUNT(*) FROM users WHERE tipo = 'aluno') AS totalAlunos,
+      (SELECT COUNT(*) FROM users WHERE tipo = 'professor') AS totalProfessores,
+      (SELECT COUNT(*) FROM turma) AS totalTurmas,
+      (SELECT COUNT(*) FROM project) AS totalProjetos,
+      (SELECT COUNT(*) FROM project WHERE status_project = 'enviado') AS projetosPendentes,
+      (SELECT COUNT(*) FROM project WHERE status_project = 'aceito') AS projetosAceitos,
+      (SELECT COUNT(*) FROM project WHERE status_project = 'rejeitado') AS projetosRejeitados
+  `;
+
+  conexao.query(queryGeral, (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar estatísticas do sistema:', err);
+      return res.status(500).json({ erro: 'Erro interno ao carregar estatísticas.' });
+    }
+    
+    // Retorna a primeira linha obtida do banco de dados
+    const dados = results[0];
+    
+    // Envia a resposta JSON estruturada exatamente como o front-end espera ler
+    res.json(dados);
+  });
+});
+
 module.exports = router;

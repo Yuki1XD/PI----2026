@@ -506,6 +506,9 @@ async function loadProjectsAdmin(endpoint, containerId) {
                         <button class="sendAnalizy reject-btn" data-id="${projeto.id_project}" data-container="${containerId}">
                             <i class="fi fi-rr-cross-small"></i> ${projeto.status_project === 'rejeitado' ? 'Salvar (Manter Rejeitado)' : 'Mudar para Rejeitado'}
                         </button>
+                        <button class="sendAnalizy delete-project-btn" data-id="${projeto.id_project}" style="background-color: #dc3545; color: white;">
+                            <i class="fi fi-rr-trash"></i> Excluir Projeto
+                        </button>
                         <select class="select-visibilidade">
                             ${optionsVisibilidade}
                         </select>
@@ -580,6 +583,22 @@ function rebindModalEvents(contextoContainer) {
             }
         };
     });
+
+    // Botão de Deletar Projeto do Sistema
+    contextoContainer.querySelectorAll('.delete-project-btn').forEach(button => {
+        button.onclick = async (e) => {
+            e.preventDefault();
+            const id = button.getAttribute('data-id');
+            
+            // Pergunta ao administrador se ele realmente deseja excluir
+            // Caso sua função customizada seja 'mostrarConfirmacao', utilize-a, se não use confirm() do JS comum:
+            const confirmado = await confirm('Tem certeza absoluta que deseja DELETAR este projeto permanentemente do sistema?');
+            
+            if (confirmado) {
+                deletarProjetoAdmin(id);
+            }
+        };
+    });
 }
 
 // Executa a atualização do status, categoria e visibilidade via PUT no Back-end
@@ -609,6 +628,33 @@ async function enviarAnaliseAdmin(id, statusEscolhido, categoriaEscolhida, visib
     } catch (error) {
         console.error('Erro na requisição PUT:', error);
         alert(error.message, 'erro');
+    }
+}
+
+// === COPIE E COLE ESTA FUNÇÃO ABAIXO DE enviarAnaliseAdmin ===
+
+// Função para deletar um projeto permanentemente do sistema
+async function deletarProjetoAdmin(id) {
+    try {
+        const response = await fetch(`/projects/deletar/${id}`, {
+            method: 'DELETE'
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.mensagem || 'Erro ao deletar o projeto.');
+        }
+
+        // Utiliza a sua função customizada de aviso se preferir, ou alert padrão
+        alert(data.mensagem || 'Projeto removido com sucesso!');
+        
+        // Recarrega a página para atualizar as listagens
+        window.location.reload();
+
+    } catch (error) {
+        console.error('Erro na requisição DELETE de projeto:', error);
+        alert(error.message || 'Não foi possível excluir o projeto.');
     }
 }
 
@@ -909,10 +955,10 @@ async function carregarEstatisticas() {
         const filtro = selectPeriodo ? selectPeriodo.value : "all";
 
         // Faz o fetch passando o período via query string (?period=...)
-        const resposta = await fetch(`/projects/api/projects/statistics?period=${filtro}`);
-        if (!resposta.ok) throw new Error(`Status HTTP: ${resposta.status}`);
+        const response = await fetch('/projects/estatisticas');
+        if (!response.ok) throw new Error(`Status HTTP: ${response.status}`);
 
-        const dados = await resposta.json();
+        const dados = await response.json();
         if (dados.erro) return console.error("Erro da API:", dados.erro);
 
         // Guarda os dados no escopo global da janela para alternar abas sem refazer a requisição
@@ -1138,6 +1184,52 @@ async function carregarPerfilMenuLateral() {
         }
     }
 }
+
+// Função para carregar e preencher as estatísticas automaticamente sem exibir undefined
+async function carregarEstatisticasAdmin() {
+  try {
+    const response = await fetch('/projects/estatisticas');
+    if (!response.ok) throw new Error('Erro ao buscar dados do servidor');
+    
+    const dados = await response.json();
+
+    // Vincula os dados retornados aos IDs com proteção contra nulos/indefinidos
+    if (document.getElementById('total-alunos')) {
+      document.getElementById('total-alunos').textContent = dados.totalAlunos || 0;
+    }
+    if (document.getElementById('total-professores')) {
+      document.getElementById('total-professores').textContent = dados.totalProfessores || 0;
+    }
+    if (document.getElementById('total-turmas')) {
+      document.getElementById('total-turmas').textContent = dados.totalTurmas || 0;
+    }
+    if (document.getElementById('total-projetos')) {
+      document.getElementById('total-projetos').textContent = dados.totalProjetos || 0;
+    }
+    if (document.getElementById('projetos-pendentes')) {
+      document.getElementById('projetos-pendentes').textContent = dados.projetosPendentes || 0;
+    }
+    if (document.getElementById('projetos-aceitos')) {
+      document.getElementById('projetos-aceitos').textContent = dados.projetosAceitos || 0;
+    }
+    if (document.getElementById('projetos-rejeitados')) {
+      document.getElementById('projetos-rejeitados').textContent = dados.projetosRejeitados || 0;
+    }
+
+  } catch (error) {
+    console.error('Falha ao automatizar os dados de estatísticas:', error);
+    
+    // Caso a API falhe por completo, define tudo para 0 em vez de deixar quebrar
+    const ids = ['total-alunos', 'total-professores', 'total-turmas', 'total-projetos', 'projetos-pendentes', 'projetos-aceitos', 'projetos-rejeitados'];
+    ids.forEach(id => {
+      const elemento = document.getElementById(id);
+      if (elemento) elemento.textContent = 0;
+    });
+  }
+}
+
+// Executa a função assim que a página terminar de carregar
+document.addEventListener('DOMContentLoaded', carregarEstatisticasAdmin);
 
 // Garante a execução assim que a página carregar por completo
 document.addEventListener("DOMContentLoaded", () => {
