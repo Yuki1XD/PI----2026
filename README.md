@@ -45,20 +45,35 @@ node index.js
 
 ## Core API Endpoints
  
-Método,Endpoint,Descrição
-GET,/,Lista todos os projetos com visibilidade pública.
-POST,/cadastrar,Cria um novo projeto com upload de imagem e múltiplos arquivos.
-POST,/atualizar,"Edita os dados, colaboradores e arquivos de um projeto existente."
-GET,/my_projects,Lista os projetos pertencentes ao aluno logado.
-GET,/pendentes,(Professor) Busca projetos que estão aguardando análise (enviado).
-GET,/analisados,(Professor) Busca projetos que já foram analisados (analisado).
-PUT,/analisar/:id,(Professor) Salva o texto de feedback e atualiza o status do projeto.
-PUT,/aceitar_rejeitar/:id,(Admin/Prof) Altera o status do projeto para aceito ou rejeitado.
-GET,/dashboard,Retorna métricas e atividades recentes do aluno logado.
-GET,/dashboard-inicio,"Retorna contagens gerais (alunos, projetos públicos) e timeline recente."
-GET,/estatisticas,"(Admin) Retorna o compilado de totais do sistema (turmas, status, etc)."
-DELETE,/deletar/:id,(Admin) Remove permanentemente um projeto do banco de dados.
+## Core API Endpoints
 
+### Autenticação e Usuários (`auth.js`)
+| Method | Endpoint | Description |
+| :--- | :---: | ---: |
+| POST | /login_aluno | Autentica o usuário (Aluno, Professor ou Admin) e inicia a sessão. |
+| POST | /cadastrar_aluno | Cadastra um novo aluno e vincula ou cria a turma informada automaticamente. |
+| GET | /buscar | Busca até 10 usuários ativos do tipo 'aluno' por nome ou e-mail. |
+| GET | /profile | Retorna os dados de perfil (nome, e-mail, tipo, avatar) do usuário logado. |
+| PUT | /change-password | Altera a senha do usuário logado após validar a senha atual. |
+| GET | / | (Admin) Lista todos os usuários cadastrados no sistema. |
+| PUT | /atualizar/:id | (Admin) Atualiza os dados e a foto de avatar de um usuário específico. |
+| DELETE | /deletar/:id | (Admin) Remove permanentemente um usuário do banco e apaga sua foto de avatar do servidor. |
+
+### Gerenciamento de Projetos (`projetos.js`)
+| Method | Endpoint | Description |
+| :--- | :---: | ---: |
+| GET | / | Lista todos os projetos com visibilidade configurada como 'publico'. |
+| POST | /cadastrar | Cadastra um novo projeto com upload de imagem de capa e múltiplos anexos. |
+| POST | /atualizar | Edita os dados de um projeto, atualizando arquivos e reassociando colaboradores. |
+| GET | /my_projects | Lista todos os projetos associados ao aluno atualmente logado. |
+| GET | /pendentes | (Professor) Lista os projetos enviados que aguardam análise. |
+| GET | /analisados | (Professor) Lista os projetos que já receberam uma avaliação. |
+| PUT | /analisar/:id | (Professor) Salva o texto de feedback e atualiza o status de análise do projeto. |
+| PUT | /aceitar_rejeitar/:id | (Admin/Professor) Altera o status do projeto para 'aceito' ou 'rejeitado' e define visibilidade. |
+| GET | /dashboard | Retorna contagens de projetos e histórico de atividades recentes do aluno logado. |
+| GET | /dashboard-inicio | Retorna estatísticas gerais de uso do sistema (total de alunos, professores e projetos públicos). |
+| GET | /estatisticas | (Admin) Retorna o compilado completo de totais do sistema para o painel administrativo. |
+| DELETE | /deletar/:id | (Admin) Remove permanentemente um projeto do banco de dados. |
 
 ## Future Improvements
 If we , we plan to implement:
