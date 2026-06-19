@@ -37,11 +37,9 @@ git clone
 
 cd meu-projeto-node
 
-# 2. Run Backend 
 npm install
 
-# 3. Run Frontend 
-npm install
+# 2. Run Frontend 
 
 node index.js
  
