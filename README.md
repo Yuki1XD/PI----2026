@@ -50,33 +50,33 @@ node index.js
  
 ## Core API Endpoints
 
-### Autenticação e Usuários (`auth.js`)
+### Authentication and Users (`auth.js`)
 | Method | Endpoint | Description |
 | :--- | :---: | ---: |
-| POST | /login_aluno | Autentica o usuário (Aluno, Professor ou Admin) e inicia a sessão. |
-| POST | /cadastrar_aluno | Cadastra um novo aluno e vincula ou cria a turma informada automaticamente. |
-| GET | /buscar | Busca até 10 usuários ativos do tipo 'aluno' por nome ou e-mail. |
+| POST | /login_aluno | Authenticates the user (Student, Teacher, or Admin) and starts the session. |
+| POST | /cadastrar_aluno | Registers a new student and automatically links or creates the specified class. |
+| GET | /buscar | Search for up to 10 active users of the 'student' type by name or email. |
 | GET | /profile | Retorna os dados de perfil (nome, e-mail, tipo, avatar) do usuário logado. |
-| PUT | /change-password | Altera a senha do usuário logado após validar a senha atual. |
-| GET | / | (Admin) Lista todos os usuários cadastrados no sistema. |
-| PUT | /atualizar/:id | (Admin) Atualiza os dados e a foto de avatar de um usuário específico. |
-| DELETE | /deletar/:id | (Admin) Remove permanentemente um usuário do banco e apaga sua foto de avatar do servidor. |
+| PUT | /change-password | Returns the profile data (name, email, type, avatar) of the logged-in user. |
+| GET | / | (Admin) Lists all users registered in the system. |
+| PUT | /atualizar/:id | (Admin) Updates the data and avatar photo of a specific user. |
+| DELETE | /deletar/:id | (Admin) Permanently removes a user from the database and deletes their avatar photo from the server. |
 
-### Gerenciamento de Projetos (`projetos.js`)
+### Project Management (`projetos.js`)
 | Method | Endpoint | Description |
 | :--- | :---: | ---: |
-| GET | / | Lista todos os projetos com visibilidade configurada como 'publico'. |
-| POST | /cadastrar | Cadastra um novo projeto com upload de imagem de capa e múltiplos anexos. |
+| GET | / | Lists all projects with visibility set to 'public'.. |
+| POST | /cadastrar | Register a new project by uploading a cover image and multiple attachments. |
 | POST | /atualizar | Edita os dados de um projeto, atualizando arquivos e reassociando colaboradores. |
-| GET | /my_projects | Lista todos os projetos associados ao aluno atualmente logado. |
-| GET | /pendentes | (Professor) Lista os projetos enviados que aguardam análise. |
-| GET | /analisados | (Professor) Lista os projetos que já receberam uma avaliação. |
-| PUT | /analisar/:id | (Professor) Salva o texto de feedback e atualiza o status de análise do projeto. |
-| PUT | /aceitar_rejeitar/:id | (Admin/Professor) Altera o status do projeto para 'aceito' ou 'rejeitado' e define visibilidade. |
-| GET | /dashboard | Retorna contagens de projetos e histórico de atividades recentes do aluno logado. |
-| GET | /dashboard-inicio | Retorna estatísticas gerais de uso do sistema (total de alunos, professores e projetos públicos). |
-| GET | /estatisticas | (Admin) Retorna o compilado completo de totais do sistema para o painel administrativo. |
-| DELETE | /deletar/:id | (Admin) Remove permanentemente um projeto do banco de dados. |
+| GET | /my_projects | Edit project data, updating files and reassociating collaborators. |
+| GET | /pendentes | (Professor) Lists the submitted projects that are awaiting review. |
+| GET | /analisados | (Professor) List the projects that have already received an evaluation. |
+| PUT | /analisar/:id | (Professor) Saves the feedback text and updates the project review status. |
+| PUT | /aceitar_rejeitar/:id | (Admin/Professor) Changes the project status to 'accepted' or 'rejected' and sets visibility. |
+| GET | /dashboard | Returns project counts and recent activity history for the logged-in student. |
+| GET | /dashboard-inicio | Returns general system usage statistics (total students, teachers, and public projects). |
+| GET | /estatisticas | (Admin) Returns the complete compilation of system totals to the administrative panel. |
+| DELETE | /deletar/:id | (Admin) Permanently remove a project from the database. |
 
 ## Future Improvements
 If we , we plan to implement:
