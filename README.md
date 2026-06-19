@@ -81,7 +81,7 @@ node index.js
 ## Future Improvements
 If we do so, we plan to implement:
 
-* IA
+* AI
 
 ## Authors & Project Team
 
