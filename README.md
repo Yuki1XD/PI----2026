@@ -44,8 +44,6 @@ npm install
 npm install
 
 node index.js
-
-## Core API Endpoints
  
 ## Core API Endpoints
 
