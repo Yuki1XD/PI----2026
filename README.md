@@ -1,6 +1,11 @@
 # TecOwl:
 > A web platform for repository of Integrative Projects (*Projeto Integrador*) for the **Systems Analysis and Development Program** at **Senac College**. 
+
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE) 
+
 [![Senac](https://img.shields.io/badge/Institution-Senac%20College-blue)](https://www.senac.br/) 
+
+[![LGPD](https://img.shields.io/badge/Compliance-LGPD%20Ready-blueviolet)](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm) 
 ##  Project Overview 
 
 This project is a repository of Integrative Projects, where students can post their projects to be viewed by various people and analyzed by their teachers, in an easy and intuitive way.
