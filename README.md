@@ -1,6 +1,9 @@
 # TecOwl:
 [![Senac](https://img.shields.io/badge/Institution-Senac%20College-blue)](https://www.senac.br/) 
 ##  Project Overview 
+
+This project is a repository of Integrative Projects, where students can post their projects to be viewed by various people and analyzed by their teachers, in an easy and intuitive way.
+
 ### Key Features
 
 ## LGPD & Data Privacy Compliance
