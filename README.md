@@ -81,9 +81,9 @@ If we do so, we plan to implement:
 ## Authors & Project Team
 
 * Maria Sophia de Lima dos Santos - [GitHub](https://github.com/Yuki1XD)
-* Gabriel - [GitHub](https://github.com/RazebaG)
-* Erik - [GitHub](https://github.com/ARKSTAR64)
-* João - [GitHub](https://github.com/Jv132)
+* Gabriel Felipe Belo de Moura - [GitHub](https://github.com/RazebaG)
+* Erik Melado Carvalho - [GitHub](https://github.com/ARKSTAR64)
+* João Vitor - [GitHub](https://github.com/Jv132)
 
 * Academic Advisor / Professor: Prof. Filipe Carvalho
 * Academic Advisor / Professor: Prof. Sonia Gomes
