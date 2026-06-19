@@ -92,7 +92,4 @@ If we do so, we plan to implement:
 * Academic Advisor / Professor: Prof. Filipe Carvalho
 * Academic Advisor / Professor: Prof. Sonia Gomes
 * Tech English Course Professor: Prof. Leonardo Trevas 
-* Tech English Course Professor: Prof. Leonardo Trevas
-* Tech English Course Professor: Prof. Leonardo Trevas
-* Tech English Course Professor: Prof. Leonardo Trevas
-* Tech English Course Professor: Prof. Leonardo Trevas 
+
