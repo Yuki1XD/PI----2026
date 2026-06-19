@@ -79,7 +79,7 @@ node index.js
 | DELETE | /deletar/:id | (Admin) Permanently remove a project from the database. |
 
 ## Future Improvements
-If we , we plan to implement:
+If we do so, we plan to implement:
 
 * IA
 
